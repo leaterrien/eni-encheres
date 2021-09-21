@@ -1,13 +1,14 @@
 package fr.eni.encheres.BO;
 
 public class Utilisateur {
-	private int noUtilsateur;
+	private int noUtilisateur;
 	private String pseudo;
+	private String nom;
 	private String prenom;
 	private String email;
 	private String telephone;
 	private String rue;
-	private int codePostal;
+	private String codePostal;
 	private String ville;
 	private String motDePasse;
 	private int credit;
@@ -17,10 +18,10 @@ public class Utilisateur {
 		
 	}
 	
-	public Utilisateur(int noUtilsateur, String pseudo, String prenom, String email, String telephone, String rue,
-			int codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
+	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
 
-		this.noUtilsateur = noUtilsateur;
+		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 		this.prenom = prenom;
 		this.email = email;
@@ -34,7 +35,7 @@ public class Utilisateur {
 	}
 	
 
-	public Utilisateur(String pseudo, String prenom, String email, String telephone, String rue, int codePostal,
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal,
 			String ville, String motDePasse, int credit, boolean administrateur) {
 
 		this.pseudo = pseudo;
@@ -51,17 +52,23 @@ public class Utilisateur {
 
 
 
-	public int getNoUtilsateur() {
-		return noUtilsateur;
+	public int getNoUtilisateur() {
+		return noUtilisateur;
 	}
-	public void setNoUtilsateur(int noUtilsateur) {
-		this.noUtilsateur = noUtilsateur;
+	public void setNoUtilisateur(int noUtilsateur) {
+		this.noUtilisateur = noUtilsateur;
 	}
 	public String getPseudo() {
 		return pseudo;
 	}
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
+	}
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 	public String getPrenom() {
 		return prenom;
@@ -87,10 +94,10 @@ public class Utilisateur {
 	public void setRue(String rue) {
 		this.rue = rue;
 	}
-	public int getCodePostal() {
+	public String getCodePostal() {
 		return codePostal;
 	}
-	public void setCodePostal(int codePostal) {
+	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
 	public String getVille() {
@@ -121,7 +128,7 @@ public class Utilisateur {
 	
 	@Override
 	public String toString() {
-		return "Utilisateur [noUtilsateur=" + noUtilsateur + ", pseudo=" + pseudo + ", prenom=" + prenom + ", email="
+		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email="
 				+ email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal=" + codePostal + ", ville="
 				+ ville + ", motDePasse=" + motDePasse + ", credit=" + credit + ", administrateur=" + administrateur
 				+ "]";
