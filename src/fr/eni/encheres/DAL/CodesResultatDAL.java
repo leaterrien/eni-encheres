@@ -7,5 +7,6 @@ public abstract class CodesResultatDAL {
 	public static final int UTILISATEUR_NICKNAME_NULL=10000;
 	public static final int UTILISATEUR_EMAIL_NULL=10001;
 	public static final int SELECT_NICKNAME_FAIL=10002;
+	public static final int SELECT_EMAIL_FAIL=10003;
 	public static final int SELECT_PASSWORD_FAIL=10101;
 }
