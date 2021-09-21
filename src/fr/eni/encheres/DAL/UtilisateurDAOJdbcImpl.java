@@ -17,17 +17,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	private static final String INSERT_USER = "INSERT INTO (pseudo, nom, prenom, email, telephone, rue, code_postal, "
 			+ "ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?); ";
 	
-	private static Utilisateur getUtilisateur() {
-		ResultSet rs = null;
+	private static Utilisateur getUtilisateur(ResultSet rs) throws SQLException 
+	{
 		Utilisateur utilisateur = null;
-		try {
-			utilisateur = new Utilisateur(rs.getString("no_utilisateur"), rs.getString("pseudo") , rs.getString("nom")
-					,rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal")
-					, rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}return utilisateur;
+		utilisateur = new Utilisateur(rs.getString("no_utilisateur"), rs.getString("pseudo") , rs.getString("nom")
+				,rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal")
+				, rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
+		
+			return utilisateur;
 	}
 	
 	@Override
@@ -39,7 +36,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 		Utilisateur utilisateur = null;
-		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Connection cnx = null;
@@ -51,9 +47,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				rs = pstmt.executeQuery();
 				if(rs.next()) 
 				{
-					utilisateur = new Utilisateur(rs.getString("no_utilisateur"), rs.getString("pseudo") , rs.getString("nom")
-							,rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal")
-							, rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
+					utilisateur = getUtilisateur(rs);
 				}
 								
 			}
@@ -63,7 +57,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				businessException.addError(CodesResultatDAL.SELECT_NICKNAME_FAIL);				
 				e.printStackTrace();
 				throw businessException;
-		}
+			}
 			
 		return utilisateur;
 	}
@@ -76,8 +70,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			businessException.addError(CodesResultatDAL.UTILISATEUR_NICKNAME_NULL);
 			throw businessException;
 		}
-		Utilisateur utilisateur = new Utilisateur();
-		String motDePasse = null;		
+		Utilisateur utilisateur = new Utilisateur();		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Connection cnx = null;
@@ -88,17 +81,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				pstmt.setString(1, email);
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
-					utilisateur = new Utilisateur(rs.getString("no_utilisateur"), rs.getString("pseudo") , rs.getString("nom")
-							,rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal")
-							, rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));				
+					utilisateur = getUtilisateur(rs);			
 				}
 				
 				
 				
 			}
-			catch (Exception e) {
-		e.printStackTrace();
-		}
+			catch (Exception e)
+				{
+					BusinessException businessException = new BusinessException();
+					businessException.addError(CodesResultatDAL.SELECT_EMAIL_FAIL);				
+					e.printStackTrace();
+					throw businessException;
+				}
 		return utilisateur;
 	}
 	
