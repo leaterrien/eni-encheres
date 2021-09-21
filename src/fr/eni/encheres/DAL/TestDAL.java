@@ -14,7 +14,7 @@ public class TestDAL {
 			utilisateurDAO.insert(u1);
 			System.out.println("Utilisateur ajouté : " + u1.toString());
 			utilisateurDAO.selectByNickname("JeanDup");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
