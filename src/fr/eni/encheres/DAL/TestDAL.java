@@ -13,7 +13,7 @@ public class TestDAL {
 		try {
 			utilisateurDAO.insert(u1);
 			System.out.println("Utilisateur ajouté : " + u1.toString());
-			utilisateurDAO.selectByNickname("JeanDup", "password");
+			utilisateurDAO.selectByNickname("JeanDup");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

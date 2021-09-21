@@ -19,7 +19,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			+ "ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?); ";
 	
 	@Override
-	public Utilisateur selectByNickname(String pseudo, String motDePasse) throws SQLException  {
+	public String selectByNickname(String pseudo) throws SQLException  {
 		String motDePasse = null;		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
