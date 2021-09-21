@@ -1,5 +1,6 @@
 package fr.eni.encheres.BLL;
 
+import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
 
 public class UtilisateurManager {
@@ -17,9 +18,9 @@ public class UtilisateurManager {
 		return instance;
 	}
 
-	public boolean checkValidConnection(String login, String password) throws BusinessException {
+	public Utilisateur checkValidConnection(String login, String password) throws BusinessException {
 		BusinessException businessException = new BusinessException();
-		boolean validConnexion = false;
+		Utilisateur utilisateur = null;
 
 		// On vérifie si le user et le mot de passe ne sont pas null
 		if (login == null || password == null) {
@@ -31,7 +32,9 @@ public class UtilisateurManager {
 		// TODO : check pseudo ou email
 		// TODO : interaction avec la DAL
 
-		return validConnexion;
+		return utilisateur;
 	}
+
+	// Vérification de l'intégrité des données
 
 }
