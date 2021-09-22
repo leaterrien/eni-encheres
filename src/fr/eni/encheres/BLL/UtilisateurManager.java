@@ -56,8 +56,12 @@ public class UtilisateurManager {
 			}
 		}
 
+		// si la connexion est correcte, check des valeurs de l'utilisateur
 		if (utilisateur != null) {
 			checkUser(utilisateur, businessException);
+			if (businessException.hasErrors()) {
+				throw businessException;
+			}
 		}
 
 		return utilisateur;
