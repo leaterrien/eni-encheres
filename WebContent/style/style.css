@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+body {
+	font-family: Montserrat;
+}
+
+.primary-color {
+	color: #E64A19;
+}
+
+.accent-color {
+	color: #FFA000;
+}
+
+.black-color {
+	color: #040404;
+}
+
+.white-color {
+	color: #FDFDFD;
+}
+
+.navbar-principal {
+	background-color: #E64A19;
+}
