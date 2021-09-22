@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -12,10 +14,17 @@ import fr.eni.encheres.exceptions.BusinessException;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
-	private static final String SELECT_BY_NICKNAME = "SELECT * FROM UTILISATEURS where pseudo = ?"; 
-	private static final String SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS where email = ?"; 
-	private static final String INSERT_USER = "INSERT INTO (pseudo, nom, prenom, email, telephone, rue, code_postal, "
+	private static final String SELECT_BY_NICKNAME = "SELECT * FROM UTILISATEURS WHERE pseudo = ?"; 
+	private static final String SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email = ?"; 
+	private static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
+	private static final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
+	private static final String INSERT_UTILISATEUR = "INSERT INTO (pseudo, nom, prenom, email, telephone, rue, code_postal, "
 			+ "ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?); ";
+	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?"
+			+ "email=?, telephone=?, ville=?, mot_de_passe=? WHERE no_utilisateur = ?";
+	private static final String UPDATE_CREDIT_UTILISATEUR = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur = ?";
+	private static final String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
+	
 	
 	private static Utilisateur getUtilisateur(ResultSet rs) throws SQLException 
 	{
@@ -48,8 +57,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				if(rs.next()) 
 				{
 					utilisateur = getUtilisateur(rs);
-				}
-								
+				}					
 			}
 			catch (Exception e) 
 			{
@@ -80,12 +88,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				pstmt = cnx.prepareStatement(SELECT_BY_EMAIL);
 				pstmt.setString(1, email);
 				rs = pstmt.executeQuery();
-				if(rs.next()) {
+				if(rs.next()) 
+				{
 					utilisateur = getUtilisateur(rs);			
 				}
-				
-				
-				
 			}
 			catch (Exception e)
 				{
@@ -98,14 +104,76 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	@Override
-	public void insert(Utilisateur utilisateur) throws BusinessException {
+	public Utilisateur selectById(int noUtilisateur) throws BusinessException  {
+		if (noUtilisateur == 0) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UTILISATEUR_ID_NULL);
+			throw businessException;
+		}
+		Utilisateur utilisateur = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection cnx = null;
+	
+			try	{
+				cnx = ConnectionProvider.getConnection();
+				pstmt = cnx.prepareStatement(SELECT_BY_ID);
+				pstmt.setInt(1, noUtilisateur);
+				rs = pstmt.executeQuery();
+				if(rs.next()) 
+				{
+					utilisateur = getUtilisateur(rs);
+				}			
+			}
+			catch (Exception e) 
+			{
+				BusinessException businessException = new BusinessException();
+				businessException.addError(CodesResultatDAL.SELECT_NICKNAME_FAIL);				
+				e.printStackTrace();
+				throw businessException;
+			}
+			
+		return utilisateur;
+	}
+	
+	@Override
+	public List<Utilisateur> selectAll() throws BusinessException{
+		
+		List<Utilisateur> listeUtilisateurs = new ArrayList<Utilisateur>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection cnx = null;
+		try	{
+			cnx = ConnectionProvider.getConnection();
+			stmt = cnx.createStatement();
+			rs = stmt.executeQuery(SELECT_ALL);
+			Utilisateur utilisateur = null;
+			while(rs.next()) {
+				utilisateur = getUtilisateur(rs);
+				listeUtilisateurs.add(utilisateur);
+			}
+		} catch (Exception e) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.SELECT_UTILISATEUR_FAIL);				
+			e.printStackTrace();
+			throw businessException;
+		}
+		return listeUtilisateurs;
+	}
+	
+	@Override
+	public Utilisateur insert(Utilisateur utilisateur) throws BusinessException {
+		
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		Connection cnx = null;
 		try 
 		{
 			cnx = ConnectionProvider.getConnection();
-			pstmt = cnx.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+			pstmt = cnx.prepareStatement(INSERT_UTILISATEUR, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, utilisateur.getPseudo());
 			pstmt.setString(2, utilisateur.getNom());
 			pstmt.setString(3, utilisateur.getPrenom());
@@ -127,8 +195,105 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			cnx.close();
 		}
 		catch (Exception e) {
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.INSERT_UTILISATEUR_FAIL);				
 			e.printStackTrace();
-		
+			throw businessException;
+		}
+		return utilisateur;
+	}
+	
+	@Override
+	public Utilisateur update(Utilisateur utilisateur) throws BusinessException{
+		if (utilisateur == null) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UTILISATEUR_NULL);
+			throw businessException;
+		}
+		PreparedStatement pstmt = null;
+		Connection cnx = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(UPDATE_UTILISATEUR);
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, utilisateur.getNom());
+			pstmt.setString(3, utilisateur.getPrenom());
+			pstmt.setString(4, utilisateur.getEmail());
+			pstmt.setString(5, utilisateur.getTelephone());
+			pstmt.setString(6, utilisateur.getRue());
+			pstmt.setString(7, utilisateur.getCodePostal());
+			pstmt.setString(8, utilisateur.getVille());
+			pstmt.setString(9, utilisateur.getMotDePasse());
+			
+			pstmt.executeUpdate();
+		}
+		catch (Exception e){
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UPDATE_UTILISATEUR_FAIL);				
+			e.printStackTrace();
+			throw businessException;
+		}
+		return utilisateur;
+	}
+	
+	@Override
+	public Utilisateur updateCredit(Utilisateur utilisateur) throws BusinessException{
+		if (utilisateur == null) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UTILISATEUR_NULL);
+			throw businessException;
+		}
+		PreparedStatement pstmt = null;
+		Connection cnx = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(UPDATE_CREDIT_UTILISATEUR);
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, utilisateur.getNom());
+			pstmt.setString(3, utilisateur.getPrenom());
+			pstmt.setString(4, utilisateur.getEmail());
+			pstmt.setString(5, utilisateur.getTelephone());
+			pstmt.setString(6, utilisateur.getRue());
+			pstmt.setString(7, utilisateur.getCodePostal());
+			pstmt.setString(8, utilisateur.getVille());
+			pstmt.setString(9, utilisateur.getMotDePasse());
+			
+			pstmt.executeUpdate();
+		}
+		catch (Exception e){
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UPDATE_UTILISATEUR_FAIL);				
+			e.printStackTrace();
+			throw businessException;
+		}
+		return utilisateur;
+	}
+	
+	
+	public void delete(int noUtilisateur) throws BusinessException{
+		if (noUtilisateur == 0) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UTILISATEUR_ID_NULL);
+			throw businessException;
+		}
+		PreparedStatement pstmt = null;
+		Connection cnx = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(DELETE_UTILISATEUR);
+			pstmt.setInt(1, noUtilisateur);
+		} catch (Exception e) {
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.DELETE_UTILISATEUR_FAIL);				
+			e.printStackTrace();
+			throw businessException;
 		}
 	}
+	
+	//UPDATE CREDIT + UPDATE ADMIN A FAIRE
+	
+	
 }
