@@ -21,6 +21,21 @@ public class UtilisateurManager {
 		return instance;
 	}
 
+	public Utilisateur getUser(int noUtilisateur) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+
+		// Vérification de la validité du noUtilisateur
+		checkNoUtilisateur(noUtilisateur, businessException);
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
+
+		// Récupération de l'utilisateur
+		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
+
+		return utilisateur;
+	}
+
 	/**
 	 * Vérifie les données de connexion fournies par l'utilisateur
 	 * 

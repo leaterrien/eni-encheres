@@ -23,3 +23,10 @@ body {
 .navbar-principal {
 	background-color: #E64A19;
 }
+
+
+/* user-show */
+
+.user-show-label {
+	font-weight: bold;
+}
