@@ -39,5 +39,20 @@
 <body>
 	<nav class="navbar navbar-principal">
 		<a class="white-color mx-3 header-navbar-logo" href="${pageContext.request.contextPath}">ENI-Enchères</a>
+		<!-- menu navbar si utilisateur déconnecté -->
+		<c:if test="${empty sessionScope.utilisateur}">
+			<a class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">account_circle</span>S'inscrire / Se connecter</a>
+		</c:if>
+		<!-- menu navbar si utilisateur connecté -->
+		<c:if test="${!empty sessionScope.utilisateur}">
+			<div class="d-flex">
+				<a class="white-color btn">Enchères</a>
+				<a class="white-color btn">Vendre un article</a>
+				<a class="white-color btn">Mon profil</a>
+				<div class="ms-5">
+					<a class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">person_off</span>Déconnexion</a>
+				</div>
+			</div>
+		</c:if>
 	</nav>
 	<div class="container">

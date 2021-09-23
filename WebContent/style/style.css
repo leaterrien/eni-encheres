@@ -50,7 +50,7 @@ body {
 }
 
 .button-navigation:hover {
-	color: #FDFDFD;
+	color: white;
     background-color: #E64A19;
     border-color: #E64A19;
 }
@@ -79,4 +79,15 @@ body {
 	}
 }
 
+.navbar-button-connection {
+	border-color: #FDFDFD;
+	margin-right: 30px;
+}
+.navbar-button-connection:hover {
+	border-color: black;
+}
 
+.navbar-button-connection-icon {
+	display: block;
+    margin-right: 10px;
+}

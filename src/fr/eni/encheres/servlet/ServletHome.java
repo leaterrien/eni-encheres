@@ -23,7 +23,7 @@ public class ServletHome extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO : récupération des articles à vendre
-		System.out.println(request.getHeader("Referer"));
+
 		// On vérifie si l'utilisateur est connecté
 		if (request.getSession().getAttribute("utilisateur") == null) {
 			// TODO : si il y a des articles à vendre, on reste sur la page d'accueil (avec
