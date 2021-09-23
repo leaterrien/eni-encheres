@@ -38,6 +38,6 @@
 </head>
 <body>
 	<nav class="navbar navbar-principal">
-		<h3 class="white-color mx-3">ENI-Enchères</h3>
+		<a class="white-color mx-3 header-navbar-logo" href="${pageContext.request.contextPath}">ENI-Enchères</a>
 	</nav>
 	<div class="container">
