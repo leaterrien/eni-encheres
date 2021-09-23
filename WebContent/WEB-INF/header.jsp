@@ -1,12 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:if test="${! empty title}">${title}</</c:if> <c:if
-		test="${empty title}">ENI-Encheres</c:if></title>
+<!-- Title : récupération du titre si défini, sinon utiliation du titre par défaut -->
+<title>
+	<c:choose>
+		<c:when test="${! empty param.pageTitle}">
+		<fmt:bundle basename="fr.eni.encheres.messages.titles">
+			<fmt:message key="title.${param.pageTitle}"></fmt:message>
+		</fmt:bundle>
+		</c:when>
+		<c:otherwise>
+		<fmt:bundle basename="fr.eni.encheres.messages.titles">
+			<fmt:message key="title.default"></fmt:message>
+		</fmt:bundle>
+		</c:otherwise>
+	</c:choose>
+</title>
 <!-- material icon -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
@@ -26,5 +40,4 @@
 	<nav class="navbar navbar-principal">
 		<h3 class="white-color mx-3">ENI-Enchères</h3>
 	</nav>
-</body>
-</html>
+	<div class="container">

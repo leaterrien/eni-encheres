@@ -21,6 +21,31 @@ public class UtilisateurManager {
 		return instance;
 	}
 
+	public Utilisateur getUser(int noUtilisateur) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+
+		// Vérification de la validité du noUtilisateur
+		checkNoUtilisateur(noUtilisateur, businessException);
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
+
+		// Récupération de l'utilisateur et vérification des données reçues
+		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
+		if (utilisateur == null) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL);
+		} else {
+			checkUser(utilisateur, businessException);
+		}
+
+		// Throw de businessException si les données reçues ne sont pas correctes
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
+
+		return utilisateur;
+	}
+
 	/**
 	 * Vérifie les données de connexion fournies par l'utilisateur
 	 * 

@@ -23,3 +23,30 @@ body {
 .navbar-principal {
 	background-color: #E64A19;
 }
+
+
+/* user-show */
+
+.user-show-label {
+	font-weight: bold;
+}
+
+/* error pages */
+.error-page-principal-message {
+	font-weight: bold;
+}
+
+/* button */
+.button-navigation {
+	color: #FDFDFD;
+    background-color: #E64A19;
+    border-color: #E64A19;
+}
+
+.button-navigation:hover {
+	color: #FDFDFD;
+    background-color: #E64A19;
+    border-color: #E64A19;
+}
+
+

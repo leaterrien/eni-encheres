@@ -5,4 +5,6 @@ package fr.eni.encheres.servlet;
  */
 public abstract class CodesResultatServlets {
 
+	public static final int USER_SHOW_INCORRECT_NO_UTILISATEUR = 30010;
+
 }
