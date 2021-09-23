@@ -11,7 +11,10 @@
 
 <p class="error-page-principal-message">La page que vous avez demandée n'existe pas</p>
 
-
+<!-- bouton de navigation vers l'accueil -->
+<jsp:include page="button-home.jsp">
+	<jsp:param value="" name=""/>
+</jsp:include>
 
 <!-- footer -->
 <jsp:include page="/WEB-INF/footer.jsp">
