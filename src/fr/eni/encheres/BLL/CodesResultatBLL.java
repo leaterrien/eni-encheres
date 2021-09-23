@@ -55,7 +55,10 @@ public abstract class CodesResultatBLL {
 	// Connexion utilisateur : login ou mot de passe null
 	public static final int UTILISATEUR_CONNEXION_NULL = 20040;
 
-	// Connexion utilisateur : connexion incorrecte
-	public static final int UTILISATEUR_WRONG_CONNEXION = 20041;
+	// Connexion utilisateur : login inconnu
+	public static final int UTILISATEUR_CONNECTION_WRONG_LOGIN = 20041;
+
+	// Connexion utilisateur : mot de passe incorrect
+	public static final int UTILISATEUR_CONNECTION_WRONG_PASSWORD = 20042;
 
 }
