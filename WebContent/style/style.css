@@ -4,6 +4,12 @@ body {
 	font-family: Montserrat;
 }
 
+@media (max-width: 911px) {
+	p {
+		font-size: 14px;
+	}
+}
+
 .primary-color {
 	color: #E64A19;
 }
@@ -44,9 +50,44 @@ body {
 }
 
 .button-navigation:hover {
-	color: #FDFDFD;
+	color: white;
     background-color: #E64A19;
     border-color: #E64A19;
 }
 
+/* header */
+.header-navbar-logo {
+	font-size: 1.5rem;
+	margin: 0;
+	text-decoration: none;
+}
 
+.header-navbar-logo:hover {
+	color: #FDFDFD;
+	cursor: pointer
+}
+
+@media (max-width: 911px) {
+	.header-navbar-logo {
+		font-size: 1rem;
+	}
+}
+
+@media (min-width: 912px) {
+	.header-navbar-logo {
+		font-size: 1.5rem;
+	}
+}
+
+.navbar-button-connection {
+	border-color: #FDFDFD;
+	margin-right: 30px;
+}
+.navbar-button-connection:hover {
+	border-color: black;
+}
+
+.navbar-button-connection-icon {
+	display: block;
+    margin-right: 10px;
+}
