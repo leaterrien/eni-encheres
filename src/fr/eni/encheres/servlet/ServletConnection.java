@@ -1,6 +1,7 @@
 package fr.eni.encheres.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,6 +49,12 @@ public class ServletConnection extends HttpServlet {
 				
 			}
 		}
+		
+		//Envoie erreur JSP
+		List<Integer> listErrors = (List<Integer>) request.getAttribute("listErrors");
+		request.setAttribute("listErrors", listErrors);
+		System.out.println(listErrors);
+		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/JSP/formulaireConnexion.jsp").forward(request, response);
 		
 		
@@ -60,7 +67,7 @@ public class ServletConnection extends HttpServlet {
 		
 		String login = null ;
 		String password = null ;
-		Boolean seSouvenirDeMoi = false ;
+		boolean seSouvenirDeMoi = false ;
 		
 		// Récupération de la saisie utilisateur
 				
@@ -68,18 +75,21 @@ public class ServletConnection extends HttpServlet {
 		{
 			login = request.getParameter("login");
 			password = request.getParameter("password");
-				if(request.getParameter("seSouvenirDeMoi").equals("on")) {
+				if(request.getParameter("seSouvenirDeMoi") != null && request.getParameter("seSouvenirDeMoi").equals("on")) {
 					seSouvenirDeMoi = true;
 				}
 			
+				System.out.println(seSouvenirDeMoi);
 			Utilisateur utilisateur = UtilisateurManager.getInstance().checkValidConnection(login,password);
+			
 		
 			//Création de la session
 			HttpSession session = request.getSession();
 			session.setAttribute("utilisateur", utilisateur);
 			
 			//Création des cookies de connexion, Coche checkbox seSouvenirDeMoi
-			if(seSouvenirDeMoi != null && seSouvenirDeMoi) {
+			System.out.println(seSouvenirDeMoi);
+			if(seSouvenirDeMoi == true) {
 				Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
 				//durée du cookie de an 
 				cookie1.setMaxAge(60 * 60 * 24 * 30 * 12);
@@ -96,6 +106,7 @@ public class ServletConnection extends HttpServlet {
 				response.addCookie(cookie3);
 				
 			}else {
+				System.out.println("else");
 				Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
 				//durée du cookie = supprimé à la fermeture du navigateur
 				cookie1.setMaxAge(0);
@@ -106,22 +117,25 @@ public class ServletConnection extends HttpServlet {
 				cookie2.setMaxAge(0);
 				response.addCookie(cookie2);
 				
-				Cookie cookie3 = new Cookie ("seSouvenirDeMoi","");
+				Cookie cookie3 = new Cookie ("seSouvenirDeMoi","false");
 				//durée du cookie = supprimé à la fermeture du navigateur
-				cookie3.setMaxAge(0);
+				cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
 				response.addCookie(cookie3);
-				
 			}
 			
 			request.setAttribute("cookieEnchInitL", login);
 			request.setAttribute("cookieHcneTiniP", password);
 			request.setAttribute("seSouvenirDeMoi", seSouvenirDeMoi);
+			
+			this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request, response);
+			
+			
 		
 		} catch (BusinessException e) {
 			request.setAttribute("listErrors", e.getListErrors());
 			doGet(request, response);
 		}
-		this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request, response);
+		
 		
 	}
 	

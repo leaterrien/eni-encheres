@@ -27,6 +27,8 @@
 		<br>
 		<br>
 		<input type="submit" value="Créer un compte" name="créer un compte" />
+		<br>
+		
 		
 	</form>
 </body>
