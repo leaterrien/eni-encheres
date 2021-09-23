@@ -33,7 +33,7 @@ public class UtilisateurManager {
 		// Récupération de l'utilisateur et vérification des données reçues
 		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
 		if (utilisateur == null) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_WRONG_CONNEXION);
+			businessException.addError(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL);
 		} else {
 			checkUser(utilisateur, businessException);
 		}
@@ -75,20 +75,20 @@ public class UtilisateurManager {
 
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
-			businessException.addError(0);
+			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN);
+			throw businessException;
 		} else {
 			// Comparaison des mots de passe
 			if (!utilisateur.getMotDePasse().equals(password)) {
-				utilisateur = null;
+				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_PASSWORD);
+				throw businessException;
 			}
 		}
 
 		// si la connexion est correcte, check des valeurs de l'utilisateur
-		if (utilisateur != null) {
-			checkUser(utilisateur, businessException);
-			if (businessException.hasErrors()) {
-				throw businessException;
-			}
+		checkUser(utilisateur, businessException);
+		if (businessException.hasErrors()) {
+			throw businessException;
 		}
 
 		return utilisateur;
