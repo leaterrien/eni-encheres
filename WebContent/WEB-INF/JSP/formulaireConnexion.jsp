@@ -13,22 +13,14 @@
 	<br>
 	<form method="post">
 		<label for="login">Identifiant:</label>
-		<input type="text" value="${cookieEnchInitL}" name="login" />
+		<input type="text" value="${cookieEnchInitL}" name="login" required/>
 		<br>
 		<label for="password">Mot de passe:</label>
-		<input type="password" value="${cookieHcneTiniP}" name="password" />
+		<input type="password" value="${cookieHcneTiniP}" name="password" required/>
 		<br>
 		<br>
 		<button type="submit" value="Connexion" name="connexion">Connexion</button>
-		
-		
-		
-		
-		<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${ischecked ? 'checked':''} />
-		
-		
-		
-		
+		<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${seSouvenirDeMoi ? 'checked':''} />
 		<label for="seSouvenirDeMoi">Se souvenir de moi </label>
 		<br>
 		<a href="https://www.google.fr/">Mot de passe oublié</a>

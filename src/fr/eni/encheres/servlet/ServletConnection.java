@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.BLL.UtilisateurManager;
+import fr.eni.encheres.BO.Utilisateur;
+import fr.eni.encheres.exceptions.BusinessException;
+
 /**
  * Servlet implementation class ServletConnection
  */
@@ -20,23 +24,26 @@ public class ServletConnection extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//RÈcupÈration de la session
+		//R√©cup√©ration de la session
 		HttpSession session = request.getSession();
 		String login = (String) session.getAttribute("login");
-		//DÈconnexion de la session
-		//mÈthode ‡ placer dans servlet deconnexion = session.invalidate();
+		//D√©connexion de la session
+		//m√©thode √† placer dans servlet deconnexion = session.invalidate();
 		
+		//R√©cup√©ration des cookies de connexion
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
 			for (Cookie cookie : cookies) {
-				if(cookie.getName().equals("cookieEnchInitL")) {
-					request.setAttribute("cookieEnchInitL", cookie.getValue());
-				}
-				if(cookie.getName().equals("cookieHcneTiniP")) {
-					request.setAttribute("cookieHcneTiniP", cookie.getValue());
-				}
-				if(cookie.getName().equals("seSouvenirDeMoi")) {
-					request.setAttribute("seSouvenirDeMoi", cookie.getValue());
+				if (cookie.getMaxAge() != 0) {
+					if(cookie.getName().equals("cookieEnchInitL")) {
+						request.setAttribute("cookieEnchInitL", cookie.getValue());
+					}
+					if(cookie.getName().equals("cookieHcneTiniP")) {
+						request.setAttribute("cookieHcneTiniP", cookie.getValue());
+					}
+					if(cookie.getName().equals("seSouvenirDeMoi")) {
+					request.setAttribute("seSouvenirDeMoi", Boolean.parseBoolean(cookie.getValue()));
+					}
 				}
 				
 			}
@@ -51,73 +58,70 @@ public class ServletConnection extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		String login = null ;
+		String password = null ;
+		Boolean seSouvenirDeMoi = false ;
 		
-		System.out.println("Login servlet");
+		// R√©cup√©ration de la saisie utilisateur
+				
+		try
+		{
+			login = request.getParameter("login");
+			password = request.getParameter("password");
+				if(request.getParameter("seSouvenirDeMoi").equals("on")) {
+					seSouvenirDeMoi = true;
+				}
+			
+			Utilisateur utilisateur = UtilisateurManager.getInstance().checkValidConnection(login,password);
 		
-		String login = request.getParameter("login");
-		String password = request.getParameter("password");
-		String seSouvenirDeMoi = request.getParameter("seSouvenirDeMoi");
+			//Cr√©ation de la session
+			HttpSession session = request.getSession();
+			session.setAttribute("utilisateur", utilisateur);
+			
+			//Cr√©ation des cookies de connexion, Coche checkbox seSouvenirDeMoi
+			if(seSouvenirDeMoi != null && seSouvenirDeMoi) {
+				Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
+				//dur√©e du cookie de an 
+				cookie1.setMaxAge(60 * 60 * 24 * 30 * 12);
+				response.addCookie(cookie1);
+				
+				Cookie cookie2 = new Cookie("cookieEnchInitL",login);
+				//dur√©e du cookie de an 
+				cookie2.setMaxAge(60 * 60 * 24 * 30 * 12);
+				response.addCookie(cookie2);
+				
+				Cookie cookie3 = new Cookie ("seSouvenirDeMoi","true");
+				//dur√©e du cookie de an 
+				cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
+				response.addCookie(cookie3);
+				
+			}else {
+				Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
+				//dur√©e du cookie = supprim√© √† la fermeture du navigateur
+				cookie1.setMaxAge(0);
+				response.addCookie(cookie1);
+				
+				Cookie cookie2 = new Cookie("cookieEnchInitL",login);
+				//dur√©e du cookie = supprim√© √† la fermeture du navigateur
+				cookie2.setMaxAge(0);
+				response.addCookie(cookie2);
+				
+				Cookie cookie3 = new Cookie ("seSouvenirDeMoi","");
+				//dur√©e du cookie = supprim√© √† la fermeture du navigateur
+				cookie3.setMaxAge(0);
+				response.addCookie(cookie3);
+				
+			}
+			
+			request.setAttribute("cookieEnchInitL", login);
+			request.setAttribute("cookieHcneTiniP", password);
+			request.setAttribute("seSouvenirDeMoi", seSouvenirDeMoi);
 		
-		System.out.println("login = " + login);
-		System.out.println("password = " + password);
-		System.out.println("se souvenir de moi = " + seSouvenirDeMoi);
-		
-		if(login!=null && password!=null /*&& login lea && password lea*/)
-				 {
-			System.out.println("login ok");
-		}else {
-			System.out.println("login error");
+		} catch (BusinessException e) {
+			request.setAttribute("listErrors", e.getListErrors());
+			doGet(request, response);
 		}
-		
-		//CrÈation de la session
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("login", login);
-		session.setAttribute("password", password);
-		
-		
-		//CrÈation des cookies de connexion, Coche checkbox seSouvenirDeMoi
-		if(seSouvenirDeMoi != null && seSouvenirDeMoi.contentEquals("on")) {
-			Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
-			//durÈe du cookie de an 
-			cookie1.setMaxAge(60 * 60 * 24 * 30 * 12);
-			response.addCookie(cookie1);
-			
-			Cookie cookie2 = new Cookie("cookieEnchInitL",login);
-			//durÈe du cookie de an 
-			cookie2.setMaxAge(60 * 60 * 24 * 30 * 12);
-			response.addCookie(cookie2);
-			
-			Cookie cookie3 = new Cookie ("seSouvenirDeMoi","true");
-			//durÈe du cookie de an 
-			cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
-			response.addCookie(cookie3);
-			cookie3.setValue("true");
-			request.setAttribute("ischecked", true);
-		}else {
-			Cookie cookie1 = new Cookie ("cookieHcneTiniP",password);
-			//durÈe du cookie de an 
-			cookie1.setMaxAge(-1);
-			response.addCookie(cookie1);
-			
-			Cookie cookie2 = new Cookie("cookieEnchInitL",login);
-			//durÈe du cookie de an 
-			cookie2.setMaxAge(-1);
-			response.addCookie(cookie2);
-			
-			Cookie cookie3 = new Cookie ("seSouvenirDeMoi","");
-			//durÈe du cookie de an 
-			cookie3.setMaxAge(-1);
-			response.addCookie(cookie3);
-			cookie3.setValue("false");
-			request.setAttribute("ischecked", false);
-		}
-		
-		request.setAttribute("cookieEnchInitL", login);
-		request.setAttribute("cookieHcneTiniP", password);
-		request.setAttribute("seSouvenirDeMoi", seSouvenirDeMoi);
-		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/JSP/formulaireConnexion.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request, response);
 		
 	}
 	
