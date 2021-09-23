@@ -40,3 +40,4 @@
 	<nav class="navbar navbar-principal">
 		<h3 class="white-color mx-3">ENI-Enchères</h3>
 	</nav>
+	<div class="container">

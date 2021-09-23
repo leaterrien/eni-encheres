@@ -30,8 +30,18 @@ public class UtilisateurManager {
 			throw businessException;
 		}
 
-		// Récupération de l'utilisateur
+		// Récupération de l'utilisateur et vérification des données reçues
 		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
+		if (utilisateur == null) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL);
+		} else {
+			checkUser(utilisateur, businessException);
+		}
+
+		// Throw de businessException si les données reçues ne sont pas correctes
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
 
 		return utilisateur;
 	}

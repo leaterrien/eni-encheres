@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.BLL.CodesResultatBLL;
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -19,6 +20,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 @WebServlet("/Utilisateur/*")
 public class ServletUserShow extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private BusinessException businessException = new BusinessException();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -27,16 +29,33 @@ public class ServletUserShow extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Utilisateur utilisateur = null;
-		int noUtilisateur = Integer.parseInt(request.getPathInfo().substring(1));
+		int noUtilisateur = 0;
+		// Récupération de l'id de l'utilisateur depuis l'url
 		try {
-			utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
-			request.setAttribute("utilisateur", utilisateur);
-		} catch (BusinessException e) {
-			e.printStackTrace();
-			request.setAttribute("businessExceptionErrors", e.getListErrors());
+			noUtilisateur = Integer.parseInt(request.getPathInfo().substring(1));
+		} catch (Exception e) {
+			businessException.addError(CodesResultatServlets.USER_SHOW_INCORRECT_NO_UTILISATEUR);
+			request.setAttribute("errors", businessException.getListErrors());
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/user-show.jsp");
-		rd.forward(request, response);
+		// Récupération de l'utilisateur si le noUtilisateur a été correctement récupéré
+		// Si l'utilisateur n'existe pas, renvoie une 404
+		if (!businessException.hasErrors()) {
+			try {
+				utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
+				request.setAttribute("utilisateur", utilisateur);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/user-show.jsp");
+				rd.forward(request, response);
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				request.setAttribute("errors", e.getListErrors());
+				if (e.getListErrors().contains(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL)) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				} else {
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				}
+			}
+		}
 	}
 
 	/**

@@ -50,4 +50,9 @@ public abstract class CodesResultatBLL {
 	// Check administrateur
 	public static final int UTILISATEUR_ADMINISTRATEUR_NOT_VALID = 20012;
 
+	// Interactions DAL :
+
+	// GetUser : utilisateur null
+	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;
+
 }

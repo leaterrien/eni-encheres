@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!-- header -->
 <jsp:include page="/WEB-INF/header.jsp">
 	<jsp:param value="user-show" name="pageTitle" />
 </jsp:include>
 
-<div class="container">
 	<!--  Affichage de l'utilisateur si celui-ci a été trouvé -->
 	<c:if test="${!empty utilisateur}">
 	<h1 class="my-5 d-flex justify-content-center">${utilisateur.pseudo}</h1>
@@ -27,10 +27,12 @@
 		<p>L'utilisateur demandé n'existe pas</p>
 	</c:if>
 	<div class="mt-5 d-flex justify-content-center">
-		<a href="" class="btn">Retourner à l'accueil</a>
+		<div class="btn">
+			<a href="" class="">Retourner à l'accueil</a>
+		</div>
 	</div>
-</div>
 
+<!-- footer -->
 <jsp:include page="/WEB-INF/footer.jsp">
 		<jsp:param value="" name=""/>
 </jsp:include>
