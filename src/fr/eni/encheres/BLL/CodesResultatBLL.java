@@ -9,9 +9,6 @@ public abstract class CodesResultatBLL {
 	 * Erreurs Utilisateur
 	 */
 
-	// Connexion utilisateur : login ou mot de passe null
-	public static final int UTILISATEUR_CONNEXION_NULL = 20000;
-
 	// Check data :
 
 	// Check noUtilisateur
@@ -54,5 +51,11 @@ public abstract class CodesResultatBLL {
 
 	// GetUser : utilisateur null
 	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;
+
+	// Connexion utilisateur : login ou mot de passe null
+	public static final int UTILISATEUR_CONNEXION_NULL = 20040;
+
+	// Connexion utilisateur : connexion incorrecte
+	public static final int UTILISATEUR_WRONG_CONNEXION = 20041;
 
 }
