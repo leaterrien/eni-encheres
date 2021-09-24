@@ -91,3 +91,22 @@ body {
 	display: block;
     margin-right: 10px;
 }
+
+/* menu mobile */
+.dropdown-toggle::after {
+    display: none!important;
+}
+
+/* affichage menu selon taille écran */
+
+@media (min-width: 912px) {
+	.navbar-menu-mobile {
+		display:none;
+	}
+}
+
+@media (max-width: 911px) {
+	.navbar-menu-desktop {
+		display:none;
+	}
+}
