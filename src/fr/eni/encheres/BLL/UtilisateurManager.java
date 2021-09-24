@@ -256,5 +256,16 @@ public class UtilisateurManager {
 	public void checkAdministrateur(boolean administrateur, BusinessException businessException) {
 		// TODO : ajouter des checks si besoin
 	}
+	
+	public boolean checkPasswordMatch(String password, String confirmPassword, BusinessException businessException) {
+		boolean passwordMatch = false;
+		if(password.equals(confirmPassword)) {
+			passwordMatch = true;
+		}
+		else {
+		businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
+		}
+		return passwordMatch;
+	}
 
 }
