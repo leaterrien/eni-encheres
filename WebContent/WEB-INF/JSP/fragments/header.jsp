@@ -39,20 +39,49 @@
 <body>
 	<nav class="navbar navbar-principal">
 		<a class="white-color mx-3 header-navbar-logo" href="${pageContext.request.contextPath}">ENI-Enchères</a>
-		<!-- menu navbar si utilisateur déconnecté -->
-		<c:if test="${empty sessionScope.utilisateur}">
-			<a href="${pageContext.request.contextPath}/Connection" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">account_circle</span>S'inscrire / Se connecter</a>
-		</c:if>
-		<!-- menu navbar si utilisateur connecté -->
-		<c:if test="${!empty sessionScope.utilisateur}">
-			<div class="d-flex">
-				<a class="white-color btn">Enchères</a>
-				<a class="white-color btn">Vendre un article</a>
-				<a class="white-color btn">Mon profil</a>
-				<div class="ms-5">
-					<a href="${pageContext.request.contextPath}/Logout" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">person_off</span>Déconnexion</a>
+		<!-- menu version desktop -->
+		<div class="navbar-menu-desktop">
+			<!-- menu navbar si utilisateur déconnecté -->
+			<c:if test="${empty sessionScope.utilisateur}">
+				<a href="${pageContext.request.contextPath}/Connection" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">account_circle</span>S'inscrire / Se connecter</a>
+			</c:if>
+			<!-- menu navbar si utilisateur connecté -->
+			<c:if test="${!empty sessionScope.utilisateur}">
+				<div class="d-flex">
+					<a class="white-color btn">Enchères</a>
+					<a class="white-color btn">Vendre un article</a>
+					<a class="white-color btn">Mon profil</a>
+					<div class="ms-5">
+						<a href="${pageContext.request.contextPath}/Logout" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">person_off</span>Déconnexion</a>
+					</div>
 				</div>
+			</c:if>
+		</div>
+		<!-- menu version mobile -->
+		<div class="navbar-menu-mobile">
+			<div class="dropdown me-3">
+				<button class="btn dropdown-toggle white-color" type="button" id="dropdownNavbarMenu" data-bs-toggle="dropdown" aria-expanded="false"><span class="material-icons">menu</</span></button>
+			 	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownNavbarMenu">
+			 		<!-- menu si utilisateur déconnecté -->
+			 		<c:if test="${empty sessionScope.utilisateur}">
+			 			<li><a href="${pageContext.request.contextPath}/Connection" class="d-flex dropdown-item">
+			 				<span class="material-icons navbar-button-connection-icon">account_circle</span>
+			 				S'inscrire / Se connecter
+			 			</a></li>
+			 		</c:if>
+			 		<!-- menu si utilisateur connecté -->
+			 		<c:if test="${!empty sessionScope.utilisateur}">
+    					<li><a class="dropdown-item" href="#">Enchères</a></li>
+    					<li><a class="dropdown-item" href="#">Vendre un article</a></li>
+   						<li><a class="dropdown-item" href="#">Mon profil</a></li>
+   						<li><a class="dropdown-item d-flex" href="${pageContext.request.contextPath}/Logout">
+   							<span class="material-icons navbar-button-connection-icon">person_off</span>
+   							Déconnexion
+   						</a></li>
+ 					</c:if>
+ 				</ul>
 			</div>
-		</c:if>
-	</nav>
+		</div>
+		
+	</nav>	
 	<div class="container">
