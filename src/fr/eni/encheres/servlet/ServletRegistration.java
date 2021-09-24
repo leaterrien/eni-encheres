@@ -40,29 +40,33 @@ public class ServletRegistration extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String username;
+		String pseudo;
 		String email;
-		String password;
-		String lastName;
-		String firstName;
-		String phone;
-		String street;
-		String postcode;
-		String city;
+		String motDePasse;
+		String confirmerMotDePasse;
+		String nom;
+		String prenom;
+		String telephone;
+		String rue;
+		String codePostal;
+		String ville;
 		try
 		{
-			username = request.getParameter("usnermae");
+			pseudo = request.getParameter("username");
 			email = request.getParameter("email");
-			password = request.getParameter("password");
-			lastName = request.getParameter("last_name");
-			firstName = request.getParameter("first_name");
-			phone = request.getParameter("phone");
-			street = request.getParameter("street");
-			postcode = request.getParameter("postcode");
-			city = request.getParameter("city");
+			motDePasse = request.getParameter("password");
+			confirmerMotDePasse = request.getParameter("confirm_password");
+			nom = request.getParameter("last_name");
+			prenom = request.getParameter("first_name");
+			telephone = request.getParameter("phone");
+			rue = request.getParameter("street");
+			codePostal = request.getParameter("postcode");
+			ville = request.getParameter("city");
 			
 			Utilisateur utilisateur = new Utilisateur();
-			UtilisateurManager.getInstance().checkUser(utilisateur, businessException);
+			UtilisateurManager.getInstance().checkPasswordMatch(motDePasse, confirmerMotDePasse, businessException);
+			UtilisateurManager.getInstance().addUtilisateur(utilisateur);
+			
 			
 		}catch (BusinessException e) {
 			request.setAttribute("listErrors", e.getListErrors());

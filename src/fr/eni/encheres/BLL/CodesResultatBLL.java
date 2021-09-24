@@ -52,5 +52,11 @@ public abstract class CodesResultatBLL {
 	
 	// passwords qui ne sont pas similaires
 	public static final int PASSWORDS_NOT_MATCHING = 20030;
+	
+	//pseudo déjà en base
+	public static final int PSEUDO_ALREADY_EXISTS = 20031;
+	
+	//email déjà en base
+	public static final int EMAIL_ALREADY_EXISTS = 20032;
 
 }

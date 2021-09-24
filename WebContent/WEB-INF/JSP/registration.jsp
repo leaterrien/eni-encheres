@@ -10,7 +10,7 @@
 <link href="${pageContext.request.contextPath}/style/form.css" rel="stylesheet">
 </head>
 
-<jsp:include page="/WEB-INF/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/JSP/header.jsp"></jsp:include>
 <body>
 
 

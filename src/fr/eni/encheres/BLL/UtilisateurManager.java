@@ -88,6 +88,21 @@ public class UtilisateurManager {
 		checkCredit(utilisateur.getCredit(), businessException);
 		// TODO : ajouter administrateur
 	}
+	
+public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException businessException) {
+		checkPseudo(utilisateur.getPseudo(), businessException);
+		checkNom(utilisateur.getNom(), businessException);
+		checkPrenom(utilisateur.getPrenom(), businessException);
+		checkEmail(utilisateur.getEmail(), businessException);
+		checkTelephone(utilisateur.getTelephone(), businessException);
+		checkRue(utilisateur.getRue(), businessException);
+		checkCodePostal(utilisateur.getCodePostal(), businessException);
+		checkVille(utilisateur.getVille(), businessException);
+		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
+		
+		return utilisateur;
+	}
+	
 
 	public void checkNoUtilisateur(int id, BusinessException businessException) {
 		// noUtilisateur null
@@ -266,6 +281,41 @@ public class UtilisateurManager {
 		businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
 		}
 		return passwordMatch;
+	}
+	
+	public void checkExistingPseudo(String pseudo, BusinessException businessException) throws BusinessException {
+		boolean valid = true;
+		String pseudoDb;
+		pseudoDb = utilisateurDAO.selectByNickname(pseudo).getPseudo();
+		if(pseudoDb != null) {
+			valid = false;
+			
+		}
+		if(valid == false) {
+			businessException.addError(CodesResultatBLL.PSEUDO_ALREADY_EXISTS);
+		}
+	}
+	public void checkExistingEmail(String email, BusinessException businessException) throws BusinessException {
+		boolean valid = true;
+		String pseudoDb;
+		pseudoDb = utilisateurDAO.selectByNickname(email).getEmail();
+		if(pseudoDb != null) {
+			valid = false;
+			
+		}
+		if(valid == false) {
+			businessException.addError(CodesResultatBLL.PSEUDO_ALREADY_EXISTS);
+		}
+	}
+	
+	
+	public Utilisateur addUtilisateur(Utilisateur utilisateur) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+		this.checkUser(utilisateur, businessException);
+		if(!businessException.hasErrors()) {
+			this.utilisateurDAO.insert(utilisateur);
+		}
+		return utilisateur;
 	}
 
 }

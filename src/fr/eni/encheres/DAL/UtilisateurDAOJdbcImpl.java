@@ -309,8 +309,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 	}
-	
-	//UPDATE ADMIN A FAIRE
-	
+
 	
 }
