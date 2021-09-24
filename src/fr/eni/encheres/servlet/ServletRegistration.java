@@ -13,6 +13,7 @@ import org.omg.PortableInterceptor.ForwardRequest;
 
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
+import fr.eni.encheres.DAL.UtilisateurDAO;
 import fr.eni.encheres.exceptions.BusinessException;
 
 
@@ -62,10 +63,12 @@ public class ServletRegistration extends HttpServlet {
 			rue = request.getParameter("street");
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
+			System.out.println(email + " " + pseudo);
 			
 			Utilisateur utilisateur = new Utilisateur();
-			UtilisateurManager.getInstance().checkPasswordMatch(motDePasse, confirmerMotDePasse, businessException);
+
 			UtilisateurManager.getInstance().addUtilisateur(utilisateur);
+			
 			
 			
 		}catch (BusinessException e) {

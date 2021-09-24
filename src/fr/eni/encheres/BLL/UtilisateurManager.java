@@ -100,6 +100,7 @@ public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException busin
 		checkVille(utilisateur.getVille(), businessException);
 		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
 		
+		
 		return utilisateur;
 	}
 	
@@ -285,9 +286,7 @@ public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException busin
 	
 	public void checkExistingPseudo(String pseudo, BusinessException businessException) throws BusinessException {
 		boolean valid = true;
-		String pseudoDb;
-		pseudoDb = utilisateurDAO.selectByNickname(pseudo).getPseudo();
-		if(pseudoDb != null) {
+		if(utilisateurDAO.selectByNickname(pseudo).getPseudo() != null) {
 			valid = false;
 			
 		}
@@ -298,7 +297,7 @@ public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException busin
 	public void checkExistingEmail(String email, BusinessException businessException) throws BusinessException {
 		boolean valid = true;
 		String pseudoDb;
-		pseudoDb = utilisateurDAO.selectByNickname(email).getEmail();
+		pseudoDb = utilisateurDAO.selectByEmail(email).getEmail();
 		if(pseudoDb != null) {
 			valid = false;
 			
