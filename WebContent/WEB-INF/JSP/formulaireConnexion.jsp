@@ -8,9 +8,17 @@
 <title>Connexion</title>
 </head>
 <body>
+	<!-- header -->
+	<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
+		<jsp:param value="connexion" name="pageTitle" />
+	</jsp:include>
 	
-	<c:out value= "Bonjour ${cookieEnchInitL}"/>
-	<br>
+	<h1 class="my-5 d-flex justify-content-center">Identifiez-vous</h1>
+	
+	<c:if test="${!empty listErrors }">
+		<p style="color:red;">Votre e-mail ou votre mot de passe n'est pas correct.</p>
+	</c:if>
+	
 	<form method="post">
 		<label for="login">Identifiant:</label>
 		<input type="text" value="${cookieEnchInitL}" name="login" required/>
@@ -28,9 +36,13 @@
 		<br>
 		<input type="submit" value="Créer un compte" name="créer un compte" />
 		<br>
-		
-		
 	</form>
+	
+	<!-- footer -->
+	<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp">
+			<jsp:param value="" name=""/>
+	</jsp:include>
+
 </body>
 </html>
 
