@@ -46,6 +46,9 @@ public abstract class CodesResultatBLL {
 
 	// Check administrateur
 	public static final int UTILISATEUR_ADMINISTRATEUR_NOT_VALID = 20012;
+	
+	// passwords qui ne sont pas similaires
+	public static final int PASSWORDS_NOT_MATCHING = 20030;
 
 	// Interactions DAL :
 

@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+label{
+	margin: 8px;
+}
+
+input.required:invalid{
+	border: solid red 1px;
+	
+}

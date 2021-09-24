@@ -58,7 +58,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				if(rs.next()) 
 				{
 					utilisateur = getUtilisateur(rs);
-				}					
+				}
 			}
 			catch (Exception e) 
 			{
@@ -67,7 +67,18 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				e.printStackTrace();
 				throw businessException;
 			}
-			
+			finally {		
+				try {
+					if (pstmt != null) {
+						pstmt.close();
+	                }
+					if (cnx != null) {
+	                    cnx.close();
+	                }
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		return utilisateur;
 	}
 	
@@ -93,6 +104,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				{
 					utilisateur = getUtilisateur(rs);			
 				}
+				
 			}
 			catch (Exception e)
 				{
@@ -101,6 +113,22 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 					e.printStackTrace();
 					throw businessException;
 				}
+			
+			finally {		
+				try {
+					if(rs != null) {
+						rs.close();
+					}
+					if (pstmt != null) {
+						pstmt.close();
+	                }
+					if (cnx != null) {
+	                    cnx.close();
+	                }
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		return utilisateur;
 	}
 	
@@ -134,6 +162,21 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				e.printStackTrace();
 				throw businessException;
 			}
+			finally {		
+				try {
+					if(rs != null) {
+						rs.close();
+					}
+					if (pstmt != null) {
+						pstmt.close();
+	                }
+					if (cnx != null) {
+	                    cnx.close();
+	                }
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			
 		return utilisateur;
 	}
@@ -161,6 +204,21 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			e.printStackTrace();
 			throw businessException;
 		}
+		finally {		
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(stmt !=null) {
+					stmt.close();
+				}
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return listeUtilisateurs;
 	}
 	
@@ -169,7 +227,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		
 		
 		PreparedStatement pstmt = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		Connection cnx = null;
 		try 
 		{
@@ -192,14 +250,27 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			if(rs.next()) {
 				utilisateur.setNoUtilisateur(rs.getInt(1));
 			}
-			pstmt.close();
-			cnx.close();
 		}
 		catch (Exception e) {
 			BusinessException businessException = new BusinessException();
 			businessException.addError(CodesResultatDAL.INSERT_UTILISATEUR_FAIL);				
 			e.printStackTrace();
 			throw businessException;
+		}
+		finally {		
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return utilisateur;
 	}
@@ -235,6 +306,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			e.printStackTrace();
 			throw businessException;
 		}
+		finally 
+		{		
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return utilisateur;
 	}
 	
@@ -259,6 +343,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			businessException.addError(CodesResultatDAL.UPDATE_UTILISATEUR_FAIL);				
 			e.printStackTrace();
 			throw businessException;
+		}
+		finally 
+		{		
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return utilisateur;
 	}
@@ -285,6 +382,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			e.printStackTrace();
 			throw businessException;
 		}
+		finally 
+		{		
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return utilisateur;
 	}
 	
@@ -308,9 +418,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			e.printStackTrace();
 			throw businessException;
 		}
+		finally 
+		{		
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
-	//UPDATE ADMIN A FAIRE
-	
 	
 }
