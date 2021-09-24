@@ -44,7 +44,7 @@ public class ServletUserShow extends HttpServlet {
 			try {
 				utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
 				request.setAttribute("utilisateur", utilisateur);
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/user-show.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/user-show.jsp");
 				rd.forward(request, response);
 			} catch (BusinessException e) {
 				e.printStackTrace();

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- header -->
-<jsp:include page="/WEB-INF/header.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
 	<jsp:param value="user-show" name="pageTitle" />
 </jsp:include>
 
@@ -12,11 +12,11 @@
 <p class="error-page-principal-message">La page que vous avez demandée n'existe pas</p>
 
 <!-- bouton de navigation vers l'accueil -->
-<jsp:include page="button-home.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/button-home.jsp">
 	<jsp:param value="" name=""/>
 </jsp:include>
 
 <!-- footer -->
-<jsp:include page="/WEB-INF/footer.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp">
 		<jsp:param value="" name=""/>
 </jsp:include>

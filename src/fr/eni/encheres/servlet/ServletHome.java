@@ -24,17 +24,8 @@ public class ServletHome extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO : récupération des articles à vendre
 
-		// On vérifie si l'utilisateur est connecté
-		if (request.getSession().getAttribute("utilisateur") == null) {
-			// TODO : si il y a des articles à vendre, on reste sur la page d'accueil (avec
-			// accès mode déconnecté)
-			// Non connecté et aucun article à vendre : redirection vers la page de
-			// connexion
-			response.sendRedirect(request.getContextPath() + "/Connection");
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-			rd.forward(request, response);
-		}
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/home.jsp");
+		rd.forward(request, response);
 	}
 
 	/**

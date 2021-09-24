@@ -6,13 +6,13 @@
 
 
 <!-- header -->
-<jsp:include page="/WEB-INF/header.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
 	<jsp:param value="user-show" name="pageTitle" />
 </jsp:include>
 
 <h1 class="my-5">Erreur 500</h1>
 
-<p class="error-page-principal-message">Nous avons rencontré un problème :</p>
+<p class="error-page-principal-message">Nous avons rencontré un problème</p>
 
 <!-- affichage de la liste des erreurs rencontrées -->
 <c:forEach var="error" items="${errors}">
@@ -22,11 +22,11 @@
 </c:forEach>
 
 <!-- bouton de navigation vers l'accueil -->
-<jsp:include page="button-home.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/button-home.jsp">
 	<jsp:param value="" name=""/>
 </jsp:include>
 
 <!-- footer -->
-<jsp:include page="/WEB-INF/footer.jsp">
+<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp">
 		<jsp:param value="" name=""/>
 </jsp:include>
