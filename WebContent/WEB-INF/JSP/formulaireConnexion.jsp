@@ -15,9 +15,6 @@
 	
 	<h1 class="my-5 d-flex justify-content-center">Identifiez-vous</h1>
 	
-	<c:out value= "Bonjour ${cookieEnchInitL}"/>
-	<br>
-	
 	<c:if test="${!empty listErrors }">
 		<p style="color:red;">Votre e-mail ou votre mot de passe n'est pas correct.</p>
 	</c:if>
