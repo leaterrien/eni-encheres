@@ -36,6 +36,9 @@ public class ServletConnection extends HttpServlet {
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getMaxAge() != 0) {
+					// Pour chaque cookie cherché, si un attribut de requête correspond au cookie,
+					// on récupère la valeur de l'attribut
+					// Sinon on récupère la valeur du cookie
 					if (cookie.getName().equals("cookieEnchInitL")) {
 						String cookieEnchInitL;
 						if (request.getAttribute("cookieEnchInitL") != null) {
@@ -138,10 +141,13 @@ public class ServletConnection extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("utilisateur", utilisateur);
 
-			this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request, response);
+			response.sendRedirect(request.getContextPath());
+			// this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request,
+			// response);
 
 		} catch (BusinessException e) {
 			request.setAttribute("listErrors", e.getListErrors());
+			e.printStackTrace();
 			doGet(request, response);
 		}
 
