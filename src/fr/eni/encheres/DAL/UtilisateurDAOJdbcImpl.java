@@ -87,7 +87,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		if (email == null) 
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.addError(CodesResultatDAL.UTILISATEUR_NICKNAME_NULL);
+			businessException.addError(CodesResultatDAL.UTILISATEUR_EMAIL_NULL);
 			throw businessException;
 		}
 		Utilisateur utilisateur = new Utilisateur();		
