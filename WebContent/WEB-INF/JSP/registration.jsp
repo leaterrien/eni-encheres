@@ -10,11 +10,11 @@
 <link href="${pageContext.request.contextPath}/style/form.css" rel="stylesheet">
 </head>
 
-<jsp:include page="/WEB-INF/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/JSP/fragments/header.jsp"></jsp:include>
 <body>
 
 
-<form action="<%=request.getContextPath()%>/ServletRegistration" method="post">
+<form action="<%=request.getContextPath()%>/Inscription" method="post">
 		<label for=username> Nom d'utilisateur : </label><input type="text" pattern="^[a-zA-Z0-9]+$" maxLength="20" id="username" name="username" value="" required/>
 		<br/>
 		<label for="email"> Adresse Email : </label><input type="email" maxLength="50" id="email" name="email" value="" required/>
