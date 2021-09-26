@@ -20,7 +20,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 /**
  * Servlet implementation class ServletRegistration
  */
-@WebServlet("/ServletRegistration")
+@WebServlet("/Inscription")
 public class ServletRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BusinessException businessException;
@@ -33,7 +33,6 @@ public class ServletRegistration extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
 		rd.forward(request, response);
-		
 	}
 
 	/**
@@ -51,6 +50,7 @@ public class ServletRegistration extends HttpServlet {
 		String rue;
 		String codePostal;
 		String ville;
+		
 		try
 		{
 			pseudo = request.getParameter("username");
@@ -63,23 +63,16 @@ public class ServletRegistration extends HttpServlet {
 			rue = request.getParameter("street");
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
-			System.out.println(email + " " + pseudo);
-			
-			Utilisateur utilisateur = new Utilisateur();
 
-			UtilisateurManager.getInstance().addUtilisateur(utilisateur);
-			
-			
+			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+			UtilisateurManager.getInstance().checkExistingEmail(email);
+			UtilisateurManager.getInstance().checkExistingPseudo(pseudo);
+			UtilisateurManager.getInstance().addUtilisateur(utilisateur, motDePasse, confirmerMotDePasse);
+			System.out.println(utilisateur.getPrenom());
+
 			
 		}catch (BusinessException e) {
-			request.setAttribute("listErrors", e.getListErrors());
-			
-		}
-		
+			request.setAttribute("listErrors", e.getListErrors());		
+		}	
 	}
-	
-	private void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-
 }
