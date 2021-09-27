@@ -23,21 +23,26 @@ public abstract class CodesResultatDAL {
 	public static final int CATEGORIE_SELECT_BY_ID_FAIL = 10041;
 
 	// Retrait
-	public static final int RETRAIT_SELECT_ALL_FAIL = 10050;
-	public static final int RETRAIT_SELECT_BY_ID_FAIL = 10051;
-	public static final int RETRAIT_INSERT_FAIL = 10052;
-	public static final int RETRAIT_UPDATE_FAIL = 10053;
-	public static final int RETRAIT_DELETE_FAIL = 10054;
-	public static final int RETRAIT_NULL = 10055;
-	public static final int RETRAIT_NO_ARTICLE_NULL = 10056;
+	public static final int RETRAIT_SELECT_BY_NO_ARTICLE = 10050;
+	public static final int RETRAIT_INSERT_FAIL = 10051;
+	public static final int RETRAIT_UPDATE_FAIL = 10052;
+	public static final int RETRAIT_DELETE_FAIL = 10053;
+	public static final int RETRAIT_NULL = 10054;
+	public static final int RETRAIT_NO_ARTICLE_NULL = 10055;
 
 	// Enchere
-	public static final int ENCHERE_SELECT_ALL_FAIL = 10060;
-	public static final int ENCHERE_SELECT_BY_ID_FAIL = 10061;
-	public static final int ENCHERE_INSERT_FAIL = 10062;
-	public static final int ENCHERE_UPDATE_FAIL = 10063;
-	public static final int ENCHERE_DELETE_FAIL = 10064;
-	public static final int ENCHERE_NULL = 10065;
-	public static final int ENCHERE_NO_ARTICLE_NULL = 10066;
+	public static final int ENCHERE_SELECT_ALL_BY_NO_ARTICLE_FAIL = 10060;
+	public static final int ENCHERE_INSERT_FAIL = 10061;
+	public static final int ENCHERE_UPDATE_FAIL = 10062;
+	public static final int ENCHERE_DELETE_FAIL = 10063;
+	public static final int ENCHERE_NULL = 10064;
+	public static final int ENCHERE_NO_ARTICLE_NULL = 10065;
 
+	// Article
+	public static final int ARTICLE_SELECT_ALL_FAIL = 10070;
+	public static final int ARTICLE_SELECT_BY_ID_FAIL = 10071;
+	public static final int ARTICLE_INSERT_FAIL = 10072;
+	public static final int ARTICLE_UPDATE_FAIL = 10073;
+	public static final int ARTICLE_DELETE_FAIL = 10074;
+	public static final int ARTICLE_NULL = 10075;
 }

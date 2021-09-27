@@ -38,7 +38,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 					retrait = retraitBuilder(rs);
 				}
 			} catch (SQLException e) {
-				businessException.addError(CodesResultatDAL.RETRAIT_SELECT_BY_ID_FAIL);
+				businessException.addError(CodesResultatDAL.RETRAIT_SELECT_BY_NO_ARTICLE);
 				e.printStackTrace();
 				throw businessException;
 			} finally {

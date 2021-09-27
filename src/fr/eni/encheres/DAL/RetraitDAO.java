@@ -11,6 +11,6 @@ public interface RetraitDAO {
 
 	public Retrait update(Retrait retrait, int noArticle) throws BusinessException;
 
-	public int delete(int no_article) throws BusinessException;
+	public int delete(int noArticle) throws BusinessException;
 
 }
