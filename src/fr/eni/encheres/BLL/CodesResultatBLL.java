@@ -49,11 +49,19 @@ public abstract class CodesResultatBLL {
 	
 	// passwords qui ne sont pas similaires
 	public static final int PASSWORDS_NOT_MATCHING = 20030;
+	
 
 	// Interactions DAL :
 
 	// GetUser : utilisateur null
-	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;
+	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;	
+
+	//pseudo déjà en base
+	public static final int PSEUDO_ALREADY_EXISTS = 20031;
+	
+	//email déjà en base
+	public static final int EMAIL_ALREADY_EXISTS = 20032;
+
 
 	// Connexion utilisateur : login ou mot de passe null
 	public static final int UTILISATEUR_CONNEXION_NULL = 20040;
