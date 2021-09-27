@@ -59,7 +59,7 @@ public class UtilisateurManager {
 	 * @throws BusinessException
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public Utilisateur checkValidConnection(String login, String password) throws BusinessException, NoSuchAlgorithmException {
+	public Utilisateur checkValidConnection(String login, String password) throws BusinessException{
 		BusinessException businessException = new BusinessException();
 		Utilisateur utilisateur = null;
 
@@ -72,7 +72,13 @@ public class UtilisateurManager {
 		// On hash le mot de passe
 		String newPass = "";
 		MdpHash mdph = new MdpHash();
-		newPass = mdph.getHashPass(password);
+		try {
+			newPass = mdph.getHashPass(password);
+		} catch (NoSuchAlgorithmException e) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_PASSWORD_FAIL_HASHED);
+			e.printStackTrace();
+			throw businessException;
+		}
 		
 		
 
@@ -364,6 +370,18 @@ public class UtilisateurManager {
 		checkPasswordMatch(password, confirmPassword);
 		checkNewUser(utilisateur, businessException);
 		if(!businessException.hasErrors()) {
+			//hash password and insert in utilisateur
+			String newPass = "";
+			MdpHash mdph = new MdpHash();
+			try {
+				newPass = mdph.getHashPass(password);
+			} catch (NoSuchAlgorithmException e) {
+				businessException.addError(CodesResultatBLL.UTILISATEUR_PASSWORD_FAIL_HASHED);
+				e.printStackTrace();
+				throw businessException;
+			}
+			utilisateur.setMotDePasse(newPass);
+			
 			this.utilisateurDAO.insert(utilisateur);
 		}
 		return utilisateur;
