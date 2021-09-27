@@ -127,6 +127,20 @@ public class UtilisateurManager {
 		checkCredit(utilisateur.getCredit(), businessException);
 		// TODO : ajouter administrateur
 	}
+	
+	public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException businessException) {
+		checkPseudo(utilisateur.getPseudo(), businessException);
+		checkNom(utilisateur.getNom(), businessException);
+		checkPrenom(utilisateur.getPrenom(), businessException);
+		checkEmail(utilisateur.getEmail(), businessException);
+		checkTelephone(utilisateur.getTelephone(), businessException);
+		checkRue(utilisateur.getRue(), businessException);
+		checkCodePostal(utilisateur.getCodePostal(), businessException);
+		checkVille(utilisateur.getVille(), businessException);
+		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
+		
+		return utilisateur;
+	}
 
 	public void checkNoUtilisateur(int id, BusinessException businessException) {
 		// noUtilisateur null
@@ -305,6 +319,51 @@ public class UtilisateurManager {
 		businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
 		}
 		return passwordMatch;
+	}
+	
+	public void checkExistingPseudo(String pseudo) throws BusinessException {
+		boolean valid = true;
+		BusinessException businessException = new BusinessException();
+		String pseudoDb;
+		pseudoDb = utilisateurDAO.selectByNickname(pseudo).getPseudo();
+		if(pseudoDb != null) {
+			valid = false;
+		}
+		if(valid == false) {
+			businessException.addError(CodesResultatBLL.PSEUDO_ALREADY_EXISTS);
+		}
+		if(businessException.hasErrors()) {
+			throw businessException;
+		}
+	}
+	
+	public void checkExistingEmail(String email) throws BusinessException {
+		boolean valid = true;
+		BusinessException businessException = new BusinessException();
+		String emailDb;
+		emailDb = utilisateurDAO.selectByEmail(email).getEmail();
+		if(emailDb != null) {
+			valid = false;
+		}
+		if(valid == false) {
+			businessException.addError(CodesResultatBLL.EMAIL_ALREADY_EXISTS);
+		}
+		if(businessException.hasErrors()) {
+			throw businessException;
+		}
+	}
+	
+	
+	public Utilisateur addUtilisateur(Utilisateur utilisateur, String password, String confirmPassword) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+//		checkExistingEmail(utilisateur.getEmail());
+//		checkExistingPseudo(utilisateur.getPseudo());
+		checkPasswordMatch(password, confirmPassword, businessException);
+		checkNewUser(utilisateur, businessException);
+		if(!businessException.hasErrors()) {
+			this.utilisateurDAO.insert(utilisateur);
+		}
+		return utilisateur;
 	}
 
 }
