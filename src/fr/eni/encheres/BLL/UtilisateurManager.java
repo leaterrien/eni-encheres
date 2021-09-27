@@ -1,5 +1,9 @@
 package fr.eni.encheres.BLL;
 
+import java.security.NoSuchAlgorithmException;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.DAOFactory;
 import fr.eni.encheres.DAL.UtilisateurDAO;
@@ -45,7 +49,7 @@ public class UtilisateurManager {
 
 		return utilisateur;
 	}
-
+	
 	/**
 	 * Vérifie les données de connexion fournies par l'utilisateur
 	 * 
@@ -53,8 +57,9 @@ public class UtilisateurManager {
 	 * @param password
 	 * @return un Utilisateur si la connexion est valide, null sinon
 	 * @throws BusinessException
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public Utilisateur checkValidConnection(String login, String password) throws BusinessException {
+	public Utilisateur checkValidConnection(String login, String password) throws BusinessException, NoSuchAlgorithmException {
 		BusinessException businessException = new BusinessException();
 		Utilisateur utilisateur = null;
 
@@ -63,6 +68,13 @@ public class UtilisateurManager {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNEXION_NULL);
 			throw businessException;
 		}
+		
+		// On hash le mot de passe
+		String newPass = "";
+		MdpHash mdph = new MdpHash();
+		newPass = mdph.getHashPass(password);
+		
+		
 
 		// Récupération d'un utilisateur en fonction du login
 		// Si le login est un email
@@ -79,7 +91,7 @@ public class UtilisateurManager {
 			throw businessException;
 		} else {
 			// Comparaison des mots de passe
-			if (!utilisateur.getMotDePasse().equals(password)) {
+			if (!utilisateur.getMotDePasse().equals(newPass)) {
 				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_PASSWORD);
 				throw businessException;
 			}
