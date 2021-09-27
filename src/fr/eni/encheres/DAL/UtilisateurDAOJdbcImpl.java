@@ -45,7 +45,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			businessException.addError(CodesResultatDAL.UTILISATEUR_NICKNAME_NULL);
 			throw businessException;
 		}
-		Utilisateur utilisateur = null;
+		Utilisateur utilisateur = new Utilisateur();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Connection cnx = null;
@@ -140,7 +140,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			businessException.addError(CodesResultatDAL.UTILISATEUR_ID_NULL);
 			throw businessException;
 		}
-		Utilisateur utilisateur = null;
+		Utilisateur utilisateur = new Utilisateur();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Connection cnx = null;

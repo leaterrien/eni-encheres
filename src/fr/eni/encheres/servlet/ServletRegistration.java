@@ -8,9 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.SendResult;
 
 import org.omg.PortableInterceptor.ForwardRequest;
 
+import fr.eni.encheres.BLL.CodesResultatBLL;
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -64,14 +66,26 @@ public class ServletRegistration extends HttpServlet {
 			ville = request.getParameter("city");
 
 			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-//			UtilisateurManager.getInstance().checkExistingPseudo(pseudo);
-			UtilisateurManager.getInstance().checkExistingEmail(email);
-			UtilisateurManager.getInstance().addUtilisateur(utilisateur, motDePasse, confirmerMotDePasse);
-			System.out.println(utilisateur.getPrenom());
-
+			UtilisateurManager.getInstance().addUtilisateur(utilisateur, pseudo, email, motDePasse, confirmerMotDePasse);
 			
-		}catch (BusinessException e) {
-			request.setAttribute("listErrors", e.getListErrors());		
-		}	
+			
+		}catch (BusinessException e){
+			e.printStackTrace();
+			request.setAttribute("errors", e.getListErrors());
+			System.out.println(e.getListErrors());
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
+			rd.forward(request, response);
+//			
+//			if (e.getListErrors().contains(CodesResultatBLL.PSEUDO_ALREADY_EXISTS)) {
+//				System.out.println("pseudo déjà utilisé");
+//			}
+//			if (e.getListErrors().contains(CodesResultatBLL.EMAIL_ALREADY_EXISTS)) {
+//				System.out.println("email déjà utilisé");
+//			}
+//			if (e.getListErrors().contains(CodesResultatBLL.PASSWORDS_NOT_MATCHING)) {
+//				System.out.println("mots de passe ne correspondent pas");
+//			}
+		}
+		
 	}
 }
