@@ -316,15 +316,18 @@ public class UtilisateurManager {
 		// TODO : ajouter des checks si besoin
 	}
 	
-	public boolean checkPasswordMatch(String password, String confirmPassword, BusinessException businessException) {
+	public void checkPasswordMatch(String password, String confirmPassword) throws BusinessException {
 		boolean passwordMatch = false;
+		BusinessException businessException = new BusinessException();
 		if(password.equals(confirmPassword)) {
 			passwordMatch = true;
 		}
-		else {
-		businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
+		if(passwordMatch == false) {
+			businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
 		}
-		return passwordMatch;
+		if(businessException.hasErrors()) {
+			throw businessException;
+		}
 	}
 	
 	public void checkExistingPseudo(String pseudo) throws BusinessException {
@@ -360,11 +363,11 @@ public class UtilisateurManager {
 	}
 	
 	
-	public Utilisateur addUtilisateur(Utilisateur utilisateur, String password, String confirmPassword) throws BusinessException{
+	public Utilisateur addUtilisateur(Utilisateur utilisateur, String pseudo, String email, String password, String confirmPassword) throws BusinessException{
 		BusinessException businessException = new BusinessException();
-//		checkExistingEmail(utilisateur.getEmail());
-//		checkExistingPseudo(utilisateur.getPseudo());
-		checkPasswordMatch(password, confirmPassword, businessException);
+		checkExistingPseudo(pseudo);
+		checkExistingEmail(email);
+		checkPasswordMatch(password, confirmPassword);
 		checkNewUser(utilisateur, businessException);
 		if(!businessException.hasErrors()) {
 			//hash password and insert in utilisateur
