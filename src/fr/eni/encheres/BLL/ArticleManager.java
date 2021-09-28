@@ -51,6 +51,9 @@ public class ArticleManager {
 	 */
 	private EtatVente defineEtatVente(Article article) {
 		EtatVente etatVente = EtatVente.EN_VENTE;
+		if (article.getDateDebutEncheres().isAfter(LocalDate.now())) {
+			etatVente = EtatVente.NOUVEAU;
+		}
 		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
 			if (article.getAcheteur() != null) {
 				etatVente = EtatVente.ACHETE;

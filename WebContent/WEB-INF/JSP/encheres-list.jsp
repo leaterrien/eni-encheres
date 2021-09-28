@@ -10,30 +10,81 @@
 
 <form method="get">
 	<div class="row">
-		<div class="col-12 col-sm-6 col-md-4">
+		<div class="col-12 col-sm-8">
 			<!-- barre de recherche -->
 			<div class="input-group mb-3">
- 				<span class="input-group-text"><span class="material-icons">search</span></span>
- 				<input type="text" id="barreRecherche" name="barreRecherche" class="form-control" placeholder="Le nom de l'article contient..." value="${nomRecherche}">
+				<span class="input-group-text"><span class="material-icons">search</span></span>
+				<input type="text" id="barreRecherche" name="barreRecherche"
+					class="form-control" placeholder="Le nom de l'article contient..."
+					value="${nomRecherche}">
 			</div>
-		
+
 			<!-- choix de catégorie -->
 			<div class="mb-4">
-				<label for="category" class="font-weight-bold">Catégorie</label> 
-				<select
+				<label for="category" class="font-weight-bold">Catégorie</label> <select
 					id="category" name="category" class="dropdown">
 					<option class="dropdown-item" value="0">Toutes</option>
 					<c:forEach var="category" items="${listeCategories}">
-						<option class="dropdown-item" 
-							value="${category.noCategorie}" ${(!empty selectedCategory && selectedCategory == category.noCategorie) ? 'selected' : ''}>
-							${category.libelle}
-						</option>
+						<option class="dropdown-item" value="${category.noCategorie}"
+							${(!empty selectedCategory && selectedCategory == category.noCategorie) ? 'selected' : ''}>
+							${category.libelle}</option>
 					</c:forEach>
 				</select>
 			</div>
+
+			<!-- filtres achats / ventes -->
+			<div class="row">
+				<!-- achats -->
+				<div class="col-sm-12 col-md-6 mb-3">
+					<input type="radio" id="achat" name="achatVente" value="achat">
+					<label for="achat" class="font-weight-bold">Achats</label>
+					<!-- checkbox achats -->
+					<div>
+						<div>
+							<input type="checkbox" id="encheresOuvertes" name="achats"
+								value="encheresOuvertes"> <label for="encheresOuvertes">enchères
+								ouvertes</label>
+						</div>
+						<div>
+							<input type="checkbox" id="encheresEnCours" name="achats"
+								value="encheresEnCours"> <label for="encheresEnCours">mes
+								enchères en cours</label>
+						</div>
+						<div>
+							<input type="checkbox" id="encheresRemportees" name="achats"
+								value="encheresRemportees"> <label
+								for="encheresRemportees">mes enchères remportées</label>
+						</div>
+					</div>
+				</div>
+				<!-- ventes -->
+				<div class="col-sm-12 col-md-6 mb-3">
+					<input type="radio" id="vente" name="achatVente" value="vente">
+					<label for="achat" class="font-weight-bold">Mes ventes</label>
+					<!-- checkbox ventes -->
+					<div>
+						<div>
+							<input type="checkbox" id="ventesEnCours" name="ventes"
+								value="ventesEnCours"> <label for="ventesEnCours">mes ventes en cours</label>
+						</div>
+						<div>
+							<input type="checkbox" id="ventesNonDebutees" name="ventes"
+								value="ventesNonDebutees"> <label for="ventesNonDebutees">ventes non débutées</label>
+						</div>
+						<div>
+							<input type="checkbox" id="ventesTerminees" name="ventes"
+								value="ventesTerminees"> <label
+								for="ventesTerminees">ventes terminées</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
+
+
 		<!-- bouton rechercher -->
-		<div class="col-12 col-sm-6 col-md-6 mb-3 mb-sm-0">
+		<div class="col-12 col-sm-4 mb-3 mb-sm-0">
 			<button type="submit" class="btn button-navigation">Rechercher</button>
 		</div>
 	</div>

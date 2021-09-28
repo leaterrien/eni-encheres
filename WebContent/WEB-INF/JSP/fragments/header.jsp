@@ -48,7 +48,7 @@
 			<!-- menu navbar si utilisateur connecté -->
 			<c:if test="${!empty sessionScope.utilisateur}">
 				<div class="d-flex">
-					<a class="white-color btn">Enchères</a>
+					<a class="white-color btn" href="${pageContext.request.contextPath}/Encheres">Enchères</a>
 					<a class="white-color btn">Vendre un article</a>
 					<a class="white-color btn">Mon profil</a>
 					<div class="ms-5">
