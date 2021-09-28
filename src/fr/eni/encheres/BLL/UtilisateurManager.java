@@ -2,8 +2,6 @@ package fr.eni.encheres.BLL;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.DAOFactory;
 import fr.eni.encheres.DAL.UtilisateurDAO;
@@ -49,7 +47,7 @@ public class UtilisateurManager {
 
 		return utilisateur;
 	}
-	
+
 	/**
 	 * Vérifie les données de connexion fournies par l'utilisateur
 	 * 
@@ -57,30 +55,21 @@ public class UtilisateurManager {
 	 * @param password
 	 * @return un Utilisateur si la connexion est valide, null sinon
 	 * @throws BusinessException
-	 * @throws NoSuchAlgorithmException 
+	 * @throws NoSuchAlgorithmException
 	 */
-	public Utilisateur checkValidConnection(String login, String password) throws BusinessException{
+	public Utilisateur checkValidConnection(String login, String password) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		Utilisateur utilisateur = null;
+		String newPass = null;
 
 		// On vérifie si le user et le mot de passe ne sont pas null
 		if (login == null || password == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNEXION_NULL);
 			throw businessException;
 		}
-		
+
 		// On hash le mot de passe
-		String newPass = "";
-		MdpHash mdph = new MdpHash();
-		try {
-			newPass = mdph.getHashPass(password);
-		} catch (NoSuchAlgorithmException e) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_PASSWORD_FAIL_HASHED);
-			e.printStackTrace();
-			throw businessException;
-		}
-		
-		
+		newPass = MdpHash.getHashPass(password, businessException);
 
 		// Récupération d'un utilisateur en fonction du login
 		// Si le login est un email
@@ -93,12 +82,12 @@ public class UtilisateurManager {
 
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN);
+			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
 		} else {
 			// Comparaison des mots de passe
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
-				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_PASSWORD);
+				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 				throw businessException;
 			}
 		}
@@ -133,7 +122,7 @@ public class UtilisateurManager {
 		checkCredit(utilisateur.getCredit(), businessException);
 		// TODO : ajouter administrateur
 	}
-	
+
 	public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException businessException) {
 		checkPseudo(utilisateur.getPseudo(), businessException);
 		checkNom(utilisateur.getNom(), businessException);
@@ -144,7 +133,7 @@ public class UtilisateurManager {
 		checkCodePostal(utilisateur.getCodePostal(), businessException);
 		checkVille(utilisateur.getVille(), businessException);
 		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
-		
+
 		return utilisateur;
 	}
 
@@ -315,73 +304,63 @@ public class UtilisateurManager {
 	public void checkAdministrateur(boolean administrateur, BusinessException businessException) {
 		// TODO : ajouter des checks si besoin
 	}
-	
+
 	public void checkPasswordMatch(String password, String confirmPassword) throws BusinessException {
 		boolean passwordMatch = false;
 		BusinessException businessException = new BusinessException();
-		if(password.equals(confirmPassword)) {
+		if (password.equals(confirmPassword)) {
 			passwordMatch = true;
 		}
-		if(passwordMatch == false) {
+		if (passwordMatch == false) {
 			businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
 		}
-		if(businessException.hasErrors()) {
+		if (businessException.hasErrors()) {
 			throw businessException;
 		}
 	}
-	
+
 	public void checkExistingPseudo(String pseudo) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
 		String pseudoDb;
 		pseudoDb = utilisateurDAO.selectByNickname(pseudo).getPseudo();
-		if(pseudoDb != null) {
+		if (pseudoDb != null) {
 			valid = false;
 		}
-		if(valid == false) {
+		if (valid == false) {
 			businessException.addError(CodesResultatBLL.PSEUDO_ALREADY_EXISTS);
 		}
-		if(businessException.hasErrors()) {
+		if (businessException.hasErrors()) {
 			throw businessException;
 		}
 	}
-	
+
 	public void checkExistingEmail(String email) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
 		String emailDb;
 		emailDb = utilisateurDAO.selectByEmail(email).getEmail();
-		if(emailDb != null) {
+		if (emailDb != null) {
 			valid = false;
 		}
-		if(valid == false) {
+		if (valid == false) {
 			businessException.addError(CodesResultatBLL.EMAIL_ALREADY_EXISTS);
 		}
-		if(businessException.hasErrors()) {
+		if (businessException.hasErrors()) {
 			throw businessException;
 		}
 	}
-	
-	
-	public Utilisateur addUtilisateur(Utilisateur utilisateur, String pseudo, String email, String password, String confirmPassword) throws BusinessException{
+
+	public Utilisateur addUtilisateur(Utilisateur utilisateur, String pseudo, String email, String password,
+			String confirmPassword) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		checkExistingPseudo(pseudo);
 		checkExistingEmail(email);
 		checkPasswordMatch(password, confirmPassword);
 		checkNewUser(utilisateur, businessException);
-		if(!businessException.hasErrors()) {
-			//hash password and insert in utilisateur
-			String newPass = "";
-			MdpHash mdph = new MdpHash();
-			try {
-				newPass = mdph.getHashPass(password);
-			} catch (NoSuchAlgorithmException e) {
-				businessException.addError(CodesResultatBLL.UTILISATEUR_PASSWORD_FAIL_HASHED);
-				e.printStackTrace();
-				throw businessException;
-			}
-			utilisateur.setMotDePasse(newPass);
-			
+		if (!businessException.hasErrors()) {
+			// hash password
+			utilisateur.setMotDePasse(MdpHash.getHashPass(password, businessException));
 			this.utilisateurDAO.insert(utilisateur);
 		}
 		return utilisateur;
