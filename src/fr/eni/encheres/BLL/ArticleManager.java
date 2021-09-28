@@ -25,9 +25,9 @@ public class ArticleManager {
 		return instance;
 	}
 
-	public List<Article> getArticles() throws BusinessException {
+	public List<Article> getArticlesDeconnected(int noCategorie, String rechercheNom) throws BusinessException {
 		BusinessException businessException = new BusinessException();
-		List<Article> listeArticles = articleDAO.selectAll();
+		List<Article> listeArticles = articleDAO.selectAllDeconnected(noCategorie, rechercheNom);
 
 		// Gestion de l'attribut etatVente de chacun des articles
 		for (Article article : listeArticles) {
@@ -40,7 +40,6 @@ public class ArticleManager {
 		if (businessException.hasErrors()) {
 			throw businessException;
 		}
-
 		return listeArticles;
 	}
 

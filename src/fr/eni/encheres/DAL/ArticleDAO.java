@@ -9,7 +9,9 @@ public interface ArticleDAO {
 
 	public Article selectById(int noArticle) throws BusinessException;
 
-	public List<Article> selectAll() throws BusinessException;
+	public List<Article> selectAllDeconnected(int noCategorie, String rechercheNom) throws BusinessException;
+
+	public List<Article> selectAllConnected() throws BusinessException;
 
 	public Article insert(Article article) throws BusinessException;
 
