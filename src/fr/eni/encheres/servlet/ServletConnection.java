@@ -137,6 +137,7 @@ public class ServletConnection extends HttpServlet {
 			request.setAttribute("seSouvenirDeMoi", seSouvenirDeMoi);
 
 			Utilisateur utilisateur = UtilisateurManager.getInstance().checkValidConnection(login, password);
+			
 
 			// Création de la session
 			HttpSession session = request.getSession();

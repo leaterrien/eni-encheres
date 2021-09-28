@@ -79,11 +79,12 @@ public class UtilisateurManager {
 		} else {
 			utilisateur = utilisateurDAO.selectByNickname(login);
 		}
-
+		
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
+			
 		} else {
 			// Comparaison des mots de passe
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
@@ -93,7 +94,7 @@ public class UtilisateurManager {
 		}
 
 		// si la connexion est correcte, check des valeurs de l'utilisateur
-		checkUser(utilisateur, businessException);
+		checkUserFromDb(utilisateur, businessException);
 		if (businessException.hasErrors()) {
 			throw businessException;
 		}
@@ -119,6 +120,21 @@ public class UtilisateurManager {
 		checkCodePostal(utilisateur.getCodePostal(), businessException);
 		checkVille(utilisateur.getVille(), businessException);
 		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
+		checkCredit(utilisateur.getCredit(), businessException);
+		// TODO : ajouter administrateur
+	}
+	
+	public void checkUserFromDb(Utilisateur utilisateur, BusinessException businessException) {
+		checkNoUtilisateur(utilisateur.getNoUtilisateur(), businessException);
+		checkPseudo(utilisateur.getPseudo(), businessException);
+		checkNom(utilisateur.getNom(), businessException);
+		checkPrenom(utilisateur.getPrenom(), businessException);
+		checkEmail(utilisateur.getEmail(), businessException);
+		checkTelephone(utilisateur.getTelephone(), businessException);
+		checkRue(utilisateur.getRue(), businessException);
+		checkCodePostal(utilisateur.getCodePostal(), businessException);
+		checkVille(utilisateur.getVille(), businessException);
+		checkMotDePasseDb(utilisateur.getMotDePasse(), businessException);
 		checkCredit(utilisateur.getCredit(), businessException);
 		// TODO : ajouter administrateur
 	}
@@ -284,6 +300,20 @@ public class UtilisateurManager {
 			valid = false;
 			// mot de passe de plus de 30 caractères
 		} else if (motDePasse.length() > 30) {
+			valid = false;
+			// mot de passe contient des espaces
+		} else if (motDePasse.contains(" ")) {
+			valid = false;
+		}
+		if (valid == false) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_MOT_DE_PASSE_NOT_VALID);
+		}
+	}
+	
+	public void checkMotDePasseDb(String motDePasse, BusinessException businessException) {
+		boolean valid = true;
+		// mot de passe null
+		if (motDePasse == null) {
 			valid = false;
 			// mot de passe contient des espaces
 		} else if (motDePasse.contains(" ")) {
