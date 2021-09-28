@@ -6,19 +6,29 @@ package fr.eni.encheres.BLL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import fr.eni.encheres.exceptions.BusinessException;
+
 /**
  * @author ptruchot2021
  *
  */
 public class MdpHash {
 
-	private String hashpass="";
+	private static String hashpass="";
 	
-	public String getHashPass(String password) throws
-		NoSuchAlgorithmException {
+	
+	public static String getHashPass(String password, BusinessException businessException) throws
+		BusinessException {
 		
 			String plainText = password;
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			MessageDigest md;
+			try {
+				md = MessageDigest.getInstance("SHA-256");
+			} catch (NoSuchAlgorithmException e) {
+				businessException.addError(CodesResultatBLL.UTILISATEUR_PASSWORD_FAIL_HASHED);
+				e.printStackTrace();
+				throw businessException;
+			}
 			md.update(plainText.getBytes());
 
 			byte byteData[] = md.digest();
