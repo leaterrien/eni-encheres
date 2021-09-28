@@ -9,31 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.SendResult;
 
-import org.omg.PortableInterceptor.ForwardRequest;
-
-import fr.eni.encheres.BLL.CodesResultatBLL;
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
 
-
 /**
- * Servlet implementation class ServletRegistration
+ * Servlet implementation class ServletModification
  */
-@WebServlet("/Inscription")
-public class ServletRegistration extends HttpServlet {
+@WebServlet("/ModificationUtilisateur")
+public class ServletModification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private BusinessException businessException;
-       
 
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
+		HttpSession session = request.getSession();
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/user-modification.jsp");
 		rd.forward(request, response);
 	}
 
@@ -42,9 +36,12 @@ public class ServletRegistration extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		Utilisateur utilisateur = null;
+		int noUtilisateur = 0;
 		String pseudo;
 		String email;
 		String motDePasse;
+		String nouveauMotDePasse;
 		String confirmerMotDePasse;
 		String nom;
 		String prenom;
@@ -58,6 +55,7 @@ public class ServletRegistration extends HttpServlet {
 			pseudo = request.getParameter("username");
 			email = request.getParameter("email");
 			motDePasse = request.getParameter("password");
+			nouveauMotDePasse = request.getParameter("new_password");
 			confirmerMotDePasse = request.getParameter("confirm_password");
 			nom = request.getParameter("last_name");
 			prenom = request.getParameter("first_name");
@@ -65,30 +63,18 @@ public class ServletRegistration extends HttpServlet {
 			rue = request.getParameter("street");
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
-
-			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-			UtilisateurManager.getInstance().addUtilisateur(utilisateur, pseudo, email, motDePasse, confirmerMotDePasse);
-			HttpSession session = request.getSession();
-			session.setAttribute("utilisateur", utilisateur);
+			
+			utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
+			UtilisateurManager.getInstance().updateUtilisateur(utilisateur, email, pseudo, nouveauMotDePasse, confirmerMotDePasse);
 			response.sendRedirect(request.getContextPath());
 			
-		}catch (BusinessException e){
+		}catch(BusinessException e){
 			e.printStackTrace();
 			request.setAttribute("errors", e.getListErrors());
 			System.out.println(e.getListErrors());
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/user-modification.jsp");
 			rd.forward(request, response);
-//			
-//			if (e.getListErrors().contains(CodesResultatBLL.PSEUDO_ALREADY_EXISTS)) {
-//				System.out.println("pseudo déjà utilisé");
-//			}
-//			if (e.getListErrors().contains(CodesResultatBLL.EMAIL_ALREADY_EXISTS)) {
-//				System.out.println("email déjà utilisé");
-//			}
-//			if (e.getListErrors().contains(CodesResultatBLL.PASSWORDS_NOT_MATCHING)) {
-//				System.out.println("mots de passe ne correspondent pas");
-//			}
+			
 		}
-		
 	}
 }

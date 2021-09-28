@@ -2,8 +2,6 @@ package fr.eni.encheres.BLL;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.DAOFactory;
 import fr.eni.encheres.DAL.UtilisateurDAO;
@@ -384,6 +382,22 @@ public class UtilisateurManager {
 			
 			this.utilisateurDAO.insert(utilisateur);
 		}
+		return utilisateur;
+	}
+	
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur, String pseudo, String email, String newPassword, String confirmPassword) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+		int noUtilisateur = utilisateur.getNoUtilisateur();
+		if(pseudo != utilisateurDAO.selectById(noUtilisateur).getPseudo()) {
+			checkExistingPseudo(pseudo);
+		}
+		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
+			checkExistingEmail(email);
+		}
+		checkPasswordMatch(newPassword, confirmPassword);
+		checkUser(utilisateur, businessException);
+			
+		this.utilisateurDAO.update(utilisateur);
 		return utilisateur;
 	}
 
