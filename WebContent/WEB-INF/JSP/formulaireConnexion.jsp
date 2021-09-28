@@ -6,6 +6,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Connexion</title>
+<link href="${pageContext.request.contextPath}/style/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/style/form.css" rel="stylesheet">
 </head>
 <body>
 	<!-- header -->

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -92,50 +93,51 @@ public class ServletConnection extends HttpServlet {
 		try {
 			login = request.getParameter("login");
 			password = request.getParameter("password");
-			if (request.getParameter("seSouvenirDeMoi") != null
-					&& request.getParameter("seSouvenirDeMoi").equals("on")) {
-				seSouvenirDeMoi = true;
-			}
+				if (request.getParameter("seSouvenirDeMoi") != null
+						&& request.getParameter("seSouvenirDeMoi").equals("on")) {
+					seSouvenirDeMoi = true;
+				}
 
-			// Création des cookies de connexion, Coche checkbox seSouvenirDeMoi
-			if (seSouvenirDeMoi) {
-				Cookie cookie1 = new Cookie("cookieHcneTiniP", password);
-				// durée du cookie de an
-				cookie1.setMaxAge(60 * 60 * 24 * 30 * 12);
-				response.addCookie(cookie1);
-
-				Cookie cookie2 = new Cookie("cookieEnchInitL", login);
-				// durée du cookie de an
-				cookie2.setMaxAge(60 * 60 * 24 * 30 * 12);
-				response.addCookie(cookie2);
-
-				Cookie cookie3 = new Cookie("seSouvenirDeMoi", "true");
-				// durée du cookie de an
-				cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
-				response.addCookie(cookie3);
-
-			} else {
-				Cookie cookie1 = new Cookie("cookieHcneTiniP", password);
-				// durée du cookie = supprimé à la fermeture du navigateur
-				cookie1.setMaxAge(0);
-				response.addCookie(cookie1);
-
-				Cookie cookie2 = new Cookie("cookieEnchInitL", login);
-				// durée du cookie = supprimé à la fermeture du navigateur
-				cookie2.setMaxAge(0);
-				response.addCookie(cookie2);
-
-				Cookie cookie3 = new Cookie("seSouvenirDeMoi", "false");
-				// durée du cookie = supprimé à la fermeture du navigateur
-				cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
-				response.addCookie(cookie3);
-			}
+				// Création des cookies de connexion, Coche checkbox seSouvenirDeMoi
+				if (seSouvenirDeMoi) {
+					Cookie cookie1 = new Cookie("cookieHcneTiniP", password);
+					// durée du cookie de an
+					cookie1.setMaxAge(60 * 60 * 24 * 30 * 12);
+					response.addCookie(cookie1);
+	
+					Cookie cookie2 = new Cookie("cookieEnchInitL", login);
+					// durée du cookie de an
+					cookie2.setMaxAge(60 * 60 * 24 * 30 * 12);
+					response.addCookie(cookie2);
+	
+					Cookie cookie3 = new Cookie("seSouvenirDeMoi", "true");
+					// durée du cookie de an
+					cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
+					response.addCookie(cookie3);
+	
+				} else {
+					Cookie cookie1 = new Cookie("cookieHcneTiniP", password);
+					// durée du cookie = supprimé à la fermeture du navigateur
+					cookie1.setMaxAge(0);
+					response.addCookie(cookie1);
+	
+					Cookie cookie2 = new Cookie("cookieEnchInitL", login);
+					// durée du cookie = supprimé à la fermeture du navigateur
+					cookie2.setMaxAge(0);
+					response.addCookie(cookie2);
+	
+					Cookie cookie3 = new Cookie("seSouvenirDeMoi", "false");
+					// durée du cookie = supprimé à la fermeture du navigateur
+					cookie3.setMaxAge(60 * 60 * 24 * 30 * 12);
+					response.addCookie(cookie3);
+				}
 
 			request.setAttribute("cookieEnchInitL", login);
 			request.setAttribute("cookieHcneTiniP", password);
 			request.setAttribute("seSouvenirDeMoi", seSouvenirDeMoi);
 
 			Utilisateur utilisateur = UtilisateurManager.getInstance().checkValidConnection(login, password);
+			
 
 			// Création de la session
 			HttpSession session = request.getSession();
@@ -150,7 +152,7 @@ public class ServletConnection extends HttpServlet {
 			e.printStackTrace();
 			doGet(request, response);
 		}
-
+		
 	}
 
 }

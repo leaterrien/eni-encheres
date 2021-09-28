@@ -1,5 +1,7 @@
 package fr.eni.encheres.BLL;
 
+import java.security.NoSuchAlgorithmException;
+
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.DAOFactory;
 import fr.eni.encheres.DAL.UtilisateurDAO;
@@ -53,16 +55,21 @@ public class UtilisateurManager {
 	 * @param password
 	 * @return un Utilisateur si la connexion est valide, null sinon
 	 * @throws BusinessException
+	 * @throws NoSuchAlgorithmException
 	 */
 	public Utilisateur checkValidConnection(String login, String password) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		Utilisateur utilisateur = null;
+		String newPass = null;
 
 		// On vérifie si le user et le mot de passe ne sont pas null
 		if (login == null || password == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNEXION_NULL);
 			throw businessException;
 		}
+
+		// On hash le mot de passe
+		newPass = MdpHash.getHashPass(password, businessException);
 
 		// Récupération d'un utilisateur en fonction du login
 		// Si le login est un email
@@ -72,21 +79,22 @@ public class UtilisateurManager {
 		} else {
 			utilisateur = utilisateurDAO.selectByNickname(login);
 		}
-
+		
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN);
+			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
+			
 		} else {
 			// Comparaison des mots de passe
-			if (!utilisateur.getMotDePasse().equals(password)) {
-				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_PASSWORD);
+			if (!utilisateur.getMotDePasse().equals(newPass)) {
+				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 				throw businessException;
 			}
 		}
 
 		// si la connexion est correcte, check des valeurs de l'utilisateur
-		checkUser(utilisateur, businessException);
+		checkUserFromDb(utilisateur, businessException);
 		if (businessException.hasErrors()) {
 			throw businessException;
 		}
@@ -116,6 +124,21 @@ public class UtilisateurManager {
 		// TODO : ajouter administrateur
 	}
 	
+	public void checkUserFromDb(Utilisateur utilisateur, BusinessException businessException) {
+		checkNoUtilisateur(utilisateur.getNoUtilisateur(), businessException);
+		checkPseudo(utilisateur.getPseudo(), businessException);
+		checkNom(utilisateur.getNom(), businessException);
+		checkPrenom(utilisateur.getPrenom(), businessException);
+		checkEmail(utilisateur.getEmail(), businessException);
+		checkTelephone(utilisateur.getTelephone(), businessException);
+		checkRue(utilisateur.getRue(), businessException);
+		checkCodePostal(utilisateur.getCodePostal(), businessException);
+		checkVille(utilisateur.getVille(), businessException);
+		checkMotDePasseDb(utilisateur.getMotDePasse(), businessException);
+		checkCredit(utilisateur.getCredit(), businessException);
+		// TODO : ajouter administrateur
+	}
+
 	public Utilisateur checkNewUser(Utilisateur utilisateur, BusinessException businessException) {
 		checkPseudo(utilisateur.getPseudo(), businessException);
 		checkNom(utilisateur.getNom(), businessException);
@@ -126,7 +149,7 @@ public class UtilisateurManager {
 		checkCodePostal(utilisateur.getCodePostal(), businessException);
 		checkVille(utilisateur.getVille(), businessException);
 		checkMotDePasse(utilisateur.getMotDePasse(), businessException);
-		
+
 		return utilisateur;
 	}
 
@@ -286,6 +309,20 @@ public class UtilisateurManager {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_MOT_DE_PASSE_NOT_VALID);
 		}
 	}
+	
+	public void checkMotDePasseDb(String motDePasse, BusinessException businessException) {
+		boolean valid = true;
+		// mot de passe null
+		if (motDePasse == null) {
+			valid = false;
+			// mot de passe contient des espaces
+		} else if (motDePasse.contains(" ")) {
+			valid = false;
+		}
+		if (valid == false) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_MOT_DE_PASSE_NOT_VALID);
+		}
+	}
 
 	public void checkCredit(int credit, BusinessException businessException) {
 		// crédit négatif
@@ -297,60 +334,81 @@ public class UtilisateurManager {
 	public void checkAdministrateur(boolean administrateur, BusinessException businessException) {
 		// TODO : ajouter des checks si besoin
 	}
-	
-	public boolean checkPasswordMatch(String password, String confirmPassword, BusinessException businessException) {
+
+	public void checkPasswordMatch(String password, String confirmPassword) throws BusinessException {
 		boolean passwordMatch = false;
-		if(password.equals(confirmPassword)) {
+		BusinessException businessException = new BusinessException();
+		if (password.equals(confirmPassword)) {
 			passwordMatch = true;
 		}
-		else {
-		businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
+		if (passwordMatch == false) {
+			businessException.addError(CodesResultatBLL.PASSWORDS_NOT_MATCHING);
 		}
-		return passwordMatch;
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
 	}
-	
+
 	public void checkExistingPseudo(String pseudo) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
 		String pseudoDb;
 		pseudoDb = utilisateurDAO.selectByNickname(pseudo).getPseudo();
-		if(pseudoDb != null) {
+		if (pseudoDb != null) {
 			valid = false;
 		}
-		if(valid == false) {
+		if (valid == false) {
 			businessException.addError(CodesResultatBLL.PSEUDO_ALREADY_EXISTS);
 		}
-		if(businessException.hasErrors()) {
+		if (businessException.hasErrors()) {
 			throw businessException;
 		}
 	}
-	
+
 	public void checkExistingEmail(String email) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
 		String emailDb;
 		emailDb = utilisateurDAO.selectByEmail(email).getEmail();
-		if(emailDb != null) {
+		if (emailDb != null) {
 			valid = false;
 		}
-		if(valid == false) {
+		if (valid == false) {
 			businessException.addError(CodesResultatBLL.EMAIL_ALREADY_EXISTS);
 		}
-		if(businessException.hasErrors()) {
+		if (businessException.hasErrors()) {
 			throw businessException;
 		}
 	}
-	
-	
-	public Utilisateur addUtilisateur(Utilisateur utilisateur, String password, String confirmPassword) throws BusinessException{
+
+	public Utilisateur addUtilisateur(Utilisateur utilisateur, String pseudo, String email, String password,
+			String confirmPassword) throws BusinessException {
 		BusinessException businessException = new BusinessException();
-//		checkExistingEmail(utilisateur.getEmail());
-//		checkExistingPseudo(utilisateur.getPseudo());
-		checkPasswordMatch(password, confirmPassword, businessException);
+		checkExistingPseudo(pseudo);
+		checkExistingEmail(email);
+		checkPasswordMatch(password, confirmPassword);
 		checkNewUser(utilisateur, businessException);
-		if(!businessException.hasErrors()) {
+		if (!businessException.hasErrors()) {
+			// hash password
+			utilisateur.setMotDePasse(MdpHash.getHashPass(password, businessException));
 			this.utilisateurDAO.insert(utilisateur);
 		}
+		return utilisateur;
+	}
+	
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur, String pseudo, String email, String newPassword, String confirmPassword) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+		int noUtilisateur = utilisateur.getNoUtilisateur();
+		if(pseudo != utilisateurDAO.selectById(noUtilisateur).getPseudo()) {
+			checkExistingPseudo(pseudo);
+		}
+		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
+			checkExistingEmail(email);
+		}
+		checkPasswordMatch(newPassword, confirmPassword);
+		checkUser(utilisateur, businessException);
+			
+		this.utilisateurDAO.update(utilisateur);
 		return utilisateur;
 	}
 
