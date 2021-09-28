@@ -365,5 +365,21 @@ public class UtilisateurManager {
 		}
 		return utilisateur;
 	}
+	
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur, String pseudo, String email, String newPassword, String confirmPassword) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+		int noUtilisateur = utilisateur.getNoUtilisateur();
+		if(pseudo != utilisateurDAO.selectById(noUtilisateur).getPseudo()) {
+			checkExistingPseudo(pseudo);
+		}
+		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
+			checkExistingEmail(email);
+		}
+		checkPasswordMatch(newPassword, confirmPassword);
+		checkUser(utilisateur, businessException);
+			
+		this.utilisateurDAO.update(utilisateur);
+		return utilisateur;
+	}
 
 }
