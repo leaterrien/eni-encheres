@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +28,42 @@ import fr.eni.encheres.exceptions.BusinessException;
 
 public class ArticleDAOJdbcImpl implements ArticleDAO {
 
-	private static final String selectAll = "";
-	private static final String selectById = "";
+	private static final String selectAll = "SELECT no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus";
+	private static final String selectById = "SELECT no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus WHERE no_article=?";
 	private static final String insert = "INSERT INTO articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String update = "";
 	private static final String delete = "";
 
 	@Override
 	public Article selectById(int noArticle) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		BusinessException businessException = new BusinessException();
+		Connection cnx = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Article article = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			statement = cnx.prepareStatement(selectById);
+			statement.setInt(1, noArticle);
+			rs = statement.executeQuery();
+			if (rs.next()) {
+				article = selectElementsForArticle(rs);
+			}
+		} catch (SQLException e) {
+			businessException.addError(CodesResultatDAL.ARTICLE_SELECT_BY_ID_FAIL);
+			e.printStackTrace();
+			throw businessException;
+		} finally {
+			try {
+				DAOJdbcTools.closeResultSet(rs);
+				DAOJdbcTools.closeStatement(statement);
+				DAOJdbcTools.closeConnection(cnx);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return article;
 	}
 
 	@Override
@@ -51,26 +78,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			statement = cnx.prepareStatement(selectAll);
 			rs = statement.executeQuery();
 			while (rs.next()) {
-				int noArticle = rs.getInt("no_article");
-				// Récupération du retrait associé à l'article
-				Retrait retrait = null;
-				RetraitDAO retraitDAO = new RetraitDAOJdbcImpl();
-				retrait = retraitDAO.selectByNoArticle(noArticle);
-				// Récupération des enchères liées à l'article
-				List<Enchere> listeEncheres = new ArrayList<>();
-				EnchereDAO enchereDAO = new EnchereDAOJdbcImpl();
-				listeEncheres = enchereDAO.selectAllByNoArticle(noArticle);
-				// Récupération de la catégorie liée à l'article
-				Categorie categorie = null;
-				CategorieDAO categorieDAO = new CategorieDAOJdbcImpl();
-				categorie = categorieDAO.selectById(rs.getInt("no_categorie"));
-				// Récupération du vendeur lié à l'article
-				UtilisateurDAO utilisateurDAO = new UtilisateurDAOJdbcImpl();
-				Utilisateur vendeur = utilisateurDAO.selectById(rs.getInt("no_vendeur"));
-				// Récupération de l'acheteur lié à l'article
-				Utilisateur acheteur = utilisateurDAO.selectById(rs.getInt("no_acheteur"));
-				// Construction de l'article
-				Article article = articleBuilder(rs, retrait, listeEncheres, categorie, vendeur, acheteur);
+				Article article = selectElementsForArticle(rs);
 				listeArticles.add(article);
 			}
 		} catch (SQLException e) {
@@ -177,8 +185,58 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		return article;
 	}
 
+	/**
+	 * Création d'un article à partir d'un ResultSet sur la table Article
+	 * Récupération des éléments liés à l'article sur d'autres tables
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws BusinessException
+	 * @throws SQLException
+	 */
+	private Article selectElementsForArticle(ResultSet rs) throws BusinessException, SQLException {
+		Article article = null;
+
+		int noArticle = rs.getInt("no_article");
+		// Récupération du retrait associé à l'article
+		Retrait retrait = null;
+		RetraitDAO retraitDAO = new RetraitDAOJdbcImpl();
+		retrait = retraitDAO.selectByNoArticle(noArticle);
+		// Récupération des enchères liées à l'article
+		List<Enchere> listeEncheres;
+		EnchereDAO enchereDAO = new EnchereDAOJdbcImpl();
+		listeEncheres = enchereDAO.selectAllByNoArticle(noArticle);
+		// Récupération de la catégorie liée à l'article
+		Categorie categorie = null;
+		CategorieDAO categorieDAO = new CategorieDAOJdbcImpl();
+		categorie = categorieDAO.selectById(rs.getInt("no_categorie"));
+		// Récupération du vendeur lié à l'article
+		UtilisateurDAO utilisateurDAO = new UtilisateurDAOJdbcImpl();
+		Utilisateur vendeur = utilisateurDAO.selectById(rs.getInt("no_vendeur"));
+		// Récupération de l'acheteur lié à l'article
+		Utilisateur acheteur = utilisateurDAO.selectById(rs.getInt("no_acheteur"));
+		// Construction de l'article
+		article = articleBuilder(rs, retrait, listeEncheres, categorie, vendeur, acheteur);
+
+		return article;
+	}
+
+	/**
+	 * Définission de l'attribut etatVente de l'article
+	 * 
+	 * @param article
+	 * @return
+	 */
 	private EtatVente defineEtatVente(Article article) {
-		return null;
+		EtatVente etatVente = EtatVente.EN_VENTE;
+		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
+			if (article.getAcheteur() != null) {
+				etatVente = EtatVente.ACHETE;
+			} else {
+				etatVente = EtatVente.NON_VENDU;
+			}
+		}
+		return etatVente;
 	}
 
 }
