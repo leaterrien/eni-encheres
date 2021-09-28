@@ -5,18 +5,22 @@ package fr.eni.encheres.DAL;
  */
 public abstract class CodesResultatDAL {
 
+
 	// Utilisateur
-	public static final int UTILISATEUR_NICKNAME_NULL = 10000;
-	public static final int UTILISATEUR_EMAIL_NULL = 10001;
-	public static final int UTILISATEUR_ID_NULL = 10002;
-	public static final int UTILISATEUR_NULL = 10003;
-	public static final int SELECT_NICKNAME_FAIL = 10010;
-	public static final int SELECT_EMAIL_FAIL = 10011;
-	// public static final int SELECT_PASSWORD_FAIL = 10012;
-	public static final int SELECT_UTILISATEUR_FAIL = 10013;
-	public static final int INSERT_UTILISATEUR_FAIL = 10020;
-	public static final int UPDATE_UTILISATEUR_FAIL = 10021;
-	public static final int DELETE_UTILISATEUR_FAIL = 10030;
+	public static final int UTILISATEUR_NICKNAME_NULL=10000;
+	public static final int UTILISATEUR_EMAIL_NULL=10001;
+	public static final int UTILISATEUR_ID_NULL=10002;
+	public static final int UTILISATEUR_NULL=10003;
+	public static final int SELECT_NICKNAME_FAIL=10010;
+	public static final int SELECT_EMAIL_FAIL=10011;
+//	public static final int SELECT_PASSWORD_FAIL=10012;
+	public static final int SELECT_UTILISATEUR_FAIL=10013;
+	public static final int INSERT_UTILISATEUR_FAIL=10020;
+	public static final int UPDATE_UTILISATEUR_FAIL=10021;
+	public static final int UPDATE_PASSWORD_FAIL=10022;
+	public static final int UPDATE_CREDIT_FAIL=10023;
+	public static final int UPDATE_ADMIN_FAIL=10024;
+	public static final int DELETE_UTILISATEUR_FAIL=10030;
 
 	// Categorie
 	public static final int CATEGORIE_SELECT_ALL_FAIL = 10040;
@@ -47,4 +51,5 @@ public abstract class CodesResultatDAL {
 	public static final int ARTICLE_NULL = 10075;
 	public static final int ARTICLE_SELECT_ALL_DECONNECTED_FAIL = 10076;
 	public static final int ARTICLE_SELECT_ALL_CONNECTED_FAIL = 10077;
+
 }

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.SendResult;
 
-import org.omg.PortableInterceptor.ForwardRequest;
 
 import fr.eni.encheres.BLL.CodesResultatBLL;
 import fr.eni.encheres.BLL.UtilisateurManager;
@@ -75,7 +74,6 @@ public class ServletRegistration extends HttpServlet {
 		}catch (BusinessException e){
 			e.printStackTrace();
 			request.setAttribute("errors", e.getListErrors());
-			System.out.println(e.getListErrors());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
 			rd.forward(request, response);
 //			
