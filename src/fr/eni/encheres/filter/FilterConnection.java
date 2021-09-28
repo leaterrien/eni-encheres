@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class FilterConnection
  */
-@WebFilter(urlPatterns = { "/Utilisateur/*" }, dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD,
-		DispatcherType.INCLUDE, DispatcherType.ERROR })
+@WebFilter(urlPatterns = { "/Utilisateur/*", "/Enchere/*" }, dispatcherTypes = { DispatcherType.REQUEST,
+		DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR })
 public class FilterConnection implements Filter {
 
 	/**

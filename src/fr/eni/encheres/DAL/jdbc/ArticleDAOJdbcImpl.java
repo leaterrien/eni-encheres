@@ -65,7 +65,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	}
 
 	@Override
-	public List<Article> selectAll() throws BusinessException {
+	public List<Article> selectAllDeconnected(int noCategorie, String rechercheNom) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		Connection cnx = null;
 		PreparedStatement statement = null;
@@ -73,14 +73,15 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		List<Article> listeArticles = new ArrayList<>();
 		try {
 			cnx = ConnectionProvider.getConnection();
-			statement = cnx.prepareStatement(selectAll);
+			String sqlRequest = selectAll + selectConditionsBuilder(noCategorie, rechercheNom);
+			statement = cnx.prepareStatement(sqlRequest);
 			rs = statement.executeQuery();
 			while (rs.next()) {
 				Article article = selectElementsForArticle(rs);
 				listeArticles.add(article);
 			}
 		} catch (SQLException e) {
-			businessException.addError(CodesResultatDAL.ARTICLE_SELECT_ALL_FAIL);
+			businessException.addError(CodesResultatDAL.ARTICLE_SELECT_ALL_DECONNECTED_FAIL);
 			e.printStackTrace();
 			throw businessException;
 		} finally {
@@ -94,6 +95,12 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		}
 
 		return listeArticles;
+	}
+
+	@Override
+	public List<Article> selectAllConnected() throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -220,6 +227,50 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		article = articleBuilder(rs, retrait, listeEncheres, categorie, vendeur, acheteur);
 
 		return article;
+	}
+
+	/**
+	 * Création des conditions de requête de select d'un article pour un utilisateur
+	 * déconnecté
+	 * 
+	 * @param noCategorie
+	 * @param rechercheNom
+	 * @return
+	 */
+	private String selectConditionsBuilder(int noCategorie, String rechercheNom) {
+		StringBuffer sb = new StringBuffer();
+		// Condition sur la catégorie
+		if (noCategorie != 0) {
+			sb.append("no_categorie = " + noCategorie);
+		}
+		// Condition sur le nom de l'article
+		if (rechercheNom != null && !rechercheNom.trim().equals("")) {
+			sb = addAndToStringBuffer(sb);
+			sb.append("nom_article LIKE '%" + rechercheNom + "%'");
+		}
+		sb = addAndToStringBuffer(sb);
+		sb.append("date_fin_encheres > GETDATE()");
+
+		// Ajout du where à la condition si sb n'est pas vide
+		String condition = null;
+		if (sb != null) {
+			condition = " WHERE " + sb.toString();
+		}
+
+		return condition;
+	}
+
+	/**
+	 * Ajout de "AND" à un StringBuffer si celui-ci n'est pas vide
+	 * 
+	 * @param sb
+	 * @return
+	 */
+	private StringBuffer addAndToStringBuffer(StringBuffer sb) {
+		if (sb != null && !sb.toString().trim().equals("")) {
+			sb.append(" AND ");
+		}
+		return sb;
 	}
 
 }
