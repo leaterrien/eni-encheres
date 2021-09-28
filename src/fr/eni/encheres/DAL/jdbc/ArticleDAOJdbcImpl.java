@@ -28,8 +28,8 @@ import fr.eni.encheres.exceptions.BusinessException;
 
 public class ArticleDAOJdbcImpl implements ArticleDAO {
 
-	private static final String selectAll = "SELECT no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus";
-	private static final String selectById = "SELECT no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus WHERE no_article=?";
+	private static final String selectAll = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus";
+	private static final String selectById = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie FROM articles_vendus WHERE no_article=?";
 	private static final String insert = "INSERT INTO articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_vendeur, no_acheteur, no_categorie) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String update = "";
 	private static final String delete = "";

@@ -18,7 +18,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 
 public class EnchereDAOJdbcImpl implements EnchereDAO {
 
-	private static final String selectAllByNoArticle = "SELECT u.no_utilisateur, u.pseudo, u.nom, u.prenom, u.email, u.telephone, u.rue, u.code_postal, u.ville, u.mot_de_passe, u.credit, u.administrateur, e.date_enchere, e.montant_enchere FROm ENCHERES as e INNER JOIN UTILISATEURS as u ON u.no_utilisateur = e.no_utilisateur WHERE no_article=?";
+	private static final String selectAllByNoArticle = "SELECT u.no_utilisateur, u.pseudo, u.nom, u.prenom, u.email, u.telephone, u.rue, u.code_postal, u.ville, u.mot_de_passe, u.credit, u.administrateur, e.date_enchere, e.montant_enchere FROM ENCHERES as e INNER JOIN UTILISATEURS as u ON u.no_utilisateur = e.no_utilisateur WHERE no_article=?";
 	private static final String insert = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?, ?, ?, ?)";
 	private static final String update = "";
 	private static final String delete = "";
@@ -108,7 +108,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 		// Création de l'utilisateur
 		Utilisateur encherisseur = UtilisateurDAOJdbcImpl.getUtilisateur(rs);
 		// Création de l'enchère
-		return new Enchere(rs.getDate("date_encgere").toLocalDate(), rs.getInt("montant_enchere"), encherisseur);
+		return new Enchere(rs.getDate("date_enchere").toLocalDate(), rs.getInt("montant_enchere"), encherisseur);
 	}
 
 }
