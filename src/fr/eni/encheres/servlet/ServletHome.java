@@ -2,7 +2,6 @@ package fr.eni.encheres.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,10 +21,8 @@ public class ServletHome extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO : récupération des articles à vendre
-
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/home.jsp");
-		rd.forward(request, response);
+		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+		response.setHeader("Location", request.getContextPath() + "/Encheres");
 	}
 
 	/**
