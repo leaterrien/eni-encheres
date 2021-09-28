@@ -42,7 +42,7 @@ public class ServletUserShow extends HttpServlet {
 		// Si l'utilisateur n'existe pas, renvoie une 404
 		if (!businessException.hasErrors()) {
 			try {
-				utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
+			utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
 				request.setAttribute("utilisateur", utilisateur);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/user-show.jsp");
 				rd.forward(request, response);

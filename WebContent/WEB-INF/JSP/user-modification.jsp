@@ -22,19 +22,22 @@
 		<div class="col-md-6"><label for="email"> Email : </label><input class="col-md-6" type="email" maxLength="50" id="email" name="email" value="${utilisateur.email}" /></div>
 		<div class="col-md-6"><label for="last_name">Nom : </label><input class="col-md-6" type="text" maxLength="50" id="last_name" name="last_name" value="${utilisateur.nom}" /></div>
 		<div class="col-md-6"><label for="first_name">Prénom : </label><input class="col-md-6" type="text" maxLength="50" id="first_name" name="first_name" value="${utilisateur.prenom}" /></div>	
-		<div class="col-md-6"><label for="phone">Téléphone : </label><input class="col-md-6" type="text" pattern="^[0-9]+$" maxLength="10" id="phone" name="phone" value="${utilisateur.telephone}" required/></div>	
-		<div class="col-md-6"><label for="street">Rue : </label><input class="col-md-6" type="text" maxLength="50" id="street" name="street" value="${utilisateur.rue}" required/></div>	
-		<div class="col-md-6"><label for="postcode">Code postal : </label><input class="col-md-6" type="text" pattern="^[0-9]+$" maxLength="5" id="postcode" name="postcode" value="${utilisateur.codePostal}" required/></div>	
-		<div class="col-md-6"><label for="city">Ville : </label><input class="col-md-6" type="text" maxLength="50" id="city" name="city" value="${utilisateur.ville}" required/></div>	
-		<div class="col-sm-12"><label for="password">Mot de passe actuel : </label><input type="text" maxLength="30" id="password" name="password" value="${utilisateur.motDePasse}" required/></div>
-		<div class="col-md-6"><label for="new_password">Nouveau mot de passe : </label><input class="col-md-6" type="password" maxLength="30" id="new_password" name="new_password" value="" required/></div>	
-		<div class="col-md-6"><label for="confirm_password">Confirmation : </label><input class="col-md-6" type="text" maxLength="50" id="confirm_password" name="confirm_password" value="" required/></div>
+		<div class="col-md-6"><label for="phone">Téléphone : </label><input class="col-md-6" type="text" pattern="^[0-9]+$" maxLength="10" id="phone" name="phone" value="${utilisateur.telephone}"/></div>	
+		<div class="col-md-6"><label for="street">Rue : </label><input class="col-md-6" type="text" maxLength="50" id="street" name="street" value="${utilisateur.rue}" /></div>	
+		<div class="col-md-6"><label for="postcode">Code postal : </label><input class="col-md-6" type="text" pattern="^[0-9]+$" maxLength="5" id="postcode" name="postcode" value="${utilisateur.codePostal}" /></div>	
+		<div class="col-md-6"><label for="city">Ville : </label><input class="col-md-6" type="text" maxLength="50" id="city" name="city" value="${utilisateur.ville}" /></div>	
+		<div class="col-sm-12"><label for="password">Mot de passe actuel : </label><input type="text" maxLength="30" id="password" name="password" value="${utilisateur.motDePasse}" /></div>
+		<div class="col-md-6"><label for="new_password">Nouveau mot de passe : </label><input class="col-md-6" type="password" maxLength="30" id="new_password" name="new_password" value="" /></div>	
+		<div class="col-md-6"><label for="confirm_password">Confirmation : </label><input class="col-md-6" type="password" maxLength="50" id="confirm_password" name="confirm_password" value="" /></div>
 			
 	</div>
+	<input type="submit" class="btn button-navigation" value="Enregistrer"/>
 </form>
+
 <br/>
 <a href="${pageContext.request.contextPath}" class="btn button-navigation">Supprimer mon compte</a>
-		<input type="submit" class="btn button-navigation" value="Enregistrer"/>
+
+<p><span class="user-show-label">Crédit : </span><span class="user-show-value">${utilisateur.credit}</span></p>
 		
 <c:forEach var="error" items="${errors}">
 	<p >

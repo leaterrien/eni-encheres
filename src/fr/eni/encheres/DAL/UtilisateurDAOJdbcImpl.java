@@ -19,8 +19,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	private static final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
 	private static final String INSERT_UTILISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, "
 			+ "ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?); ";
-	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?"
-			+ "email=?, telephone=?, ville=?, mot_de_passe=? WHERE no_utilisateur = ?";
+	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, "
+			+ "email=?, telephone=?, rue=?, code_postal=?, ville=? WHERE no_utilisateur = ?";
+	private static final String UPDATE_PASSWORD_UTILISATEUR = "UPDATE UTILISATEURS SET mot_de_passe= ? WHERE no_utilisateur = ?";
 	private static final String UPDATE_CREDIT_UTILISATEUR = "UPDATE UTILISATEURS SET credit= ? WHERE no_utilisateur = ?";
 	private static final String UPDATE_ADMIN_UTILISATEUR = "UPDATE UTILISATEURS SET administrateur= ? WHERE no_utilisateur = ?";
 	private static final String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
@@ -273,7 +274,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			pstmt.setString(6, utilisateur.getRue());
 			pstmt.setString(7, utilisateur.getCodePostal());
 			pstmt.setString(8, utilisateur.getVille());
-			pstmt.setString(9, utilisateur.getMotDePasse());
+			pstmt.setInt(9, utilisateur.getNoUtilisateur());
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -297,6 +298,45 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 
 	@Override
+	public Utilisateur updatePassword(Utilisateur utilisateur) throws BusinessException{
+		if (utilisateur == null) 
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UTILISATEUR_NULL);
+			throw businessException;
+		}
+		PreparedStatement pstmt = null;
+		Connection cnx = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(UPDATE_PASSWORD_UTILISATEUR);
+			pstmt.setString(1, utilisateur.getMotDePasse());
+			pstmt.setInt(2, utilisateur.getNoUtilisateur());
+			pstmt.executeUpdate();
+		}
+		catch (Exception e){
+			BusinessException businessException = new BusinessException();
+			businessException.addError(CodesResultatDAL.UPDATE_PASSWORD_FAIL);				
+			e.printStackTrace();
+			throw businessException;
+		}
+		finally 
+		{		
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+                }
+				if (cnx != null) {
+                    cnx.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return utilisateur;
+	}
+
+	@Override
 	public Utilisateur updateCredit(Utilisateur utilisateur) throws BusinessException {
 		if (utilisateur == null) {
 			BusinessException businessException = new BusinessException();
@@ -309,10 +349,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(UPDATE_CREDIT_UTILISATEUR);
 			pstmt.setInt(1, utilisateur.getCredit());
+			pstmt.setInt(2, utilisateur.getNoUtilisateur());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			BusinessException businessException = new BusinessException();
-			businessException.addError(CodesResultatDAL.UPDATE_UTILISATEUR_FAIL);
+			businessException.addError(CodesResultatDAL.UPDATE_CREDIT_FAIL);				
 			e.printStackTrace();
 			throw businessException;
 		} finally {
@@ -343,10 +384,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(UPDATE_ADMIN_UTILISATEUR);
 			pstmt.setBoolean(1, utilisateur.isAdministrateur());
+			pstmt.setInt(2, utilisateur.getNoUtilisateur());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			BusinessException businessException = new BusinessException();
-			businessException.addError(CodesResultatDAL.UPDATE_UTILISATEUR_FAIL);
+
+			businessException.addError(CodesResultatDAL.UPDATE_ADMIN_FAIL);				
 			e.printStackTrace();
 			throw businessException;
 		} finally {
