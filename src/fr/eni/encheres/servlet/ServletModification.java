@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Utilisateur;
+import fr.eni.encheres.DAL.UtilisateurDAO;
 import fr.eni.encheres.exceptions.BusinessException;
 
 /**
@@ -20,7 +21,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 @WebServlet("/ModificationUtilisateur")
 public class ServletModification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private BusinessException businessException = new BusinessException();
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,8 +37,7 @@ public class ServletModification extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		Utilisateur utilisateur = null;
-		int noUtilisateur = 0;
+
 		String pseudo;
 		String email;
 		String motDePasse;
@@ -52,6 +52,7 @@ public class ServletModification extends HttpServlet {
 		
 		try
 		{
+
 			pseudo = request.getParameter("username");
 			email = request.getParameter("email");
 			motDePasse = request.getParameter("password");
@@ -64,14 +65,19 @@ public class ServletModification extends HttpServlet {
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
 			
+			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			int noUtilisateur = utilisateur.getNoUtilisateur();
 			utilisateur = UtilisateurManager.getInstance().getUser(noUtilisateur);
+			utilisateur = new Utilisateur(utilisateur.getNoUtilisateur(),pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, utilisateur.getCredit(), utilisateur.isAdministrateur());
 			UtilisateurManager.getInstance().updateUtilisateur(utilisateur, email, pseudo, nouveauMotDePasse, confirmerMotDePasse);
+			HttpSession session = request.getSession();
+			session.setAttribute("utilisateur", utilisateur);
 			response.sendRedirect(request.getContextPath());
+			
 			
 		}catch(BusinessException e){
 			e.printStackTrace();
 			request.setAttribute("errors", e.getListErrors());
-			System.out.println(e.getListErrors());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/user-modification.jsp");
 			rd.forward(request, response);
 			

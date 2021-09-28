@@ -37,7 +37,7 @@ public class UtilisateurManager {
 		if (utilisateur == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL);
 		} else {
-			checkUser(utilisateur, businessException);
+			checkUserFromDb(utilisateur, businessException);
 		}
 
 		// Throw de businessException si les données reçues ne sont pas correctes
@@ -102,6 +102,29 @@ public class UtilisateurManager {
 		return utilisateur;
 	}
 
+	public Utilisateur checkValidPassword(String password, int noUtilisateur) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
+		String newPass = null;
+
+		// On vérifie si le user et le mot de passe ne sont pas null
+		if (password == null) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNEXION_NULL);
+			throw businessException;
+		}
+
+		// On hash le mot de passe
+		newPass = MdpHash.getHashPass(password, businessException);
+
+			// Comparaison des mots de passe
+		if (!utilisateur.getMotDePasse().equals(newPass)) {
+			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_PASSWORD);
+			throw businessException;
+		}
+
+
+		return utilisateur;
+	}
 	/*
 	 * Vérification de l'intégrité des données
 	 */
@@ -405,8 +428,16 @@ public class UtilisateurManager {
 		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
 			checkExistingEmail(email);
 		}
-		checkPasswordMatch(newPassword, confirmPassword);
-		checkUser(utilisateur, businessException);
+		if(newPassword !=null) {
+			checkValidPassword(utilisateur.getMotDePasse(), noUtilisateur);
+			checkPasswordMatch(newPassword, confirmPassword);
+			if (!businessException.hasErrors()) {
+				// hash password
+				utilisateur.setMotDePasse(MdpHash.getHashPass(newPassword, businessException));
+				this.utilisateurDAO.updatePassword(utilisateur);				
+			}
+		}
+		checkNewUser(utilisateur, businessException);
 			
 		this.utilisateurDAO.update(utilisateur);
 		return utilisateur;

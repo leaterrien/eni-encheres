@@ -14,5 +14,8 @@ public abstract class CodesResultatDAL {
 	public static final int SELECT_UTILISATEUR_FAIL=10013;
 	public static final int INSERT_UTILISATEUR_FAIL=10020;
 	public static final int UPDATE_UTILISATEUR_FAIL=10021;
+	public static final int UPDATE_PASSWORD_FAIL=10022;
+	public static final int UPDATE_CREDIT_FAIL=10023;
+	public static final int UPDATE_ADMIN_FAIL=10024;
 	public static final int DELETE_UTILISATEUR_FAIL=10030;
 }

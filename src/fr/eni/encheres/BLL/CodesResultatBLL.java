@@ -70,7 +70,7 @@ public abstract class CodesResultatBLL {
 	public static final int UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD = 20041;
 
 	// Connexion utilisateur : mot de passe incorrect
-	//public static final int UTILISATEUR_CONNECTION_WRONG_PASSWORD = 20042;
+	public static final int UTILISATEUR_CONNECTION_WRONG_PASSWORD = 20042;
 	
 	// Hash du password : echec
 	public static final int UTILISATEUR_PASSWORD_FAIL_HASHED = 20050;
