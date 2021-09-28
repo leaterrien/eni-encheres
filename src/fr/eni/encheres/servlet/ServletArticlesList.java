@@ -1,6 +1,7 @@
 package fr.eni.encheres.servlet;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -30,6 +31,8 @@ public class ServletArticlesList extends HttpServlet {
 		try {
 			List<Article> listeArticles = ArticleManager.getInstance().getArticles();
 			request.setAttribute("listeArticles", listeArticles);
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+			request.setAttribute("dateFormat", dateFormat);
 		} catch (BusinessException e) {
 			request.setAttribute("errors", e.getListErrors());
 			e.printStackTrace();

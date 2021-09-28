@@ -6,14 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.BO.Article;
 import fr.eni.encheres.BO.Categorie;
 import fr.eni.encheres.BO.Enchere;
-import fr.eni.encheres.BO.EtatVente;
 import fr.eni.encheres.BO.Retrait;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.ArticleDAO;
@@ -214,29 +212,14 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		UtilisateurDAO utilisateurDAO = new UtilisateurDAOJdbcImpl();
 		Utilisateur vendeur = utilisateurDAO.selectById(rs.getInt("no_vendeur"));
 		// Récupération de l'acheteur lié à l'article
-		Utilisateur acheteur = utilisateurDAO.selectById(rs.getInt("no_acheteur"));
+		Utilisateur acheteur = null;
+		if (rs.getInt("no_acheteur") != 0) {
+			acheteur = utilisateurDAO.selectById(rs.getInt("no_acheteur"));
+		}
 		// Construction de l'article
 		article = articleBuilder(rs, retrait, listeEncheres, categorie, vendeur, acheteur);
 
 		return article;
-	}
-
-	/**
-	 * Définission de l'attribut etatVente de l'article
-	 * 
-	 * @param article
-	 * @return
-	 */
-	private EtatVente defineEtatVente(Article article) {
-		EtatVente etatVente = EtatVente.EN_VENTE;
-		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
-			if (article.getAcheteur() != null) {
-				etatVente = EtatVente.ACHETE;
-			} else {
-				etatVente = EtatVente.NON_VENDU;
-			}
-		}
-		return etatVente;
 	}
 
 }
