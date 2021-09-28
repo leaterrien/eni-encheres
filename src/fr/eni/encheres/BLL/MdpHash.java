@@ -38,7 +38,7 @@ public class MdpHash {
 	        for (int i = 0; i < byteData.length; i++) {
 	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 	        }
-        
+        hashpass = sb.toString();
 		return hashpass;
 
 		}
