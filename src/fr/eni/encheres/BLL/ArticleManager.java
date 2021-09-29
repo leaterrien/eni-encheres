@@ -25,9 +25,45 @@ public class ArticleManager {
 		return instance;
 	}
 
+	/**
+	 * Récupération des articles pour un utilisateur déconnecté
+	 * 
+	 * @param noCategorie
+	 * @param rechercheNom
+	 * @return
+	 * @throws BusinessException
+	 */
 	public List<Article> getArticlesDeconnected(int noCategorie, String rechercheNom) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		List<Article> listeArticles = articleDAO.selectAllDeconnected(noCategorie, rechercheNom);
+
+		// Gestion de l'attribut etatVente de chacun des articles
+		for (Article article : listeArticles) {
+			article.setEtatVente(defineEtatVente(article));
+		}
+
+		// TODO : check des données reçues
+
+		// Throw de businessException si les données reçues ne sont pas correctes
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
+		return listeArticles;
+	}
+
+	/**
+	 * Récupération des articles pour un utilisateur connecté
+	 * 
+	 * @param noCategorie
+	 * @param rechercheNom
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<Article> getArticlesConnected(int noCategorie, String rechercheNom, boolean achatSelected,
+			List<String> conditions, int noUtilisateur) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+		List<Article> listeArticles = articleDAO.selectAllConnected(noCategorie, rechercheNom, achatSelected,
+				conditions, noUtilisateur);
 
 		// Gestion de l'attribut etatVente de chacun des articles
 		for (Article article : listeArticles) {

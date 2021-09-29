@@ -11,7 +11,8 @@ public interface ArticleDAO {
 
 	public List<Article> selectAllDeconnected(int noCategorie, String rechercheNom) throws BusinessException;
 
-	public List<Article> selectAllConnected() throws BusinessException;
+	public List<Article> selectAllConnected(int noCategorie, String rechercheNom, boolean achatSelected,
+			List<String> conditions, int noUtilisateur) throws BusinessException;
 
 	public Article insert(Article article) throws BusinessException;
 
