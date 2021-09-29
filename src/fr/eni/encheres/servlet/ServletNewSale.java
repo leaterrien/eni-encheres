@@ -2,6 +2,7 @@ package fr.eni.encheres.servlet;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.BLL.ArticleManager;
 import fr.eni.encheres.BLL.UtilisateurManager;
+import fr.eni.encheres.BO.Article;
 import fr.eni.encheres.BO.Categorie;
 import fr.eni.encheres.BO.Enchere;
 import fr.eni.encheres.BO.EtatVente;
@@ -45,9 +48,9 @@ public class ServletNewSale extends HttpServlet {
 		String description;
 		String categorie;
 		String photoDeLArticle;
-		String miseAPrix;
-		String dateDebutEncheres;
-		String dateFinEncheres;
+		int miseAPrix;
+		LocalDate dateDebutEncheres;
+		LocalDate dateFinEncheres;
 		String retrait;
 		String rue;
 		String codePostal;
@@ -56,39 +59,29 @@ public class ServletNewSale extends HttpServlet {
 		
 		try
 		{
-			nom = request.getParameter("username");
-			email = request.getParameter("email");
-			motDePasse = request.getParameter("password");
-			confirmerMotDePasse = request.getParameter("confirm_password");
-			nom = request.getParameter("last_name");
-			prenom = request.getParameter("first_name");
-			telephone = request.getParameter("phone");
+			nom = request.getParameter("name");
+			description = request.getParameter("description");
+			categorie = request.getParameter("category");
+			miseAPrix = Integer.parseInt(request.getParameter("price"));
+			dateDebutEncheres = LocalDate.parse(request.getParameter("start_auction"),DateTimeFormatter.ofPattern("dd MM yyyy"));
+			dateFinEncheres = LocalDate.parse(request.getParameter("end_auction"),DateTimeFormatter.ofPattern("dd MM yyyy"));
+			retrait = request.getParameter("withdrawal");
 			rue = request.getParameter("street");
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
 
-			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-			UtilisateurManager.getInstance().addUtilisateur(utilisateur, pseudo, email, motDePasse, confirmerMotDePasse);
-			
-			
-		}catch (BusinessException e){
+			Article article = new Article(nom, description, categorie, miseAPrix, dateDebutEncheres, dateFinEncheres, rue, codePostal, ville);
+			ArticleManager.getInstance().addArticle(article, nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
+		
+			}catch (BusinessException e){
 			e.printStackTrace();
 			request.setAttribute("errors", e.getListErrors());
 			System.out.println(e.getListErrors());
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/registration.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/newSale.jsp");
 			rd.forward(request, response);
-//			
-//			if (e.getListErrors().contains(CodesResultatBLL.PSEUDO_ALREADY_EXISTS)) {
-//				System.out.println("pseudo déjà utilisé");
-//			}
-//			if (e.getListErrors().contains(CodesResultatBLL.EMAIL_ALREADY_EXISTS)) {
-//				System.out.println("email déjà utilisé");
-//			}
-//			if (e.getListErrors().contains(CodesResultatBLL.PASSWORDS_NOT_MATCHING)) {
-//				System.out.println("mots de passe ne correspondent pas");
-//			}
+			}
 		
-		}
+		
 
 	}
 }

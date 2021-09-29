@@ -17,33 +17,27 @@
 	
 	<h1>Nouvelle Vente</h1>
 	
-	<div class="row">
-		<div class="row">
-			<div class="card"> <img src="" alt="objet en vente"/> </div>
-		</div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
-		<div class="row">
-			<div class="card"> <img src="" alt="objet en vente"/> </div>
-		</div>
-		<div class="card"> <img src="" alt="objet en vente"/> </div>
 	
-	</div>
 	
 	<form action="<%=request.getContextPath()%>/ServletNewSale" method="post">
 		<div class = "form-group">
-			<label for="item">Article :</label>
-			<input type="text" name="Article" autofocus required/>
+			<label for="name">Article :</label>
+			<input type="text" id="name" name="name" autofocus required/>
 		</div>
 		<div class = "form-group">
 			<label for="description">Description :</label>
-			<input type="text" name="Article" autofocus required/>
+			<input type="text" id="description" name="description" autofocus required/>
 		</div>
+		<div class = "form-group">
+			<label for="category">Catégorie :</label>
+			<select class="form-control" id="category" name="category" required>
+				<option>Informatique</option>
+				<option>Ameublement</option>
+				<option>Vêtement</option>
+				<option>Sports & Loisirs</option>
+			</select>
+		</div>
+		
 			
 			
 			

@@ -74,5 +74,12 @@ public abstract class CodesResultatBLL {
 	
 	// Hash du password : echec
 	public static final int UTILISATEUR_PASSWORD_FAIL_HASHED = 20050;
+	
+	// Date de mise en vente antérieure à la date d'aujourd'hui
+	public static final int AUCTION_START_DATE_INVALID = 20060;
+	
+	// Date de mise en vente antérieure à la date d'aujourd'hui
+	public static final int AUCTION_END_DATE_INVALID = 20061;
+	
 
 }
