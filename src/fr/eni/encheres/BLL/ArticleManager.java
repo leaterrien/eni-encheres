@@ -1,21 +1,20 @@
 package fr.eni.encheres.BLL;
 
 import java.time.LocalDate;
-<<<<<<< HEAD
 
 import fr.eni.encheres.BO.Utilisateur;
-=======
+import fr.eni.encheres.exceptions.BusinessException;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import fr.eni.encheres.BO.Article;
 import fr.eni.encheres.BO.EtatVente;
 import fr.eni.encheres.DAL.ArticleDAO;
 import fr.eni.encheres.DAL.DAOFactory;
->>>>>>> refs/heads/develop
 import fr.eni.encheres.exceptions.BusinessException;
 
 public class ArticleManager {
-<<<<<<< HEAD
 	
 	BusinessException businessException = new BusinessException();
 	
@@ -36,8 +35,6 @@ public class ArticleManager {
 	}
 	
 	
-	//methode add article
-=======
 
 	private static ArticleManager instance;
 	private ArticleDAO articleDAO;
@@ -89,5 +86,5 @@ public class ArticleManager {
 		return etatVente;
 	}
 
->>>>>>> refs/heads/develop
+	//methode add article
 }

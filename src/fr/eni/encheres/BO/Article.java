@@ -24,6 +24,22 @@ public class Article {
 	 */
 	public Article() {
 	}
+	
+	
+
+	public Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, Categorie categorie, Retrait retrait) {
+		super();
+		this.nom = nom;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.categorie = categorie;
+		this.retrait = retrait;
+	}
+
+
 
 	/**
 	 * @param nom

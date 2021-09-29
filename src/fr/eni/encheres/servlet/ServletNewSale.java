@@ -70,7 +70,7 @@ public class ServletNewSale extends HttpServlet {
 			codePostal = request.getParameter("postcode");
 			ville = request.getParameter("city");
 
-			Article article = new Article(nom, description, categorie, miseAPrix, dateDebutEncheres, dateFinEncheres, rue, codePostal, ville);
+			Article article = new Article(nom, description, miseAPrix, dateDebutEncheres, dateFinEncheres, categorie, rue, codePostal, ville);
 			ArticleManager.getInstance().addArticle(article, nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
 		
 			}catch (BusinessException e){
