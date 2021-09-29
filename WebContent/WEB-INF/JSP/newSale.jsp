@@ -37,6 +37,15 @@
 				<option>Sports & Loisirs</option>
 			</select>
 		</div>
+		<div class = "input-group">
+			<div class="custom-file">
+				<input type="file" class="custom-file-input" id="photoDeLArticle" name="photoDeLArticle" aria-describedby="photoDeLArticle">
+				<label>Informatique</option>
+				<option>Ameublement</option>
+				<option>Vêtement</option>
+				<option>Sports & Loisirs</option>
+			</select>
+		</div>
 		
 			
 			
