@@ -21,6 +21,8 @@
 			<p><span class="user-show-label">Ville : </span><span class="user-show-value">${utilisateur.ville}</span></p>	
 		</div>
 	</c:if>
+
+<a href="${pageContext.request.contextPath}/ModificationUtilisateur" class="btn button-navigation">Modifier mon compte</a>
 	
 <!-- bouton de navigation vers l'accueil -->
 <jsp:include page="/WEB-INF/JSP/fragments/button-home.jsp">

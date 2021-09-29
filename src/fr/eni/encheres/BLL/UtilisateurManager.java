@@ -101,7 +101,7 @@ public class UtilisateurManager {
 
 		return utilisateur;
 	}
-
+		//vérifie si le mot de passe renseigné correspond bien à celui en BDD
 	public Utilisateur checkValidPassword(String password, int noUtilisateur) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		Utilisateur utilisateur = utilisateurDAO.selectById(noUtilisateur);
@@ -358,6 +358,7 @@ public class UtilisateurManager {
 		// TODO : ajouter des checks si besoin
 	}
 
+		//Vérifie si les deux mots de passe du formulaire sont similaires
 	public void checkPasswordMatch(String password, String confirmPassword) throws BusinessException {
 		boolean passwordMatch = false;
 		BusinessException businessException = new BusinessException();
@@ -371,7 +372,7 @@ public class UtilisateurManager {
 			throw businessException;
 		}
 	}
-
+		//Vérifie en BDD si le pseudo choisi est déjà utilisé
 	public void checkExistingPseudo(String pseudo) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
@@ -387,7 +388,7 @@ public class UtilisateurManager {
 			throw businessException;
 		}
 	}
-
+		//Vérifie en BDD si l'email choisi est déjà utilisé
 	public void checkExistingEmail(String email) throws BusinessException {
 		boolean valid = true;
 		BusinessException businessException = new BusinessException();
@@ -428,7 +429,7 @@ public class UtilisateurManager {
 		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
 			checkExistingEmail(email);
 		}
-		if(newPassword !=null) {
+		if(!newPassword.isEmpty()) {
 			checkValidPassword(utilisateur.getMotDePasse(), noUtilisateur);
 			checkPasswordMatch(newPassword, confirmPassword);
 			if (!businessException.hasErrors()) {
@@ -441,6 +442,15 @@ public class UtilisateurManager {
 			
 		this.utilisateurDAO.update(utilisateur);
 		return utilisateur;
+	}
+	
+	public void deleteUtilisateur(Utilisateur utilisateur,String password) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+		int noUtilisateur = utilisateur.getNoUtilisateur();
+		checkValidPassword(password, noUtilisateur);
+		if(!businessException.hasErrors()) {
+			this.utilisateurDAO.delete(noUtilisateur);
+		}
 	}
 
 }

@@ -419,6 +419,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(DELETE_UTILISATEUR);
 			pstmt.setInt(1, noUtilisateur);
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			BusinessException businessException = new BusinessException();
 			businessException.addError(CodesResultatDAL.DELETE_UTILISATEUR_FAIL);

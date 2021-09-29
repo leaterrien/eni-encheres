@@ -36,7 +36,7 @@
 		<a href="https://www.google.fr/">Mot de passe oublié</a>
 		<br>
 		<br>
-		<input type="submit" value="Créer un compte" name="créer un compte" />
+		<a href="${pageContext.request.contextPath}/Inscription" class="btn button-navigation">Créer un compte</a>
 		<br>
 	</form>
 	
