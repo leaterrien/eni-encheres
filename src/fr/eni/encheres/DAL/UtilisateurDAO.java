@@ -13,6 +13,7 @@ public interface UtilisateurDAO {
 	public List<Utilisateur> selectAll() throws BusinessException;
 	public Utilisateur insert(Utilisateur utilisateur) throws BusinessException;
 	public Utilisateur update(Utilisateur utilisateur) throws BusinessException;
+	public Utilisateur updatePassword(Utilisateur utilisateur) throws BusinessException;
 	public Utilisateur updateCredit(Utilisateur utilisateur) throws BusinessException;
 	public Utilisateur updateAdmin(Utilisateur utilisateur) throws BusinessException;
 	public void delete(int noUtilisateur) throws BusinessException;
