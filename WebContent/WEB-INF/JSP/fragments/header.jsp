@@ -50,7 +50,7 @@
 				<div class="d-flex">
 					<a class="white-color btn">Enchères</a>
 					<a class="white-color btn">Vendre un article</a>
-					<a class="white-color btn">Mon profil</a>
+					<a class="white-color btn" href="${pageContext.request.contextPath}/ModificationUtilisateur">Mon profil</a>
 					<div class="ms-5">
 						<a href="${pageContext.request.contextPath}/Logout" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">person_off</span>Déconnexion</a>
 					</div>
