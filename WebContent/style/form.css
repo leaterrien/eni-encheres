@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-label{
+label, input, a{
 	margin: 8px;
 }
 

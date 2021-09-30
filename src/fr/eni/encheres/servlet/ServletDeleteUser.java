@@ -36,6 +36,7 @@ public class ServletDeleteUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		String motDePasse;
 		try {
 			motDePasse = request.getParameter("password");
@@ -45,6 +46,9 @@ public class ServletDeleteUser extends HttpServlet {
 			utilisateur = new Utilisateur(noUtilisateur,utilisateur.getPseudo(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), utilisateur.getTelephone(),
 					utilisateur.getRue(), utilisateur.getCodePostal(), utilisateur.getVille(), motDePasse, utilisateur.getCredit(), utilisateur.isAdministrateur());
 			UtilisateurManager.getInstance().deleteUtilisateur(utilisateur, motDePasse);
+			session.invalidate();
+			response.sendRedirect(request.getContextPath());
+//			session.removeAttribute("utilisateur");
 		}
 		catch (BusinessException e){
 			e.printStackTrace();

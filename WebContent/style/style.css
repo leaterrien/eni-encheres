@@ -34,6 +34,12 @@ body {
 	font-weight: bold;
 }
 
+/* menu déroulant formulaires */
+.form-menu {
+	border-radius: 5px;
+    padding: 5px;
+    border-color: #ced4da;
+}
 
 /* user-show */
 
