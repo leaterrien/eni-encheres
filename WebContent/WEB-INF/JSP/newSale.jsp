@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@
 			<textarea id="description" name="description" autofocus required></textarea>
 		</div>
 		<div class = "form-group">
-			<label for="category">Catégorie :</label>
+			<label for="category">CatÃ©gorie :</label>
 			<select id="category" name="category" required>
 				<c:forEach var="categorie" items="${categories}">
 					<option value="${categorie.noCategorie}">${categorie.libelle}</option>
@@ -42,13 +42,13 @@
 			<input type="file" class="form-control-file" id="photoDeLArticle" name="photoDeLArticle">
 		</div>
 		<div>
-			<label for="price">Mise à prix :</label>
+			<label for="price">Mise Ã  prix :</label>
 			<input type="number" id="price" name="price" min="0">
 		</div>
-			<label for="start_auction">Début de l'enchère :</label>
+			<label for="start_auction">DÃ©but de l'enchÃ¨re :</label>
 			<input type="date" id="start_auction" name="start_auction"/>
 			<br>
-			<label for="end_auction">Fin de l'enchère :</label>
+			<label for="end_auction">Fin de l'enchÃ¨re :</label>
 			<input type="date" id="end_auction" name="end_auction"/>
 		<br>
 		<br>

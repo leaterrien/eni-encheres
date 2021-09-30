@@ -77,8 +77,9 @@ public class Retrait implements Comparable{
 	@Override
 	public int compareTo(Object temp) {
 		Retrait other = (Retrait) temp;
-		
-		if(getRue().contentEquals(other.getRue()) && getCodePostal().contentEquals(other.getCodePostal()) && getVille().contentEquals(other.getVille()))
+		System.out.println(this.toString());
+		System.out.println(other);
+		if(this.getRue().equals(other.getRue()) && this.getCodePostal().equals(other.getCodePostal()) && this.getVille().equals(other.getVille()))
 		{
 			return 1;
 		}

@@ -38,6 +38,7 @@ public class ServletNewSale extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		
 		try {
 		List<Categorie> categories = CategorieManager.getInstance().getCategories();
@@ -62,6 +63,7 @@ public class ServletNewSale extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		Utilisateur vendeur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+		System.out.println(vendeur.toString());
 		
 		int noArticle = 0;
 		String nom;
@@ -93,9 +95,6 @@ public class ServletNewSale extends HttpServlet {
 
 			//Récupération adresse retrait formulaire jsp
 			Retrait retrait = new Retrait(rue, codePostal, ville);
-			retrait.setRue("street");
-			retrait.setCodePostal("postcode");
-			retrait.setVille("city");
 			//recupération adresse utilisateur connecté
 			Retrait retraitParDefaut = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
 			HttpSession session = request.getSession();
@@ -106,6 +105,7 @@ public class ServletNewSale extends HttpServlet {
 			
 			if(result == 1)
 				retrait = null;
+			
 			System.out.println(retrait);	
 			
 			Article article = new Article(vendeur, nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix, retrait);
