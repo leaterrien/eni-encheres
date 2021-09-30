@@ -9,9 +9,9 @@
 
 	<!--  Affichage de l'utilisateur si celui-ci a été trouvé -->
 	<c:if test="${!empty utilisateur}">
-		<h1 class="my-5 d-flex justify-content-center">Détail vente</h1>
+		<h1 class="my-5 d-flex justify-content-center">${utilisateur.pseudo}</h1>
 		<div>
-			<p><span class="user-show-value">${article.nom}</span></p>	
+			<p><span class="user-show-label">Pseudo : </span><span class="user-show-value">${utilisateur.pseudo}</span></p>	
 			<p><span class="user-show-label">Nom : </span><span class="user-show-value">${utilisateur.nom}</span></p>	
 			<p><span class="user-show-label">Prénom : </span><span class="user-show-value">${utilisateur.prenom}</span></p>	
 			<p><span class="user-show-label">Email : </span><span class="user-show-value">${utilisateur.email}</span></p>	

@@ -6,6 +6,7 @@ import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import fr.eni.encheres.BO.Article;
@@ -118,13 +119,13 @@ public class ArticleManager {
 
 	public void checkNoVendeur(Utilisateur vendeur, BusinessException businessException) {
 		if(vendeur.getNoUtilisateur() == 0) {
-			businessException.addError(CodesResultatBLL.ARTICLE_NO_VENDEUR_NOT_VALID);
+			businessException.addError(CodesResultatBLL.NO_VENDEUR_NOT_VALID);
 		}
 	}
 	
 	public void checkNoCategorie(Categorie categorie, BusinessException businessException) {
 		if(categorie.getNoCategorie() == 0) {
-			businessException.addError(CodesResultatBLL.ARTICLE_NO_CATEGORIE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.NO_CATEGORIE_NOT_VALID);
 		}
 	}
 
@@ -162,6 +163,16 @@ public class ArticleManager {
 			}
 		}
 		return etatVente;
+	}
+	
+	public Enchere getMaxEnchere(Article article) {
+		Enchere enchereMax = null;
+		for (Enchere enchere : article.getListEncheres()) {
+			if (enchereMax == null || enchere.getMontant() > enchereMax.getMontant()) {
+				enchereMax = enchere;
+			}
+		}
+		return enchereMax;
 	}
 
 	//methode add article

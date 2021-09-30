@@ -39,8 +39,15 @@ public class CategorieManager {
 	
 	public void checkNoCategorie(int noCategorie, BusinessException businessException) {
 		if(noCategorie == 0) {
-			businessException.addError(CodesResultatBLL.ARTICLE_NO_CATEGORIE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.NO_CATEGORIE_NOT_VALID);
 		}
+	}
+	
+	public void checkLibelle(String libelle, BusinessException businessException) {
+		if(libelle == null) {
+			businessException.addError(CodesResultatBLL.LIBELLE_CATEGORIE_NOT_VALID);
+		}
+		
 	}
 	
 

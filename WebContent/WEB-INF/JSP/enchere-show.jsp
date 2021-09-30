@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Affichage d'une enchère</title>
+</head>
+<jsp:include page="/WEB-INF/JSP/fragments/header.jsp"></jsp:include>
+<body>
+
+	<c:if test="${!empty article}">
+		<h1 class="my-5 d-flex justify-content-center">${article.nom}</h1>
+		<div>	
+			<p><span class="user-show-label">Description : </span><span class="user-show-value">${article.description}</span></p>	
+			<p><span class="user-show-label">Catégorie : </span><span class="user-show-value">${categorie.libelle}</span></p>	
+ 			<p><span class="user-show-label">Meilleure offre : </span><span class="user-show-value">${enchere.montant} par </span>
+ 			 	<span class="user-show-value">${enchere.encherisseur.getPseudo()}</span> </p>
+			<p><span class="user-show-label">Mise à prix : </span><span class="user-show-value">${article.miseAPrix}</span></p>	
+			<p><span class="user-show-label">Fin de l'enchère : </span><span class="user-show-value">${article.dateFinEncheres}</span></p>
+			<c:if test="${!empty retrait}">	
+				<p><span class="user-show-label">Retrait : </span></p>
+				<p><span class="user-show-value">${retrait.rue}</span></p>
+				<p><span class="user-show-value">${retrait.codePostal} </span><span class="user-show-value">${retrait.ville}</span></p>
+			</c:if>
+			<c:if test="${empty retrait}">
+				<p><span class="user-show-label">Retrait : </span><span class="user-show-value">${vendeur.rue}</span></p>
+				<p><span class="user-show-value">${vendeur.codePostal} </span><span class="user-show-value">${vendeur.ville}</span></p>
+			</c:if>
+ 	
+			<p><span class="user-show-label">Vendeur : </span><span class="user-show-value">${vendeur.pseudo}</span></p> 	
+		</div>
+	</c:if>
+	
+	<!-- TODO : vérifier si l'utilisateur en session est le vendeur -->
+
+
+</body>
+</html>

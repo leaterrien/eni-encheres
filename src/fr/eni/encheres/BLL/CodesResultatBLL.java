@@ -70,12 +70,25 @@ public abstract class CodesResultatBLL {
 	//check prix final article
 	public static final int ARTICLE_SALE_PRICE_NOT_VALID = 20104;
 	
-	//check noVendeur article
-	public static final int ARTICLE_NO_VENDEUR_NOT_VALID = 20105;
+	//check noVendeur 
+	public static final int NO_VENDEUR_NOT_VALID = 20105;
 	
-	//check noCategorie article
-	public static final int	ARTICLE_NO_CATEGORIE_NOT_VALID = 20106;
-		
+	/*
+	 * Erreurs Catégories
+	 */
+	
+	//check noCategorie 
+	public static final int	NO_CATEGORIE_NOT_VALID = 20106;
+	
+	//check libelle 
+	public static final int	LIBELLE_CATEGORIE_NOT_VALID = 20107;
+	
+	/*
+	 * Erreurs Enchères
+	 */
+	//check date enchère
+	public static final int	ENCHERE_DATE_NOT_VALID = 20108;
+	
 	// Interactions DAL :
 
 	// GetUser : utilisateur null
