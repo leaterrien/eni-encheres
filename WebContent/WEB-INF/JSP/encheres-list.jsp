@@ -119,7 +119,23 @@
 					<p>
 						<span class="font-weight-bold">Fin de l'enchère : </span>${article.dateFinEncheres.format(dateFormat)}</p>
 					<p>
-						<span class="font-weight-bold">Vendeur : </span><a class="black-color" href="${pageContext.request.contextPath}/Utilisateur/${article.vendeur.noUtilisateur}">${article.vendeur.pseudo}</a></p>
+						<span class="font-weight-bold">Vendeur : </span>
+						<c:choose>
+							<c:when test="${!(article.vendeur.noUtilisateur == sessionScope.utilisateur.noUtilisateur)}">
+								<a class="black-color" 
+									href="${pageContext.request.contextPath}/Utilisateur/${article.vendeur.noUtilisateur}">
+									${article.vendeur.pseudo}
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a class="black-color" 
+									href="${pageContext.request.contextPath}/ModificationUtilisateur">
+									${article.vendeur.pseudo}
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</p>
+					
 				</div>
 			</div>
 		</c:forEach>
