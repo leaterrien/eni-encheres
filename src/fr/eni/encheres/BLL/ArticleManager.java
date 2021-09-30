@@ -9,33 +9,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 import fr.eni.encheres.BO.Article;
+import fr.eni.encheres.BO.Categorie;
 import fr.eni.encheres.BO.EtatVente;
+import fr.eni.encheres.BO.Retrait;
 import fr.eni.encheres.DAL.ArticleDAO;
 import fr.eni.encheres.DAL.DAOFactory;
+import fr.eni.encheres.DAL.RetraitDAO;
 import fr.eni.encheres.exceptions.BusinessException;
 
 public class ArticleManager {
 	
-	BusinessException businessException = new BusinessException();
-	
-	// On vérifie si la date de mise en vente n'est pas inférieure à la date du jour
-	public LocalDate checkValidStartDate(LocalDate dateDebutEncheres) throws BusinessException {
-		LocalDate debut = null;
-		
-		debut = DateNewSellValid.startDateAuctionCheck(dateDebutEncheres, businessException);
-		return dateDebutEncheres;
-	}
-	
-	// On vérifie si la date de mise en vente n'est pas inférieure à la date de fin de l'enchère
-	public LocalDate checkValidEndDate(LocalDate dateDebutEncheres, LocalDate dateFinEncheres) throws BusinessException {
-		LocalDate fin = null;
-			
-		fin = DateNewSellValid.endDateAuctionCheck(dateDebutEncheres, dateFinEncheres, businessException);
-		return dateFinEncheres;
-	}
-	
-	
-
 	private static ArticleManager instance;
 	private ArticleDAO articleDAO;
 
@@ -49,6 +32,8 @@ public class ArticleManager {
 		}
 		return instance;
 	}
+	
+	BusinessException businessException = new BusinessException();
 
 	public List<Article> getArticlesDeconnected(int noCategorie, String rechercheNom) throws BusinessException {
 		BusinessException businessException = new BusinessException();
@@ -85,6 +70,21 @@ public class ArticleManager {
 		}
 		return etatVente;
 	}
-
-	//methode add article
+	
+	
+    
+	//add article
+	public Article addArticle(Article article, int categorie) throws BusinessException {
+		
+		
+		article.setDateDebutEncheres(ArticleCheckValid.startDateAuctionCheck(article.getDateDebutEncheres(), businessException));
+		article.setDateFinEncheres(ArticleCheckValid.endDateAuctionCheck(article.getDateDebutEncheres(), article.getDateFinEncheres(), businessException));
+		if (!businessException.hasErrors()) {
+			this.articleDAO.insert(article);
+		}
+		return article;
+	}
+	
+	
+	
 }

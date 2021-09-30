@@ -26,49 +26,65 @@
 		</div>
 		<div class = "form-group">
 			<label for="description">Description :</label>
-			<input type="text" id="description" name="description" autofocus required/>
+			<textarea id="description" name="description" autofocus required></textarea>
 		</div>
 		<div class = "form-group">
 			<label for="category">Catégorie :</label>
-			<select class="form-control" id="category" name="category" required>
-				<option>Informatique</option>
-				<option>Ameublement</option>
-				<option>Vêtement</option>
-				<option>Sports & Loisirs</option>
+			<select id="category" name="category" required>
+				<c:forEach var="categorie" items="${categories}">
+					<option value="${categorie.noCategorie}">${categorie.libelle}</option>
+				</c:forEach>
+				
 			</select>
 		</div>
-		<div class = "input-group">
-			<div class="custom-file">
-				<input type="file" class="custom-file-input" id="photoDeLArticle" name="photoDeLArticle" aria-describedby="photoDeLArticle">
-				<label>Informatique</option>
-				<option>Ameublement</option>
-				<option>Vêtement</option>
-				<option>Sports & Loisirs</option>
-			</select>
+		<div class = "form-group">
+			<label for="photoDeLArticle">Photo de L'article :</label>
+			<input type="file" class="form-control-file" id="photoDeLArticle" name="photoDeLArticle">
 		</div>
-		
+		<div>
+			<label for="price">Mise à prix :</label>
+			<input type="number" id="price" name="price" min="0">
+		</div>
+			<label for="start_auction">Début de l'enchère :</label>
+			<input type="date" id="start_auction" name="start_auction"/>
+			<br>
+			<label for="end_auction">Fin de l'enchère :</label>
+			<input type="date" id="end_auction" name="end_auction"/>
+		<br>
+		<br>
+		<div>
+			<fieldset class="form-group border p-3">
+				<legend class="w-auto px-2">Retrait</legend>	
+					<div class="form-row">
+						<div class="col-md-6 mb-3">
+							<label for="street">Rue :</label>
+							<input type="text" class="form-control" id="street" name="street" value="${utilisateur.rue}"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6 mb-3">
+							<label for="postcode">Code Postal :</label>
+							<input type="text" class="form-control" id="postcode" name="postcode" value="${utilisateur.codePostal}"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6 mb-3">
+							<label for="city">Ville :</label>
+							<input type="text" class="form-control" id="city" name="city" value="${utilisateur.ville}"/>
+						</div>
+					</div>
+				</fieldset>
+		</div>
 			
-			
-			
-			
-		
-		<label for="description">Description :</label>
-		<input type="password" value="${cookieHcneTiniP}" name="password" required/>
-		<br>
-		<br>
-		<button type="submit" value="Connexion" name="connexion">Connexion</button>
-		<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${seSouvenirDeMoi ? 'checked':''} />
-		<label for="seSouvenirDeMoi">Se souvenir de moi </label>
-		<br>
-		<a href="https://www.google.fr/">Mot de passe oublié</a>
-		<br>
-		<br>
-		<input type="submit" value="Créer un compte" name="créer un compte" />
-		<br>
-						
-		
-		
+		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a>
+		<input type="submit" class="btn button-navigation" value="Valider"/>
 	</form>
+	
+	<c:forEach var="error" items="${errors}">
+		<p >
+			<fmt:message key="${error}" bundle="${errorMessages}"></fmt:message>
+		</p>
+	</c:forEach>
 			
 	<!-- footer -->
 	<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp">
