@@ -37,6 +37,11 @@ public class CategorieManager {
 
 	}
 	
+	public void checkCategorie(Categorie categorie, BusinessException businessException) {
+		checkNoCategorie(categorie.getNoCategorie(), businessException);
+		checkLibelle(categorie.getLibelle(), businessException);
+	}
+	
 	public void checkNoCategorie(int noCategorie, BusinessException businessException) {
 		if(noCategorie == 0) {
 			businessException.addError(CodesResultatBLL.NO_CATEGORIE_NOT_VALID);

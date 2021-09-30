@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BLL.ArticleManager;
 import fr.eni.encheres.BLL.CodesResultatBLL;
@@ -36,6 +37,7 @@ public class ServletEnchereShow extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BusinessException businessException = new BusinessException();
 		request.setCharacterEncoding("UTF-8");
+		
 		Article article = null;
 		int noArticle = 0;
 		try {
@@ -48,6 +50,7 @@ public class ServletEnchereShow extends HttpServlet {
 		if (!businessException.hasErrors()) {
 			try {
 			article = ArticleManager.getInstance().getArticle(noArticle);
+			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
 			Utilisateur vendeur = article.getVendeur();
 			Categorie categorie = article.getCategorie();
 			Retrait retrait = article.getRetrait();
@@ -58,6 +61,8 @@ public class ServletEnchereShow extends HttpServlet {
 				request.setAttribute("categorie", categorie);
 				request.setAttribute("retrait", retrait);
 				request.setAttribute("enchere", enchere);
+				HttpSession session = request.getSession();
+				session.setAttribute("utilisateur", utilisateur);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/enchere-show.jsp");
 				rd.forward(request, response);
 			} catch (BusinessException e) {

@@ -30,13 +30,13 @@ public abstract class CodesResultatBLL {
 	public static final int UTILISATEUR_TELEPHONE_NOT_VALID = 20006;
 
 	// Check rue
-	public static final int UTILISATEUR_RUE_NOT_VALID = 20007;
+	public static final int RUE_NOT_VALID = 20007;
 
 	// Check codePostal
-	public static final int UTILISATEUR_CODE_POSTAL_NOT_VALID = 20008;
+	public static final int CODE_POSTAL_NOT_VALID = 20008;
 
 	// Check ville
-	public static final int UTILISATEUR_VILLE_NOT_VALID = 20009;
+	public static final int VILLE_NOT_VALID = 20009;
 
 	// Check motDePasse
 	public static final int UTILISATEUR_MOT_DE_PASSE_NOT_VALID = 20010;

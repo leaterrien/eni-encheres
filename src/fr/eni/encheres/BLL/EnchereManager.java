@@ -3,6 +3,7 @@ package fr.eni.encheres.BLL;
 import java.time.LocalDate;
 
 import fr.eni.encheres.BO.Article;
+import fr.eni.encheres.BO.Enchere;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.ArticleDAO;
 import fr.eni.encheres.DAL.DAOFactory;
@@ -22,6 +23,11 @@ public class EnchereManager {
 			instance = new EnchereManager();
 		}
 		return instance;
+	}
+	
+	public void checkEnchere(Enchere enchere, BusinessException businessException) {
+		checkNoUtilisateur(enchere.getEncherisseur(), businessException);
+		checkDateEnchere(enchere.getDate(), businessException);
 	}
 	
 	public void checkNoArticle(int idArticle, BusinessException businessException) {
