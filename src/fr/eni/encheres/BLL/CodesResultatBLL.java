@@ -80,6 +80,9 @@ public abstract class CodesResultatBLL {
 
 	// GetUser : utilisateur null
 	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;	
+	
+	//getArticle : article null
+	public static final int ARTICLE_GET_ARTICLE_RECEIVE_NULL = 20021;
 
 	//pseudo déjà en base
 	public static final int PSEUDO_ALREADY_EXISTS = 20031;

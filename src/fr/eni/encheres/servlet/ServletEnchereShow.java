@@ -1,12 +1,16 @@
 package fr.eni.encheres.servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.BLL.ArticleManager;
+import fr.eni.encheres.BLL.CodesResultatBLL;
 import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Article;
 import fr.eni.encheres.BO.Utilisateur;
@@ -15,7 +19,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 /**
  * Servlet implementation class ServletEnchereShow
  */
-@WebServlet("/ServletEnchereShow")
+@WebServlet("/Article/*")
 public class ServletEnchereShow extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BusinessException businessException = new BusinessException();
@@ -33,6 +37,22 @@ public class ServletEnchereShow extends HttpServlet {
 			businessException.addError(CodesResultatServlets.USER_SHOW_INCORRECT_NO_UTILISATEUR);
 			request.setAttribute("errors", businessException.getListErrors());
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
+		if (!businessException.hasErrors()) {
+			try {
+			article = ArticleManager.getInstance().getArticle(noArticle);
+				request.setAttribute("article", article);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/enchere-show.jsp");
+				rd.forward(request, response);
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				request.setAttribute("errors", e.getListErrors());
+				if (e.getListErrors().contains(CodesResultatBLL.ARTICLE_GET_ARTICLE_RECEIVE_NULL)) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				} else {
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				}
+			}
 		}
 	}
 

@@ -52,6 +52,27 @@ public class ArticleManager {
 		return instance;
 	}
 	
+	public Article getArticle(int noArticle) throws BusinessException{
+		BusinessException businessException = new BusinessException();
+		
+		checkNoArticle(noArticle, businessException);
+		if(businessException.hasErrors()) {
+			throw businessException;
+		}
+		//récupération de l'article 
+		Article article = articleDAO.selectById(noArticle);
+		if(article == null) {
+			businessException.addError(CodesResultatBLL.ARTICLE_GET_ARTICLE_RECEIVE_NULL);
+		} else {
+			checkArticle(article, businessException);
+		}
+		//throw de businessException si les données reçues ne sont pas correctes
+		if (businessException.hasErrors()) {
+			throw businessException;
+		}
+		return article;
+	}
+	
 	
 	public void checkArticle(Article article, BusinessException businessException) {
 		checkNoArticle(article.getNoArticle(), businessException);

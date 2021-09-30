@@ -10,7 +10,7 @@
 <jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
 <body>
 
-	<c:if test="${!empty utilisateur}">
+	<c:if test="${!empty article}">
 		<h1 class="my-5 d-flex justify-content-center">Détail vente</h1>
 		<div>
 			<p><span class="user-show-value">${article.nom}</span></p>		
