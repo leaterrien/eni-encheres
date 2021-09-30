@@ -133,7 +133,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	}
 
 	@Override
-	public Article insert(Article article) throws BusinessException {
+	public Article insert(Article article, int noCategorie) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		Connection cnx = null;
 		PreparedStatement statement = null;
@@ -155,7 +155,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			} else {
 				statement.setNull(8, Types.INTEGER);
 			}
-			statement.setInt(9, article.getCategorie().getNoCategorie());
+			statement.setInt(9, noCategorie);
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			if (rs.next()) {
