@@ -144,8 +144,6 @@ public class ServletConnection extends HttpServlet {
 			session.setAttribute("utilisateur", utilisateur);
 
 			response.sendRedirect(request.getContextPath());
-			// this.getServletContext().getRequestDispatcher(request.getContextPath()).forward(request,
-			// response);
 
 		} catch (BusinessException e) {
 			request.setAttribute("listErrors", e.getListErrors());

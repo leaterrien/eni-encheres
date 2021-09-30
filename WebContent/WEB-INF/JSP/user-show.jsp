@@ -21,6 +21,7 @@
 			<p><span class="user-show-label">Ville : </span><span class="user-show-value">${utilisateur.ville}</span></p>	
 		</div>
 	</c:if>
+
 	
 <!-- bouton de navigation vers l'accueil -->
 <jsp:include page="/WEB-INF/JSP/fragments/button-home.jsp">
