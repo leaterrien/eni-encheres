@@ -113,7 +113,7 @@
 		<c:forEach var="article" items="${listeArticles}">
 			<div class="col-12 col-md-6 mb-3">
 				<div class="card p-3">
-					<h3 class="font-weight-bold">${article.nom}</h3>
+					<h3 class="font-weight-bold"><a class="primary-color" href="${pageContext.request.contextPath}/Enchere/${article.noArticle}">${article.nom}</a></h3>
 					<p>
 						<span class="font-weight-bold">Prix : </span>${article.miseAPrix}</p>
 					<p>

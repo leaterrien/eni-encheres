@@ -69,8 +69,8 @@
 		</div>
 	</div>
 	<div class="d-flex justify-content-center align-items-center">
-	<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a> 
-	<input type="submit" class="h-100 btn button-navigation" value="Valider" />
+		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a> 
+		<input type="submit" class="h-100 btn button-navigation" value="Valider" />
 	</div>
 </form>
 
