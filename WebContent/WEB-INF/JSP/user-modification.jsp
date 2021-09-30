@@ -6,7 +6,7 @@
 
 <jsp:include page="/WEB-INF/JSP/fragments/header.jsp"></jsp:include>
 
-<h1 class="my-5 d-flex justify-content-center">Mon profil</h1>
+<h1 class="my-5 d-flex ">Mon profil</h1>
 
 <form action="<%=request.getContextPath()%>/ModificationUtilisateur" method="post">
 	<div class="row">

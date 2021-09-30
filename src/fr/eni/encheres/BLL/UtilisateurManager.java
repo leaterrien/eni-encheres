@@ -281,7 +281,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_RUE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.RUE_NOT_VALID);
 		}
 	}
 
@@ -298,7 +298,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID);
+			businessException.addError(CodesResultatBLL.CODE_POSTAL_NOT_VALID);
 		}
 	}
 
@@ -312,7 +312,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_VILLE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.VILLE_NOT_VALID);
 		}
 	}
 

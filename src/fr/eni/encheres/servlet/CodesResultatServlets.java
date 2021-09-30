@@ -16,5 +16,8 @@ public abstract class CodesResultatServlets {
 		
 
 	public static final int USER_SHOW_INCORRECT_NO_UTILISATEUR = 30010;
+	
+	//no d'article incorrect
+	public static final int ENCHERE_SHOW_INCORRECT_NO_ARTICLE = 30011;
 
 }
