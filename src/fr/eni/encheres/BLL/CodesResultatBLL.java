@@ -51,6 +51,31 @@ public abstract class CodesResultatBLL {
 	public static final int PASSWORDS_NOT_MATCHING = 20030;
 	
 
+	/*
+	 * Erreurs Articles
+	 */
+
+	//check noArticle
+	public static final int ARTICLE_NO_ARTICLE_NOT_VALID = 20100;
+	
+	//check nom article
+	public static final int ARTICLE_NAME_NOT_VALID = 20101;
+	
+	//check description article
+	public static final int ARTICLE_DESCRIPTION_NOT_VALID = 20102;
+
+	//check prix initial article
+	public static final int ARTICLE_INITIAL_PRICE_NOT_VALID = 20103;
+	
+	//check prix final article
+	public static final int ARTICLE_SALE_PRICE_NOT_VALID = 20104;
+	
+	//check noVendeur article
+	public static final int ARTICLE_NO_VENDEUR_NOT_VALID = 20105;
+	
+	//check noCategorie article
+	public static final int	ARTICLE_NO_CATEGORIE_NOT_VALID = 20106;
+		
 	// Interactions DAL :
 
 	// GetUser : utilisateur null
@@ -80,6 +105,7 @@ public abstract class CodesResultatBLL {
 	
 	// Date de mise en vente antérieure à la date d'aujourd'hui
 	public static final int AUCTION_END_DATE_INVALID = 20061;
+	
 	
 
 }

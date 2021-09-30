@@ -36,5 +36,12 @@ public class CategorieManager {
 		return listeCategories;
 
 	}
+	
+	public void checkNoCategorie(int noCategorie, BusinessException businessException) {
+		if(noCategorie == 0) {
+			businessException.addError(CodesResultatBLL.ARTICLE_NO_CATEGORIE_NOT_VALID);
+		}
+	}
+	
 
 }
