@@ -71,9 +71,9 @@
 			 		</c:if>
 			 		<!-- menu si utilisateur connecté -->
 			 		<c:if test="${!empty sessionScope.utilisateur}">
-    					<li><a class="dropdown-item" href="#" href="${pageContext.request.contextPath}/Encheres">Enchères</a></li>
+    					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/Encheres">Enchères</a></li>
     					<li><a class="dropdown-item" href="#">Vendre un article</a></li>
-   						<li><a class="dropdown-item" href="#">Mon profil</a></li>
+   						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/ModificationUtilisateur">Mon profil</a></li>
    						<li><a class="dropdown-item d-flex" href="${pageContext.request.contextPath}/Logout">
    							<span class="material-icons navbar-button-connection-icon">person_off</span>
    							Déconnexion
