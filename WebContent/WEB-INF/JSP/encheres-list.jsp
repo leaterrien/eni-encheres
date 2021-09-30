@@ -104,22 +104,26 @@
 	</div>
 </form>
 
-
 <div class="row">
 	<!-- affichage des articles sous forme de cards -->
-	<c:forEach var="article" items="${listeArticles}">
-		<div class="col-12 col-md-6 mb-3">
-			<div class="card p-3">
-				<h3 class="font-weight-bold">${article.nom}</h3>
-				<p>
-					<span class="font-weight-bold">Prix : </span>${article.miseAPrix}</p>
-				<p>
-					<span class="font-weight-bold">Fin de l'enchère : </span>${article.dateFinEncheres.format(dateFormat)}</p>
-				<p>
-					<span class="font-weight-bold">Vendeur : </span>${article.vendeur.pseudo}</p>
+	<c:if test="${empty listeArticles}">
+		<p>Aucun article ne correspond à votre recherche</p>
+	</c:if>
+	<c:if test="${!empty listeArticles}">
+		<c:forEach var="article" items="${listeArticles}">
+			<div class="col-12 col-md-6 mb-3">
+				<div class="card p-3">
+					<h3 class="font-weight-bold">${article.nom}</h3>
+					<p>
+						<span class="font-weight-bold">Prix : </span>${article.miseAPrix}</p>
+					<p>
+						<span class="font-weight-bold">Fin de l'enchère : </span>${article.dateFinEncheres.format(dateFormat)}</p>
+					<p>
+						<span class="font-weight-bold">Vendeur : </span><a class="black-color" href="${pageContext.request.contextPath}/Utilisateur/${article.vendeur.noUtilisateur}">${article.vendeur.pseudo}</a></p>
+				</div>
 			</div>
-		</div>
-	</c:forEach>
+		</c:forEach>
+	</c:if>
 </div>
 <script>
 	// Fonction d'activation / désactivation des checkbox du formulaire en fonction du bouton radio sélectionné

@@ -37,7 +37,7 @@ public class UtilisateurManager {
 		if (utilisateur == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_GET_USER_RECEIVE_NULL);
 		} else {
-			checkUser(utilisateur, businessException);
+			checkUserFromDb(utilisateur, businessException);
 		}
 
 		// Throw de businessException si les données reçues ne sont pas correctes
@@ -79,12 +79,12 @@ public class UtilisateurManager {
 		} else {
 			utilisateur = utilisateurDAO.selectByNickname(login);
 		}
-		
+
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
-			
+
 		} else {
 			// Comparaison des mots de passe
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
@@ -123,7 +123,7 @@ public class UtilisateurManager {
 		checkCredit(utilisateur.getCredit(), businessException);
 		// TODO : ajouter administrateur
 	}
-	
+
 	public void checkUserFromDb(Utilisateur utilisateur, BusinessException businessException) {
 		checkNoUtilisateur(utilisateur.getNoUtilisateur(), businessException);
 		checkPseudo(utilisateur.getPseudo(), businessException);
@@ -309,7 +309,7 @@ public class UtilisateurManager {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_MOT_DE_PASSE_NOT_VALID);
 		}
 	}
-	
+
 	public void checkMotDePasseDb(String motDePasse, BusinessException businessException) {
 		boolean valid = true;
 		// mot de passe null
@@ -395,19 +395,20 @@ public class UtilisateurManager {
 		}
 		return utilisateur;
 	}
-	
-	public Utilisateur updateUtilisateur(Utilisateur utilisateur, String pseudo, String email, String newPassword, String confirmPassword) throws BusinessException{
+
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur, String pseudo, String email, String newPassword,
+			String confirmPassword) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		int noUtilisateur = utilisateur.getNoUtilisateur();
-		if(pseudo != utilisateurDAO.selectById(noUtilisateur).getPseudo()) {
+		if (pseudo != utilisateurDAO.selectById(noUtilisateur).getPseudo()) {
 			checkExistingPseudo(pseudo);
 		}
-		if(email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
+		if (email != utilisateurDAO.selectById(noUtilisateur).getEmail()) {
 			checkExistingEmail(email);
 		}
 		checkPasswordMatch(newPassword, confirmPassword);
 		checkUser(utilisateur, businessException);
-			
+
 		this.utilisateurDAO.update(utilisateur);
 		return utilisateur;
 	}

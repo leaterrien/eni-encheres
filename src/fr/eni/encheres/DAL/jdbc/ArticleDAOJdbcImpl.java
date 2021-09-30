@@ -313,12 +313,8 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	 */
 	private String selectConditionsConnectedBuilder(int noCategorie, String rechercheNom, boolean achatSelected,
 			List<String> conditions, int noUtilisateur) {
-		String jointure = "";
 		StringBuilder sbAchatsVentes = new StringBuilder();
 		StringBuilder sb = new StringBuilder();
-
-		// Jointures : ajout de jointures nécessaires aux conditions demandées
-		jointure = addJointures(conditions);
 
 		// Conditions : Achats et ventes
 		sbAchatsVentes.append(addConditionsAchatsVentes(conditions, achatSelected, noUtilisateur));
@@ -339,9 +335,6 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		// Ajout du where à la condition si sb n'est pas vide
 		if (!sb.toString().equals("")) {
 			sb.insert(0, " WHERE ");
-		}
-		if (!jointure.equals("")) {
-			sb.insert(0, jointure);
 		}
 
 		return sb.toString();
@@ -395,17 +388,30 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			sbAchatsVentes = addConditionEncheresEnCours(sbAchatsVentes, conditions, noUtilisateur);
 			// Condition sur les enchères remportées
 			sbAchatsVentes = addConditionEncheresRemportees(sbAchatsVentes, conditions, noUtilisateur);
+			// Condition générale sur les achats
+			String achatCondition = "a.no_vendeur != " + noUtilisateur;
+			if (!sbAchatsVentes.toString().equals("")) {
+				sbAchatsVentes.insert(0, achatCondition + " AND (");
+				sbAchatsVentes.append(")");
+			} else {
+				sbAchatsVentes.insert(0, achatCondition);
+			}
 			// Ventes
 		} else if (!achatSelected && conditions.size() > 0) {
-			// Condition générale sur les ventes :
-			sbAchatsVentes = addOrToStringBuilder(sbAchatsVentes);
-			sbAchatsVentes.append("a.no_vendeur = " + noUtilisateur);
 			// Condition sur les ventes en cours
 			sbAchatsVentes = addConditionVentesEnCours(sbAchatsVentes, conditions, noUtilisateur);
 			// Condition sur les ventes non débutées
 			sbAchatsVentes = addConditionVentesNonDebutees(sbAchatsVentes, conditions, noUtilisateur);
 			// Condition sur les ventes terminées
 			sbAchatsVentes = addConditionVentesTerminees(sbAchatsVentes, conditions, noUtilisateur);
+			// Condition générale sur les ventes
+			String venteCondition = "a.no_vendeur = " + noUtilisateur;
+			if (!sbAchatsVentes.toString().equals("")) {
+				sbAchatsVentes.insert(0, venteCondition + " AND (");
+				sbAchatsVentes.append(")");
+			} else {
+				sbAchatsVentes.insert(0, venteCondition);
+			}
 		}
 		// Ajout de parenthèses sur les conditions de achat / vente
 		if (!sbAchatsVentes.toString().equals("")) {
@@ -442,8 +448,12 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	private StringBuilder addConditionEncheresEnCours(StringBuilder sbAchatsVentes, List<String> conditions,
 			int noUtilisateur) {
 		if (conditions.contains("encheresEnCours")) {
-			sbAchatsVentes = addOrToStringBuilder(sbAchatsVentes);
-			sbAchatsVentes.append("e.no_utilisateur = " + noUtilisateur);
+			if (!conditions.contains("encheresOuvertes")) {
+				sbAchatsVentes = addOrToStringBuilder(sbAchatsVentes);
+				sbAchatsVentes
+						.append("a.no_article in (SELECT e.no_article FROM ENCHERES as e WHERE e.no_utilisateur = "
+								+ noUtilisateur + " AND a.date_fin_encheres >= GETDATE())");
+			}
 		}
 		return sbAchatsVentes;
 	}
@@ -478,7 +488,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			int noUtilisateur) {
 		if (conditions.contains("ventesEnCours")) {
 			sbAchatsVentes = addOrToStringBuilder(sbAchatsVentes);
-			sbAchatsVentes.append("a.date_debut_encheres <= GETDATE()");
+			sbAchatsVentes.append("(a.date_debut_encheres <= GETDATE() AND a.date_fin_encheres >= GETDATE())");
 		}
 		return sbAchatsVentes;
 	}
@@ -517,21 +527,6 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			sbAchatsVentes.append("a.date_fin_encheres < GETDATE()");
 		}
 		return sbAchatsVentes;
-	}
-
-	/**
-	 * Création des jointures nécessaires aux conditions de requêtes
-	 * 
-	 * @param conditions
-	 * @return
-	 */
-	private String addJointures(List<String> conditions) {
-		String jointure = "";
-		// Jointure pour les enchères en cours auxquelles participe l'utilisateur
-		if (conditions.contains("encheresEnCours")) {
-			jointure = " INNER JOIN ENCHERES as e ON a.no_article = e.no_article";
-		}
-		return jointure;
 	}
 
 	/**
