@@ -25,8 +25,8 @@
 			<!-- choix de catégorie -->
 			<div class="mb-4">
 				<label for="category" class="font-weight-bold">Catégorie</label> 
-				<select id="category" name="category" class="dropdown">
-					<option class="dropdown-item" value="0">Toutes</option>
+				<select id="category" name="category" class="form-menu">
+					<option value="0">Toutes</option>
 					<c:forEach var="category" items="${listeCategories}">
 						<option class="dropdown-item" value="${category.noCategorie}"
 							${(!empty selectedCategory && selectedCategory == category.noCategorie) ? 'selected' : ''}>
