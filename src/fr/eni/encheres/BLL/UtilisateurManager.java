@@ -79,12 +79,12 @@ public class UtilisateurManager {
 		} else {
 			utilisateur = utilisateurDAO.selectByNickname(login);
 		}
-		
+
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
 		if (utilisateur == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
-			
+
 		} else {
 			// Comparaison des mots de passe
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
