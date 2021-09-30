@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -33,10 +33,10 @@
 		<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${seSouvenirDeMoi ? 'checked':''} />
 		<label for="seSouvenirDeMoi">Se souvenir de moi </label>
 		<br>
-		<a href="https://www.google.fr/">Mot de passe oublié</a>
+		<a href="https://www.google.fr/">Mot de passe oubliÃ©</a>
 		<br>
 		<br>
-		<a href="${pageContext.request.contextPath}/Inscription" class="btn button-navigation">Créer un compte</a>
+		<a href="${pageContext.request.contextPath}/Inscription" class="btn button-navigation">CrÃ©er un compte</a>
 		<br>
 	</form>
 	

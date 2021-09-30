@@ -27,15 +27,15 @@ public class Article {
 	
 	
 
-	public Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, Categorie categorie, Retrait retrait) {
+	public Article(Utilisateur vendeur, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, Retrait retrait) {
 		super();
+		this.vendeur = vendeur;
 		this.nom = nom;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
-		this.categorie = categorie;
 		this.retrait = retrait;
 	}
 

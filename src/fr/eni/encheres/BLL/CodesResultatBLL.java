@@ -76,10 +76,10 @@ public abstract class CodesResultatBLL {
 	public static final int UTILISATEUR_PASSWORD_FAIL_HASHED = 20050;
 	
 	// Date de mise en vente antérieure à la date d'aujourd'hui
-	public static final int AUCTION_START_DATE_INVALID = 20060;
+	public static final int AUCTION_START_DATE_INVALID = 20160;
 	
-	// Date de mise en vente antérieure à la date d'aujourd'hui
-	public static final int AUCTION_END_DATE_INVALID = 20061;
+	// Date de fin de vente antérieure à la date de mise en vente
+	public static final int AUCTION_END_DATE_INVALID = 20161;
 	
 
 }

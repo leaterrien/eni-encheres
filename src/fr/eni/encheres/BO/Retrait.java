@@ -1,6 +1,6 @@
 package fr.eni.encheres.BO;
 
-public class Retrait {
+public class Retrait implements Comparable{
 
 	private String rue;
 	private String codePostal;
@@ -72,6 +72,22 @@ public class Retrait {
 		return "Retrait [" + (rue != null ? "rue=" + rue + ", " : "")
 				+ (codePostal != null ? "codePostal=" + codePostal + ", " : "")
 				+ (ville != null ? "ville=" + ville : "") + "]";
+	}
+
+	@Override
+	public int compareTo(Object temp) {
+		Retrait other = (Retrait) temp;
+		System.out.println(this.toString());
+		System.out.println(other);
+		if(this.getRue().equals(other.getRue()) && this.getCodePostal().equals(other.getCodePostal()) && this.getVille().equals(other.getVille()))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+		
 	}
 
 }
