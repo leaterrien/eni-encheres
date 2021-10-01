@@ -113,6 +113,7 @@ public class ArticleManager {
 	}
 
 
+
 	/**
 	 * Récupération des articles pour un utilisateur déconnecté
 	 * 
@@ -197,8 +198,11 @@ public class ArticleManager {
 		
 		article.setDateDebutEncheres(ArticleCheckValid.startDateAuctionCheck(article.getDateDebutEncheres(), businessException));
 		article.setDateFinEncheres(ArticleCheckValid.endDateAuctionCheck(article.getDateDebutEncheres(), article.getDateFinEncheres(), businessException));
+		
 		if (!businessException.hasErrors()) {
 			this.articleDAO.insert(article, categorie);
+		}else {
+			throw businessException;
 		}
 		return article;
 	}
