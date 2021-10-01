@@ -81,12 +81,14 @@ public class UtilisateurManager {
 		}
 
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
-		if (utilisateur == null) {
+		if (utilisateur.getPseudo() == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
+			
 
 		} else {
 			// Comparaison des mots de passe
+			System.out.println(utilisateur.toString());
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
 				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 				throw businessException;
@@ -281,7 +283,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_RUE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.RUE_NOT_VALID);
 		}
 	}
 
@@ -298,7 +300,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID);
+			businessException.addError(CodesResultatBLL.CODE_POSTAL_NOT_VALID);
 		}
 	}
 
@@ -312,7 +314,7 @@ public class UtilisateurManager {
 			valid = false;
 		}
 		if (valid == false) {
-			businessException.addError(CodesResultatBLL.UTILISATEUR_VILLE_NOT_VALID);
+			businessException.addError(CodesResultatBLL.VILLE_NOT_VALID);
 		}
 	}
 

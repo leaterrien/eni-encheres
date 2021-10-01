@@ -74,6 +74,7 @@
     					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/Encheres">Enchères</a></li>
     					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/NouvelleEnchere">Vendre un article</a></li>
    						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/ModificationUtilisateur">Mon profil</a></li>
+
    						<li><a class="dropdown-item d-flex" href="${pageContext.request.contextPath}/Logout">
    							<span class="material-icons navbar-button-connection-icon">person_off</span>
    							Déconnexion

@@ -24,11 +24,9 @@ public class Article {
 	 */
 	public Article() {
 	}
-	
-	
 
-	public Article(Utilisateur vendeur, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, Retrait retrait) {
+	public Article(Utilisateur vendeur, String nom, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, Retrait retrait) {
 		super();
 		this.vendeur = vendeur;
 		this.nom = nom;
@@ -38,8 +36,6 @@ public class Article {
 		this.miseAPrix = miseAPrix;
 		this.retrait = retrait;
 	}
-
-
 
 	/**
 	 * @param nom
@@ -342,6 +338,21 @@ public class Article {
 	 */
 	public List<Enchere> getListEncheres() {
 		return listEncheres;
+	}
+
+	/**
+	 * Recherche l'enchère la plus haute dans la liste des enchères
+	 * 
+	 * @return
+	 */
+	public Enchere getMaxEnchere() {
+		Enchere enchereMax = null;
+		for (Enchere enchere : this.getListEncheres()) {
+			if (enchereMax == null || enchere.getMontant() > enchereMax.getMontant()) {
+				enchereMax = enchere;
+			}
+		}
+		return enchereMax;
 	}
 
 	/**

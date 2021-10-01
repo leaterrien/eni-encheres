@@ -18,7 +18,7 @@
 	<h1 class="my-5 d-flex justify-content-center">Identifiez-vous</h1>
 	
 	<c:if test="${!empty listErrors }">
-		<p style="color:red;">Votre e-mail ou votre mot de passe n'est pas correct.</p>
+		<p style="color:red;">Votre identifiant ou votre mot de passe n'est pas correct.</p>
 	</c:if>
 	
 	<form method="post">

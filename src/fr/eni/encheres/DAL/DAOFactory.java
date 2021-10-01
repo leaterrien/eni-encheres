@@ -4,6 +4,7 @@ import fr.eni.encheres.DAL.jdbc.ArticleDAOJdbcImpl;
 import fr.eni.encheres.DAL.jdbc.CategorieDAOJdbcImpl;
 import fr.eni.encheres.DAL.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.encheres.DAL.jdbc.RetraitDAOJdbcImpl;
+import fr.eni.encheres.DAL.jdbc.UtilisateurDAOJdbcImpl;
 
 public class DAOFactory {
 	public static UtilisateurDAO getUtilisateurDAO() {
