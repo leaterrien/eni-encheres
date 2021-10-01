@@ -62,13 +62,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 		PreparedStatement statement = null;
 		try {
 			cnx = ConnectionProvider.getConnection();
-			// Requête SQL avec jointure sur la table utilisateurs
-			statement = cnx.prepareStatement(insert);
-			statement.setInt(1, enchere.getEncherisseur().getNoUtilisateur());
-			statement.setInt(2, noArticle);
-			statement.setDate(3, Date.valueOf(enchere.getDate()));
-			statement.setInt(4, enchere.getMontant());
-			statement.executeUpdate();
+			statement = insertStatementBuilder(cnx, enchere, noArticle);
 		} catch (SQLException e) {
 			businessException.addError(CodesResultatDAL.ENCHERE_INSERT_FAIL);
 			e.printStackTrace();
@@ -94,6 +88,17 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	public int delete(int no_article) throws BusinessException {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public PreparedStatement insertStatementBuilder(Connection cnx, Enchere enchere, int noArticle)
+			throws SQLException {
+		PreparedStatement statement = cnx.prepareStatement(insert);
+		statement.setInt(1, enchere.getEncherisseur().getNoUtilisateur());
+		statement.setInt(2, noArticle);
+		statement.setDate(3, Date.valueOf(enchere.getDate()));
+		statement.setInt(4, enchere.getMontant());
+		statement.executeUpdate();
+		return statement;
 	}
 
 	/**

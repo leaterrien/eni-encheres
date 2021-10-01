@@ -115,7 +115,7 @@
 				<div class="card p-3">
 					<h3 class="font-weight-bold"><a class="primary-color" href="${pageContext.request.contextPath}/Enchere/${article.noArticle}">${article.nom}</a></h3>
 					<p>
-						<span class="font-weight-bold">Prix : </span>${article.miseAPrix}</p>
+						<span class="font-weight-bold">Prix : </span>${! empty article.listEncheres ? article.getMaxEnchere().montant : article.miseAPrix}</p>
 					<p>
 						<span class="font-weight-bold">Fin de l'enchère : </span>${article.dateFinEncheres.format(dateFormat)}</p>
 					<p>
