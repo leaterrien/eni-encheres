@@ -213,5 +213,28 @@ public class ArticleManager {
 		}
 		return enchereMax;
 	}
+	
+	public boolean checkencheresEnded(Article article) {
+		boolean encheresEnded = false;
+		LocalDate today = java.time.LocalDate.now();
+		LocalDate finEncheres = article.getDateFinEncheres();
+		if (today.isAfter(finEncheres)) {
+			encheresEnded = true;
+		}
+		return encheresEnded;
+	}
+	
+	public boolean checkencheresBegan(Article article) {
+		boolean encheresBegan = false;
+		LocalDate today = java.time.LocalDate.now();
+		LocalDate debutEncheres = article.getDateDebutEncheres();
+		if (today.isBefore(debutEncheres)){
+			encheresBegan = false;
+		}
+		else {
+			encheresBegan = true;
+		}
+		return encheresBegan;
+	}
 
 }

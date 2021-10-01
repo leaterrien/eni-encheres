@@ -19,6 +19,7 @@ import fr.eni.encheres.BLL.UtilisateurManager;
 import fr.eni.encheres.BO.Article;
 import fr.eni.encheres.BO.Categorie;
 import fr.eni.encheres.BO.Enchere;
+import fr.eni.encheres.BO.EtatVente;
 import fr.eni.encheres.BO.Retrait;
 import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -49,18 +50,24 @@ public class ServletEnchereShow extends HttpServlet {
 		}
 		if (!businessException.hasErrors()) {
 			try {
-			article = ArticleManager.getInstance().getArticle(noArticle);
-			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
-			Utilisateur vendeur = article.getVendeur();
-			Categorie categorie = article.getCategorie();
-			Retrait retrait = article.getRetrait();
-			Enchere enchere = ArticleManager.getInstance().getMaxEnchere(article);
-			
+				article = ArticleManager.getInstance().getArticle(noArticle);
+				Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+				Utilisateur vendeur = article.getVendeur();
+				Categorie categorie = article.getCategorie();
+				Retrait retrait = article.getRetrait();
+				Enchere enchere = ArticleManager.getInstance().getMaxEnchere(article);
+				EtatVente etatVente = article.getEtatVente();
+				boolean debutEncheres = ArticleManager.getInstance().checkencheresBegan(article);
+				boolean finEncheres = ArticleManager.getInstance().checkencheresEnded(article);
+				
 				request.setAttribute("article", article);
 				request.setAttribute("vendeur", vendeur);
 				request.setAttribute("categorie", categorie);
 				request.setAttribute("retrait", retrait);
 				request.setAttribute("enchere", enchere);
+				request.setAttribute("debutEncheres", debutEncheres);
+				request.setAttribute("finEncheres", finEncheres);
+				
 				HttpSession session = request.getSession();
 				session.setAttribute("utilisateur", utilisateur);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/enchere-show.jsp");
