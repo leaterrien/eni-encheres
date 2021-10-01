@@ -4,7 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setBundle basename="fr.eni.encheres.messages.business_exception_messages" var="errorMessages"/>
 
-<jsp:include page="/WEB-INF/JSP/fragments/header.jsp"></jsp:include>
+<!-- header -->
+	<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
+		<jsp:param value="modification" name="pageTitle" />
+	</jsp:include>
 
 <h1 class="my-5 d-flex ">Mon profil</h1>
 

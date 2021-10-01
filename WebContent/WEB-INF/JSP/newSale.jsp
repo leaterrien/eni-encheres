@@ -4,15 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setBundle basename="fr.eni.encheres.messages.business_exception_messages" var="errorMessages"/>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>newSale</title>
-<link href="${pageContext.request.contextPath}/style/style.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/style/form.css" rel="stylesheet">
-</head>
-<body>
+
 	<!-- header -->
 	<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
 		<jsp:param value="newSale" name="pageTitle" />
@@ -21,6 +13,11 @@
 	<h1 class="d-flex justify-content-center my-5">Nouvelle Vente</h1>
 	<br>
 	
+	<c:forEach var="error" items="${errors}">
+		<p >
+			<fmt:message key="${error}" bundle="${errorMessages}"></fmt:message>
+		</p>
+	</c:forEach>
 	
 	<form method="post">
 		<div class="d-flex">
@@ -83,23 +80,16 @@
 						
 					</fieldset>
 		</div>
-		</div>	
-	</form>
-	<div class="d-flex justify-content-center align-items-center">	
+		</div>
+	<div class="d-flex justify-content-center">	
 		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a>
+		<div class="p-2 bd-highlight"></div>
+		<div class="p-2 bd-highlight"></div>
 		<input type="submit" class="btn button-navigation" value="Valider"/>
-	</div>
+	</div>	
+	</form>
 	
-	<c:forEach var="error" items="${errors}">
-		<p >
-			<fmt:message key="${error}" bundle="${errorMessages}"></fmt:message>
-		</p>
-	</c:forEach>
+	
+	
 			
-	<!-- footer -->
-	<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp">
-			<jsp:param value="" name=""/>
-	</jsp:include>
-
-</body>
-</html>
+	<jsp:include page="/WEB-INF/JSP/fragments/footer.jsp"></jsp:include>
