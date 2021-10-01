@@ -187,7 +187,7 @@ class UtilisateurManagerTest {
 	void checkRue_rueNull_addErrorCode_UTILISATEUR_RUE_NOT_VALID() {
 		utilisateur.setRue(null);
 		utilisateurManager.checkRue(utilisateur.getRue(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_RUE_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.RUE_NOT_VALID));
 	}
 
 	@Test
@@ -196,14 +196,14 @@ class UtilisateurManagerTest {
 		String rue = "rue de plus de quatre-vingt caractères";
 		utilisateur.setRue(rue + rue + rue + rue);
 		utilisateurManager.checkRue(utilisateur.getRue(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_RUE_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.RUE_NOT_VALID));
 	}
 
 	@Test
 	void checkCodePostal_codePostalNull_addErrorCode_UTILISATEUR_CODE_POSTAL_NOT_VALID() {
 		utilisateur.setCodePostal(null);
 		utilisateurManager.checkCodePostal(utilisateur.getCodePostal(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.CODE_POSTAL_NOT_VALID));
 	}
 
 	@Test
@@ -211,7 +211,7 @@ class UtilisateurManagerTest {
 		// Choix d'un telephone de moins de 5 caractères
 		utilisateur.setCodePostal("0123");
 		utilisateurManager.checkCodePostal(utilisateur.getCodePostal(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.CODE_POSTAL_NOT_VALID));
 	}
 
 	@Test
@@ -219,7 +219,7 @@ class UtilisateurManagerTest {
 		// Choix d'un telephone de plus de 5 caractères
 		utilisateur.setCodePostal("012345");
 		utilisateurManager.checkCodePostal(utilisateur.getCodePostal(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.CODE_POSTAL_NOT_VALID));
 	}
 
 	@Test
@@ -227,14 +227,14 @@ class UtilisateurManagerTest {
 		// Choix d'un telephone avec des caractères non numeriques
 		utilisateur.setCodePostal("0123a");
 		utilisateurManager.checkCodePostal(utilisateur.getCodePostal(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_CODE_POSTAL_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.CODE_POSTAL_NOT_VALID));
 	}
 
 	@Test
 	void checkVille_villeNull_addErrorCode_UTILISATEUR_VILLE_NOT_VALID() {
 		utilisateur.setVille(null);
 		utilisateurManager.checkVille(utilisateur.getVille(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_VILLE_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.VILLE_NOT_VALID));
 	}
 
 	@Test
@@ -243,7 +243,7 @@ class UtilisateurManagerTest {
 		String ville = "rue de plus de cinquante caractères";
 		utilisateur.setVille(ville + ville);
 		utilisateurManager.checkVille(utilisateur.getVille(), businessException);
-		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.UTILISATEUR_VILLE_NOT_VALID));
+		assertTrue(businessException.getListErrors().contains(CodesResultatBLL.VILLE_NOT_VALID));
 	}
 
 	@Test

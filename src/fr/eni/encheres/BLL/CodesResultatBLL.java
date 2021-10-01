@@ -30,13 +30,13 @@ public abstract class CodesResultatBLL {
 	public static final int UTILISATEUR_TELEPHONE_NOT_VALID = 20006;
 
 	// Check rue
-	public static final int UTILISATEUR_RUE_NOT_VALID = 20007;
+	public static final int RUE_NOT_VALID = 20007;
 
 	// Check codePostal
-	public static final int UTILISATEUR_CODE_POSTAL_NOT_VALID = 20008;
+	public static final int CODE_POSTAL_NOT_VALID = 20008;
 
 	// Check ville
-	public static final int UTILISATEUR_VILLE_NOT_VALID = 20009;
+	public static final int VILLE_NOT_VALID = 20009;
 
 	// Check motDePasse
 	public static final int UTILISATEUR_MOT_DE_PASSE_NOT_VALID = 20010;
@@ -51,10 +51,51 @@ public abstract class CodesResultatBLL {
 	public static final int PASSWORDS_NOT_MATCHING = 20030;
 	
 
+	/*
+	 * Erreurs Articles
+	 */
+
+	//check noArticle
+	public static final int ARTICLE_NO_ARTICLE_NOT_VALID = 20100;
+	
+	//check nom article
+	public static final int ARTICLE_NAME_NOT_VALID = 20101;
+	
+	//check description article
+	public static final int ARTICLE_DESCRIPTION_NOT_VALID = 20102;
+
+	//check prix initial article
+	public static final int ARTICLE_INITIAL_PRICE_NOT_VALID = 20103;
+	
+	//check prix final article
+	public static final int ARTICLE_SALE_PRICE_NOT_VALID = 20104;
+	
+	//check noVendeur 
+	public static final int NO_VENDEUR_NOT_VALID = 20105;
+	
+	/*
+	 * Erreurs Catégories
+	 */
+	
+	//check noCategorie 
+	public static final int	NO_CATEGORIE_NOT_VALID = 20106;
+	
+	//check libelle 
+	public static final int	LIBELLE_CATEGORIE_NOT_VALID = 20107;
+	
+	/*
+	 * Erreurs Enchères
+	 */
+	//check date enchère
+	public static final int	ENCHERE_DATE_NOT_VALID = 20108;
+	
 	// Interactions DAL :
 
 	// GetUser : utilisateur null
 	public static final int UTILISATEUR_GET_USER_RECEIVE_NULL = 20020;	
+	
+	//getArticle : article null
+	public static final int ARTICLE_GET_ARTICLE_RECEIVE_NULL = 20021;
 
 	//pseudo déjà en base
 	public static final int PSEUDO_ALREADY_EXISTS = 20031;
@@ -80,6 +121,7 @@ public abstract class CodesResultatBLL {
 	
 	// Date de fin de vente antérieure à la date de mise en vente
 	public static final int AUCTION_END_DATE_INVALID = 20161;
+	
 	
 
 }

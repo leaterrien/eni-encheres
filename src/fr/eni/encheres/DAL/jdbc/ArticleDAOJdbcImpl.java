@@ -21,7 +21,6 @@ import fr.eni.encheres.DAL.ConnectionProvider;
 import fr.eni.encheres.DAL.EnchereDAO;
 import fr.eni.encheres.DAL.RetraitDAO;
 import fr.eni.encheres.DAL.UtilisateurDAO;
-import fr.eni.encheres.DAL.UtilisateurDAOJdbcImpl;
 import fr.eni.encheres.exceptions.BusinessException;
 
 public class ArticleDAOJdbcImpl implements ArticleDAO {

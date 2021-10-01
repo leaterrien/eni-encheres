@@ -13,7 +13,6 @@ import fr.eni.encheres.BO.Utilisateur;
 import fr.eni.encheres.DAL.CodesResultatDAL;
 import fr.eni.encheres.DAL.ConnectionProvider;
 import fr.eni.encheres.DAL.EnchereDAO;
-import fr.eni.encheres.DAL.UtilisateurDAOJdbcImpl;
 import fr.eni.encheres.exceptions.BusinessException;
 
 public class EnchereDAOJdbcImpl implements EnchereDAO {
