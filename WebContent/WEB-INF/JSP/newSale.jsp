@@ -84,12 +84,12 @@
 					</fieldset>
 		</div>
 		</div>	
-	</form>
 	<div class="d-flex justify-content-center align-items-center">	
 		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a>
 		<input type="submit" class="btn button-navigation" value="Valider"/>
 	</div>
 	
+	</form>
 	<c:forEach var="error" items="${errors}">
 		<p >
 			<fmt:message key="${error}" bundle="${errorMessages}"></fmt:message>
