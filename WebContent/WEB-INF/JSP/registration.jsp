@@ -4,16 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setBundle basename="fr.eni.encheres.messages.business_exception_messages" var="errorMessages"/>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Créer un compte sur ENI-Enchères</title>
-<link href="${pageContext.request.contextPath}/style/style.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/style/form.css" rel="stylesheet">
-</head>
 
-<jsp:include page="/WEB-INF/JSP/fragments/header.jsp"></jsp:include>
+
+<!-- header -->
+	<jsp:include page="/WEB-INF/JSP/fragments/header.jsp">
+		<jsp:param value="registration" name="pageTitle" />
+	</jsp:include>
 
 
 	<h1 class="d-flex justify-content-center my-5">Inscription sur le site ENI Enchères</h1>
@@ -68,10 +64,13 @@
 
 		</div>
 	</div>
-	<div class="d-flex justify-content-center align-items-center">
-		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a> 
+	<div class="d-flex justify-content-center">
+		<a href="${pageContext.request.contextPath}" class="btn button-navigation">Annuler</a>
+		<div class="p-2 bd-highlight"></div>
+		<div class="p-2 bd-highlight"></div>
 		<input type="submit" class="h-100 btn button-navigation" value="Valider" />
 	</div>
+	
 </form>
 
 <c:forEach var="error" items="${errors}">

@@ -30,7 +30,6 @@ public class ServletConnection extends HttpServlet {
 		HttpSession session = request.getSession();
 		String login = (String) session.getAttribute("login");
 		// Déconnexion de la session
-		// méthode à placer dans servlet deconnexion = session.invalidate();
 
 		// Récupération des cookies de connexion
 		Cookie[] cookies = request.getCookies();
