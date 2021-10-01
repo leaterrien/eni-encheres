@@ -22,22 +22,26 @@
 	</c:if>
 	
 	<form method="post">
-		<label for="login">Identifiant:</label>
-		<input type="text" value="${cookieEnchInitL}" name="login" required/>
-		<br>
-		<label for="password">Mot de passe:</label>
-		<input type="password" value="${cookieHcneTiniP}" name="password" required/>
-		<br>
-		<br>
-		<button type="submit" value="Connexion" name="connexion">Connexion</button>
-		<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${seSouvenirDeMoi ? 'checked':''} />
-		<label for="seSouvenirDeMoi">Se souvenir de moi </label>
-		<br>
-		<a href="https://www.google.fr/">Mot de passe oublié</a>
-		<br>
-		<br>
-		<a href="${pageContext.request.contextPath}/Inscription" class="btn button-navigation">Créer un compte</a>
-		<br>
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<label class="form-label" for="login">Identifiant:</label>
+				<input class="form-control" type="text" value="${cookieEnchInitL}" name="login" required/>
+				<br>
+				<label class="form-label" for="password">Mot de passe:</label>
+				<input class="form-control" type="password" value="${cookieHcneTiniP}" name="password" required/>
+				<br>
+				<br>
+				<button type="submit" value="Connexion" name="connexion">Connexion</button>
+				<input type="checkbox" id="seSouvenirDeMoi" name="seSouvenirDeMoi" ${seSouvenirDeMoi ? 'checked':''} />
+				<label class="form-label" for="seSouvenirDeMoi">Se souvenir de moi </label>
+				<br>
+				<a href="https://www.google.fr/">Mot de passe oublié</a>
+				<br>
+				<br>
+				<a href="${pageContext.request.contextPath}/Inscription" class="btn button-navigation">Créer un compte</a>
+				<br>
+			</div>
+		</div>
 	</form>
 	
 	<!-- footer -->

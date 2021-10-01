@@ -12,8 +12,12 @@ public class ArticleCheckValid {
 		
 			LocalDate today = java.time.LocalDate.now();
 			if(dateDebutEncheres.isBefore(today)) {
+				System.out.println(today);
 				businessException.addError(CodesResultatBLL.AUCTION_START_DATE_INVALID);
 				}
+			for (int errors:businessException.getListErrors()) {
+				System.out.println(errors);
+			}
 			return dateDebutEncheres;
 			
 			}
@@ -21,8 +25,6 @@ public class ArticleCheckValid {
 	public static LocalDate endDateAuctionCheck(LocalDate dateDebutEncheres, LocalDate dateFinEncheres, BusinessException businessException) throws
 	BusinessException{
 			
-			LocalDate startAuction = java.time.LocalDate.from(dateDebutEncheres);
-			LocalDate endAuction = java.time.LocalDate.from(dateFinEncheres);
 			if(dateFinEncheres.isBefore(dateDebutEncheres)) {
 				businessException.addError(CodesResultatBLL.AUCTION_END_DATE_INVALID);
 				}

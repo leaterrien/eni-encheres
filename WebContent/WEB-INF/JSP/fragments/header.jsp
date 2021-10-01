@@ -49,7 +49,7 @@
 			<c:if test="${!empty sessionScope.utilisateur}">
 				<div class="d-flex">
 					<a class="white-color btn" href="${pageContext.request.contextPath}/Encheres">Enchères</a>
-					<a class="white-color btn">Vendre un article</a>
+					<a class="white-color btn" href="${pageContext.request.contextPath}/NouvelleEnchere">Vendre un article</a>
 					<a class="white-color btn" href="${pageContext.request.contextPath}/ModificationUtilisateur">Mon profil</a>
 					<div class="ms-5">
 						<a href="${pageContext.request.contextPath}/Logout" class="white-color btn d-flex navbar-button-connection"><span class="material-icons navbar-button-connection-icon">person_off</span>Déconnexion</a>
@@ -72,7 +72,7 @@
 			 		<!-- menu si utilisateur connecté -->
 			 		<c:if test="${!empty sessionScope.utilisateur}">
     					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/Encheres">Enchères</a></li>
-    					<li><a class="dropdown-item" href="#">Vendre un article</a></li>
+    					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/NouvelleEnchere">Vendre un article</a></li>
    						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/ModificationUtilisateur">Mon profil</a></li>
    						<li><a class="dropdown-item d-flex" href="${pageContext.request.contextPath}/Logout">
    							<span class="material-icons navbar-button-connection-icon">person_off</span>

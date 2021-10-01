@@ -33,8 +33,7 @@ public class ArticleManager {
 		return instance;
 	}
 	
-	BusinessException businessException = new BusinessException();
-
+	
 	/**
 	 * Récupération des articles pour un utilisateur déconnecté
 	 * 
@@ -114,12 +113,15 @@ public class ArticleManager {
     
 	//add article
 	public Article addArticle(Article article, int categorie) throws BusinessException {
-		
+		BusinessException businessException = new BusinessException();
 		
 		article.setDateDebutEncheres(ArticleCheckValid.startDateAuctionCheck(article.getDateDebutEncheres(), businessException));
 		article.setDateFinEncheres(ArticleCheckValid.endDateAuctionCheck(article.getDateDebutEncheres(), article.getDateFinEncheres(), businessException));
+		
 		if (!businessException.hasErrors()) {
 			this.articleDAO.insert(article, categorie);
+		}else {
+			throw businessException;
 		}
 		return article;
 	}

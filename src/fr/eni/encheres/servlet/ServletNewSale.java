@@ -28,7 +28,7 @@ import fr.eni.encheres.exceptions.BusinessException;
 /**
  * Servlet implementation class ServletNewSale
  */
-@WebServlet("/ServletNewSale")
+@WebServlet("/NouvelleEnchere")
 public class ServletNewSale extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -88,6 +88,7 @@ public class ServletNewSale extends HttpServlet {
 			categorie = Integer.parseInt(request.getParameter("category"));
 			miseAPrix = Integer.parseInt(request.getParameter("price"));
 			dateDebutEncheres = LocalDate.parse(request.getParameter("start_auction"),DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			System.out.println(dateDebutEncheres);
 			dateFinEncheres = LocalDate.parse(request.getParameter("end_auction"),DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			rue = request.getParameter("street");
 			codePostal = request.getParameter("postcode");
@@ -98,7 +99,6 @@ public class ServletNewSale extends HttpServlet {
 			//recupération adresse utilisateur connecté
 			Retrait retraitParDefaut = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
 			HttpSession session = request.getSession();
-			response.sendRedirect(request.getContextPath());
 			//comparaison des deux adresses
 			retrait.compareTo(retraitParDefaut);
 			int result = retrait.compareTo(retraitParDefaut);
@@ -109,14 +109,15 @@ public class ServletNewSale extends HttpServlet {
 			System.out.println(retrait);	
 			
 			Article article = new Article(vendeur, nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix, retrait);
+			System.out.println(article.toString());
 			ArticleManager.getInstance().addArticle(article, categorie);
+			response.sendRedirect(request.getContextPath());
 		
 			}catch (BusinessException e){
 			e.printStackTrace();
 			request.setAttribute("errors", e.getListErrors());
 			System.out.println(e.getListErrors());
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/newSale.jsp");
-			rd.forward(request, response);
+			doGet(request, response);
 			}
 		
 		
