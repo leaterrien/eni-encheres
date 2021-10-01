@@ -81,12 +81,14 @@ public class UtilisateurManager {
 		}
 
 		// utilisateur = null : l'utilisateur n'a pas été trouvé dans la base
-		if (utilisateur == null) {
+		if (utilisateur.getPseudo() == null) {
 			businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 			throw businessException;
+			
 
 		} else {
 			// Comparaison des mots de passe
+			System.out.println(utilisateur.toString());
 			if (!utilisateur.getMotDePasse().equals(newPass)) {
 				businessException.addError(CodesResultatBLL.UTILISATEUR_CONNECTION_WRONG_LOGIN_OR_PASSWORD);
 				throw businessException;
