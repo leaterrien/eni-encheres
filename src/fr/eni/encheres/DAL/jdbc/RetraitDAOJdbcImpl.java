@@ -71,12 +71,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		} else {
 			try {
 				cnx = ConnectionProvider.getConnection();
-				statement = cnx.prepareStatement(insert);
-				statement.setInt(1, noArticle);
-				statement.setString(2, retrait.getRue());
-				statement.setString(3, retrait.getCodePostal());
-				statement.setString(4, retrait.getVille());
-				statement.executeUpdate();
+				statement = insertStatementBuilder(cnx, retrait, noArticle);
 			} catch (SQLException e) {
 				businessException.addError(CodesResultatDAL.RETRAIT_INSERT_FAIL);
 				e.printStackTrace();
@@ -159,6 +154,26 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			}
 		}
 		return noArticle;
+	}
+
+	/**
+	 * Requête d'insertion d'un retrait à partir d'une connexion déjà ouverte
+	 * 
+	 * @param cnx
+	 * @param retrait
+	 * @param noArticle
+	 * @return
+	 * @throws SQLException
+	 */
+	public PreparedStatement insertStatementBuilder(Connection cnx, Retrait retrait, int noArticle)
+			throws SQLException {
+		PreparedStatement statement = cnx.prepareStatement(insert);
+		statement.setInt(1, noArticle);
+		statement.setString(2, retrait.getRue());
+		statement.setString(3, retrait.getCodePostal());
+		statement.setString(4, retrait.getVille());
+		statement.executeUpdate();
+		return statement;
 	}
 
 	/**

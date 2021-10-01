@@ -140,7 +140,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		ResultSet rs = null;
 		try {
 			cnx = ConnectionProvider.getConnection();
-			//cnx.setAutoCommit(false);
+			cnx.setAutoCommit(false);
 			// Insertion de l'article
 			statement = cnx.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, article.getNom());
@@ -163,20 +163,22 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			}
 			DAOJdbcTools.closeResultSet(rs);
 			DAOJdbcTools.closeStatement(statement);
-			DAOJdbcTools.closeConnection(cnx);
 			// Insertion du retrait
 			if (article.getRetrait() != null) {
-				RetraitDAO retraitDAO = new RetraitDAOJdbcImpl();
-				retraitDAO.insert(article.getRetrait(), article.getNoArticle());
+				RetraitDAOJdbcImpl retraitDAO = new RetraitDAOJdbcImpl();
+				statement = retraitDAO.insertStatementBuilder(cnx, article.getRetrait(), article.getNoArticle());
+				// retraitDAO.insert(article.getRetrait(), article.getNoArticle());
+				DAOJdbcTools.closeStatement(statement);
 			}
 			// Insertion des enchères
-			if (article.getListEncheres()!=null && article.getListEncheres().size() > 0) {
-				EnchereDAO enchereDAO = new EnchereDAOJdbcImpl();
+			if (article.getListEncheres() != null && article.getListEncheres().size() > 0) {
+				EnchereDAOJdbcImpl enchereDAO = new EnchereDAOJdbcImpl();
 				for (Enchere enchere : article.getListEncheres()) {
-					enchereDAO.insert(enchere, article.getNoArticle());
+					statement = enchereDAO.insertStatementBuilder(cnx, enchere, article.getNoArticle());
+					DAOJdbcTools.closeStatement(statement);
 				}
 			}
-			//cnx.commit();
+			cnx.commit();
 		} catch (SQLException e) {
 			// Rollback de la transaction
 			try {
