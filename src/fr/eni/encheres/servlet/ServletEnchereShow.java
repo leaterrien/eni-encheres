@@ -1,6 +1,7 @@
 package fr.eni.encheres.servlet;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -59,6 +60,8 @@ public class ServletEnchereShow extends HttpServlet {
 				EtatVente etatVente = article.getEtatVente();
 				boolean debutEncheres = ArticleManager.getInstance().checkencheresBegan(article);
 				boolean finEncheres = ArticleManager.getInstance().checkencheresEnded(article);
+				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+				
 				
 				request.setAttribute("article", article);
 				request.setAttribute("vendeur", vendeur);
@@ -67,6 +70,7 @@ public class ServletEnchereShow extends HttpServlet {
 				request.setAttribute("enchere", enchere);
 				request.setAttribute("debutEncheres", debutEncheres);
 				request.setAttribute("finEncheres", finEncheres);
+				request.setAttribute("dateFormat", dateFormat);
 				
 				HttpSession session = request.getSession();
 				session.setAttribute("utilisateur", utilisateur);
